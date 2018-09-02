@@ -4,6 +4,7 @@ import store from '@/store/index'
 import Vant from 'vant';
 import 'vant/lib/vant-css/index.css';
 import 'vant/lib/vant-css/icon-local.css';
+import '@/assets/css/public/animate.css'
 import { Lazyload } from 'vant';
 
 import {util} from '@/plugins'

@@ -7,6 +7,8 @@ const gardenList = r => require.ensure([], () => r(require('../page/garden/garde
 const gardenInfo = r => require.ensure([], () => r(require('../page/garden/gardenInfo')), 'gardenInfo');
 const landRegionList = r => require.ensure([], () => r(require('../page/garden/landRegionList')), 'landRegionList');
 const chooseGarden = r => require.ensure([], () => r(require('../page/garden/chooseGarden')), 'chooseGarden');
+const chooseSeed = r => require.ensure([], () => r(require('../page/garden/chooseSeed')), 'chooseSeed');
+const chooseFertilizers = r => require.ensure([], () => r(require('../page/garden/chooseFertilizers')), 'chooseFertilizers');
 
 const routes = [
   {
@@ -32,7 +34,17 @@ const routes = [
     path: '/chooseGarden', // 选择菜园
     component: chooseGarden,
     meta: { keepAlive: true },
-  }
+  },
+  {
+    path: '/chooseSeed', // 选择种子
+    component: chooseSeed,
+    meta: { keepAlive: true },
+  },
+  {
+    path: '/chooseFertilizers', // 选择选择肥料
+    component: chooseFertilizers,
+    meta: { keepAlive: true },
+  },
 ];
 
 const router = new Router({

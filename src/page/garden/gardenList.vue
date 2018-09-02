@@ -16,18 +16,18 @@
             <van-cell class="gardenItem" v-for="(item, index) in gardenList" :key="index">
             <template slot="title">
               <div style="border-bottom: 1px solid #e5e5e5; padding: 3vw 3vw;">
-                <span class="van-cell-text">菜园编号: <span class="useCopy" style="color: #505050;">{{item.gardenNo}}</span></span>
+                <span class="van-cell-text">菜园编号: <span class="useCopy" style="color: #505050;">{{item.landId}}</span></span>
                 <div style="color:#53B2AC;float: right">长按复制</div>
               </div>
               <div class="gardenItemInfo">
                 <div>
-                  <div class="infoItem ellipse">菜园名称: <span>{{item.gardenName}}</span></div>
-                  <div class="infoItem ellipse">规格: <span>{{item.gardenSpec}}平米</span></div>
-                  <div class="infoItem ellipse">开垦模式: <span>{{item.reclamationMode === 0 ? '自理' : '托管'}}</span></div>
-                  <div class="infoItem ellipse">租赁期限: <span>{{item.leaseTerm}}</span></div>
+                  <div class="infoItem ellipse">菜园名称: <span>{{item.landName}}</span></div>
+                  <div class="infoItem ellipse">规格: <span>{{item.landSize}}平米</span></div>
+                  <div class="infoItem ellipse">开垦模式: <span>{{item.recMod === 0 ? '自理' : '托管'}}</span></div>
+                  <div class="infoItem ellipse">租赁期限: <span>{{item.startDate}}-{{item.endDate}}</span></div>
                 </div>
                 <div class="gardenItemPic">
-                  <img v-lazy="item.gardenImage"/>
+                  <img v-lazy="item.landPics[0]"/>
                 </div>
                 <div class="gardenInfoBtn"><span @click="goGardenInfo(item)">查看详情</span></div>
               </div>
@@ -51,98 +51,88 @@
     data () {
       return {
         page: 0,
-        limit: 10,
+        count: 10,
         isLoading: false,
         finished: false,
         loading: false,
         gardenList: [
           {
-            gardenNo: 'ad75d',
-            gardenName: '菜地1',
-            gardenId: 789,
-            gardenSpec: 60,
-            leaseTerm: '2018/09/27-2019/09/27',
-            gardenImage: 'http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg',
-            reclamationMode: 0,
-            fertilizer: '史丹利复合肥',
-            cropSeed: '辣椒'
-          },
-          {
-            gardenNo: 'ad75d',
-            gardenId: 790,
-            gardenName: '菜地2',
-            gardenSpec: 60,
-            leaseTerm: '2018-09-27--2019-09-27',
-            gardenImage: 'http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg',
-            reclamationMode: 1,
-            fertilizer: '史丹利复合肥',
-            cropSeed: '辣椒'
-          },
-          {
-            gardenNo: 'ad75d',
-            gardenName: '菜地1',
-            gardenId: 789,
-            gardenSpec: 60,
-            leaseTerm: '2018/09/27-2019/09/27',
-            gardenImage: 'http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg',
-            reclamationMode: 0,
-            fertilizer: '史丹利复合肥',
-            cropSeed: '辣椒'
-          },
-          {
-            gardenNo: 'ad75d',
-            gardenId: 790,
-            gardenName: '菜地2',
-            gardenSpec: 60,
-            leaseTerm: '2018-09-27--2019-09-27',
-            gardenImage: 'http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg',
-            reclamationMode: 1,
-            fertilizer: '史丹利复合肥',
-            cropSeed: '辣椒'
-          },
-          {
-            gardenNo: 'ad75d',
-            gardenName: '菜地1',
-            gardenId: 789,
-            gardenSpec: 60,
-            leaseTerm: '2018/09/27-2019/09/27',
-            gardenImage: 'http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg',
-            reclamationMode: 0,
-            fertilizer: '史丹利复合肥',
-            cropSeed: '辣椒'
-          },
-          {
-            gardenNo: 'ad75d',
-            gardenId: 790,
-            gardenName: '菜地2',
-            gardenSpec: 60,
-            leaseTerm: '2018-09-27--2019-09-27',
-            gardenImage: 'http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg',
-            reclamationMode: 1,
-            fertilizer: '史丹利复合肥',
-            cropSeed: '辣椒'
-          },
-          {
-            gardenNo: 'ad75d',
-            gardenName: '菜地1',
-            gardenId: 789,
-            gardenSpec: 60,
-            leaseTerm: '2018/09/27-2019/09/27',
-            gardenImage: 'http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg',
-            reclamationMode: 0,
-            fertilizer: '史丹利复合肥',
-            cropSeed: '辣椒'
-          },
-          {
-            gardenNo: 'ad75d',
-            gardenId: 790,
-            gardenName: '菜地2',
-            gardenSpec: 60,
-            leaseTerm: '2018-09-27--2019-09-27',
-            gardenImage: 'http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg',
-            reclamationMode: 1,
-            fertilizer: '史丹利复合肥',
-            cropSeed: '辣椒'
+            landId: 'ad75d',
+            landName: '菜地1',
+            landSize: 60,
+            landPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
+            landVideos: ['https://ykyl.oss-cn-qingdao.aliyuncs.com/1008/20180822150821/H9X46RbINX.mp4','https://ykyl.oss-cn-qingdao.aliyuncs.com/1008/20180822150821/H9X46RbINX.mp4'],
+            startDate: '2018/09/27',
+            endDate: '2019/09/27',
+            recMod: 0,
+            commentCount: 4999,
+            viewCount: 13999,
+          },{
+            landId: 'ad75d',
+            landName: '菜地1',
+            landSize: 60,
+            landPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
+            landVideos: ['https://ykyl.oss-cn-qingdao.aliyuncs.com/1008/20180822150821/H9X46RbINX.mp4','https://ykyl.oss-cn-qingdao.aliyuncs.com/1008/20180822150821/H9X46RbINX.mp4'],
+            startDate: '2018/09/27',
+            endDate: '2019/09/27',
+            recMod: 0,
+            commentCount: 4999,
+            viewCount: 13999,
+          },{
+            landId: 'ad75d',
+            landName: '菜地1',
+            landSize: 60,
+            landPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
+            landVideos: ['https://ykyl.oss-cn-qingdao.aliyuncs.com/1008/20180822150821/H9X46RbINX.mp4','https://ykyl.oss-cn-qingdao.aliyuncs.com/1008/20180822150821/H9X46RbINX.mp4'],
+            startDate: '2018/09/27',
+            endDate: '2019/09/27',
+            recMod: 0,
+            commentCount: 4999,
+            viewCount: 13999,
+          },{
+            landId: 'ad75d',
+            landName: '菜地1',
+            landSize: 60,
+            landPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
+            landVideos: ['https://ykyl.oss-cn-qingdao.aliyuncs.com/1008/20180822150821/H9X46RbINX.mp4','https://ykyl.oss-cn-qingdao.aliyuncs.com/1008/20180822150821/H9X46RbINX.mp4'],
+            startDate: '2018/09/27',
+            endDate: '2019/09/27',
+            recMod: 0,
+            commentCount: 4999,
+            viewCount: 13999,
+          },{
+            landId: 'ad75d',
+            landName: '菜地1',
+            landSize: 60,
+            landPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
+            landVideos: ['https://ykyl.oss-cn-qingdao.aliyuncs.com/1008/20180822150821/H9X46RbINX.mp4','https://ykyl.oss-cn-qingdao.aliyuncs.com/1008/20180822150821/H9X46RbINX.mp4'],
+            startDate: '2018/09/27',
+            endDate: '2019/09/27',
+            recMod: 0,
+            commentCount: 4999,
+            viewCount: 13999,
+          },{
+            landId: 'ad75d',
+            landName: '菜地1',
+            landSize: 60,
+            landPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
+            landVideos: ['https://ykyl.oss-cn-qingdao.aliyuncs.com/1008/20180822150821/H9X46RbINX.mp4','https://ykyl.oss-cn-qingdao.aliyuncs.com/1008/20180822150821/H9X46RbINX.mp4'],
+            startDate: '2018/09/27',
+            endDate: '2019/09/27',
+            recMod: 0,
+            commentCount: 4999,
+            viewCount: 13999,
+          },{
+            landId: 'ad75d',
+            landName: '菜地1',
+            landSize: 60,
+            landPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
+            landVideos: ['https://ykyl.oss-cn-qingdao.aliyuncs.com/1008/20180822150821/H9X46RbINX.mp4','https://ykyl.oss-cn-qingdao.aliyuncs.com/1008/20180822150821/H9X46RbINX.mp4'],
+            startDate: '2018/09/27',
+            endDate: '2019/09/27',
+            recMod: 0,
+            commentCount: 4999,
+            viewCount: 13999,
           }
         ]
       }
@@ -164,11 +154,11 @@
         axios.get(api.garden.gardenList, {
           params: {
             page: this.page + 1,
-            limit: this.limit
+            count: this.count
           }
         }).then((res) => {
-          this.page = res.data.page;
-          this.gardenList.push(...res.data.gardenList);
+          this.page = res.data.page + 1;
+          this.gardenList.push(...res.data.data);
           this.loading = false;
           this.isLoading = false;
         }).catch((err) => {
@@ -181,7 +171,7 @@
         // TODO 跳转详情页
         this.$router.push({
           path: '/gardenInfo',
-          query: {gardenId: gardenInfo.gardenId}
+          query: {gardenId: gardenInfo.landId}
         })
       },
       onClickLeft () {
@@ -192,9 +182,9 @@
 </script>
 <style lang="less" scoped>
   .icon-plus {
-    font-size: 8vw;
+    font-size: 5vw;
     font-weight: 900;
-    vertical-align: sub;
+    vertical-align: middle;
   }
   .footerBtnText {
     margin-left: 1vw;

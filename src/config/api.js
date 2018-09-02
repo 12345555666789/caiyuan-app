@@ -1,18 +1,24 @@
 import IP from './ip.config'
 const key = process.env.NODE_ENV === 'production' ? 'production' : 'dev';
 const prefix = IP[key];
-const gardenPrefix = prefix + /garden/;
+const gardenPrefix = prefix + /land/;
+const commonPrefix = prefix + /common/;
 
+const common = {
+  getInfo: commonPrefix + 'detail/',
+  commentList: commonPrefix + 'comment/list/',
+  userAction: commonPrefix + 'user/action'
+};
 const garden = {
   gardenList: gardenPrefix + 'list',
-  landRegionList: gardenPrefix + 'land_region/list',
-  getGardenInfo: gardenPrefix + 'details/',
-  getlandDetails: gardenPrefix + 'land_region/details/'
+  landRegionList: gardenPrefix + 'farm/list',
+  getLandDetails: gardenPrefix + 'farm/details/'
 
 };
 
 const api = {
-  garden
+  garden,
+  common
 };
 
 export default api

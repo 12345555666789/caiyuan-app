@@ -820,7 +820,6 @@
     },
     methods: {
       setLandData () {
-        // TODO 从Vuex中读取以选择菜园信息
         console.log(this.gardenOrder)
       },
       ...mapActions(['setSelectedLands']),
@@ -850,11 +849,9 @@
             endDate: this.gardenForm.endDate,
             recMode: recMod,
             lands: this.selectedGarden
-          });
-          this.$router.push({
-            path: '/chooseSeed',
-            query: {recMod}
           })
+        // TODO 选择开垦模式跳转
+          
         }
       },
       deleteItem (land) {
@@ -1181,7 +1178,7 @@
       .landTitle {
         font-size: 4vw;
         font-weight: 700;
-        height: 16.5vw;
+        height: 16vw;
         overflow: hidden;
         -webkit-line-clamp: 3;
         display: -webkit-box;

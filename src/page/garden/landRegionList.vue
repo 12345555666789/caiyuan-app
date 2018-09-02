@@ -20,14 +20,14 @@
           <template slot="title">
             <div class="landRegion">
               <div class="landRegionItemPic">
-                <img v-lazy="item.landImg"/>
+                <img v-lazy="item.farmPics[0]"/>
               </div>
               <div class="landRegionInfo">
-                <p class="landName ellipse">{{item.landName}}</p>
-                <p class="landDesc">{{item.landDesc}}</p>
+                <p class="landName ellipse">{{item.farmName}}({{item.farmGrade}}:{{item.geologicalType === 1 ? '松软地质' : '沙石地质'}})</p>
+                <p class="landDesc">{{item.farmDesc}}</p>
                 <p class="landAddress ellipse">
                   <van-icon class="dominantHueText" name="location" />
-                  {{item.landAddress}}</p>
+                  {{item.address}}</p>
               </div>
               <div class="arrow">
                 <van-icon name="arrow" />
@@ -51,54 +51,76 @@
     data () {
       return {
         page: 0,
-        limit: 10,
+        count: 10,
         isLoading: false,
         finished: false,
         loading: false,
         landRegionList: [
           {
-            landImg: 'http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg',
-            landName: '一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场',
-            landId: 'ad132',
-            landDesc: '地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…',
-            landAddress: '哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒…'
-          },
-          {
-            landImg: 'http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg',
-            landName: '一号农场',
-            landId: 'ad132',
-            landDesc: '地处平原地带，适宜种植各种蔬…',
-            landAddress: '哈尔滨市道里区西七道街56号洒…'
-          },
-          {
-            landImg: 'http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg',
-            landName: '一号农场',
-            landId: 'ad132',
-            landDesc: '地处平原地带，适宜种植各种蔬…',
-            landAddress: '哈尔滨市道里区西七道街56号洒…'
-          },
-          {
-            landImg: 'http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg',
-            landName: '一号农场',
-            landId: 'ad132',
-            landDesc: '地处平原地带，适宜种植各种蔬…',
-            landAddress: '哈尔滨市道里区西七道街56号洒…'
-          },
-          {
-            landImg: 'http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg',
-            landName: '一号农场',
-            landId: 'ad132',
-            landDesc: '地处平原地带，适宜种植各种蔬…',
-            landAddress: '哈尔滨市道里区西七道街56号洒…'
-          },
-          {
-            landImg: 'http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg',
-            landName: '一号农场',
-            landId: 'ad132',
-            landDesc: '地处平原地带，适宜种植各种蔬…',
-            landAddress: '哈尔滨市道里区西七道街56号洒…'
+            farmGrade: '一类土',
+            geologicalType: 1,
+            farmPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
+            farmName: '一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场',
+            farmId: 'ad132',
+            farmDesc: '地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…',
+            address: '哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒…'
+          },{
+            farmGrade: '一类土',
+            geologicalType: 1,
+            farmPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
+            farmName: '一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场',
+            farmId: 'ad132',
+            farmDesc: '地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…',
+            address: '哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒…'
+          },{
+            farmGrade: '一类土',
+            geologicalType: 1,
+            farmPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
+            farmName: '一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场',
+            farmId: 'ad132',
+            farmDesc: '地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…',
+            address: '哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒…'
+          },{
+            farmGrade: '一类土',
+            geologicalType: 1,
+            farmPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
+            farmName: '一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场',
+            farmId: 'ad132',
+            farmDesc: '地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…',
+            address: '哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒…'
+          },{
+            farmGrade: '一类土',
+            geologicalType: 1,
+            farmPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
+            farmName: '一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场',
+            farmId: 'ad132',
+            farmDesc: '地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…',
+            address: '哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒…'
+          },{
+            farmGrade: '一类土',
+            geologicalType: 1,
+            farmPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
+            farmName: '一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场',
+            farmId: 'ad132',
+            farmDesc: '地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…',
+            address: '哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒…'
+          },{
+            farmGrade: '一类土',
+            geologicalType: 1,
+            farmPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
+            farmName: '一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场',
+            farmId: 'ad132',
+            farmDesc: '地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…',
+            address: '哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒…'
+          },{
+            farmGrade: '一类土',
+            geologicalType: 1,
+            farmPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
+            farmName: '一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场一号农场',
+            farmId: 'ad132',
+            farmDesc: '地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…地处平原地带，适宜种植各种蔬…',
+            address: '哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒哈尔滨市道里区西七道街56号洒…'
           }
-
         ]
       }
     },
@@ -109,7 +131,7 @@
       ...mapActions(['setLandData']),
       toChooseGarden (landData) {
         this.setLandData(landData);
-        this.$router.push({path: '/chooseGarden',query: {landId: landData.landId}})
+        this.$router.push({path: '/chooseGarden',query: {landId: landData.farmId}})
       },
       goBack: function () {
         window.history.back()
@@ -125,8 +147,7 @@
             limit: this.limit
           }
         }).then((res) => {
-          this.page = res.data.page;
-          this.landRegionList.push(...res.data.landRegionList);
+          this.landRegionList.push(...res.data.data);
           this.loading = false;
           this.isLoading = false;
         }).catch((err) => {
@@ -154,7 +175,7 @@
     .landDesc {
       font-size: 3.5vw;
       color: #505050;
-      height: 13vw;
+      height: 12vw;
       -webkit-line-clamp: 2;
       display: -webkit-box;
       -webkit-box-orient: vertical;

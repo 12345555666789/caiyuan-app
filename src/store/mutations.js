@@ -1,3 +1,6 @@
-export const setLandData = (state, data) => { // B组件点击更改餐馆名称为 B餐馆
+export const setLandData = (state, data) => {
   state.landData = data
+};
+export const setSelectedLands = (state, data) => {
+  state.gardenOrder.landInfo = data
 };
