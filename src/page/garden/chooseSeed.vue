@@ -36,7 +36,14 @@
             <div class="seedSpec">{{item.seedSpec}}</div>
             <div class="seedPrice"><span>¥</span>{{item.price}}</div>
             <div class="seedSeason">{{item.season}}</div>
-            <div class="seedCount"><van-icon name="add" /></div>
+            <div class="seedCount">
+              <van-icon name="add" />
+            </div>
+            <div class="addSeed">
+              <div class="iconReduce"></div>
+              <span class="seedNum">12</span>
+              <van-icon name="add"/>
+            </div>
           </div>
         </div>
         <div style="height: 5vw; background-color: #fff"></div>
@@ -214,6 +221,26 @@
 </script>
 
 <style lang="less" scoped>
+  .addSeed {
+    height: 6vw;
+    width: 20vw;
+    font-size: 6vw;
+    display: flex;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #38ACA5;
+    border-radius: 50%;
+    position: absolute;
+    top: 21.5vw;
+    right: .1vw;
+    .seedNum {
+      font-size: 4vw;
+      margin: 0 auto;
+      color: #555555;
+    }
+  }
   .seedItem {
     background-color: #fff;
     padding-top: 5vw;
