@@ -12,7 +12,9 @@ const common = {
 const garden = {
   gardenList: gardenPrefix + 'list',
   landRegionList: gardenPrefix + 'farm/list',
-  getLandDetails: gardenPrefix + 'farm/details/'
+  getLandDetails: gardenPrefix + 'farm/details/',
+  getSeedList: gardenPrefix + '/seed/list',
+  getFertilizerList: gardenPrefix + '/fertilizer/list'
 
 };
 

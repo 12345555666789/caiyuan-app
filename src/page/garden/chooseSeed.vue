@@ -16,7 +16,7 @@
           @cancel="onCancel"
         />
       </form>
-      <van-tabbar v-model="active" :fixed="false" style="margin-bottom: 1vw;">
+      <van-tabbar v-model="active" @change="changeActive" :fixed="false" style="margin-bottom: 1vw;">
         <van-tabbar-item>综合<van-icon name="arrow" /></van-tabbar-item>
         <van-tabbar-item>库存<van-icon name="arrow" /></van-tabbar-item>
         <van-tabbar-item>价格<van-icon name="arrow" /></van-tabbar-item>
@@ -65,6 +65,10 @@
     name: "chooseGarden",
     data () {
       return {
+        sortType: -1,
+        key: '',
+        page: 0,
+        count: 10,
         active: 0,
         carShow: false,
         finished: false,
@@ -163,11 +167,31 @@
       }
     },
     mounted () {
-      console.log(this.recMod)
+      this.getSeedList()
     },
     methods: {
+      changeActive (active) {
+        if (active === 1) {
+          this.sortType = 10 // 库存
+        } else if (active === 2) {
+          this.sortType = 40 // 价格
+        } else {
+          this.sortType = -1
+        }
+        this.page = 0;
+        this.getSeedList()
+      },
       getSeedList () {
-
+        axios.get(api.garden.getSeedList, {
+          params: {
+            key: this.key,
+            page: this.page + 1,
+            count: this.count,
+            sortType: this.sortType
+          }
+        }).then((res) => {
+          this.seedData = res.data.data
+        })
       },
       ...mapActions(['setSelectedLands']),
       nextStep () {
