@@ -17,9 +17,9 @@
         />
       </form>
       <van-tabbar v-model="active" @change="changeActive" :fixed="false" style="margin-bottom: 1vw;">
-        <van-tabbar-item>综合<van-icon name="arrow" /></van-tabbar-item>
-        <van-tabbar-item>库存<van-icon name="arrow" /></van-tabbar-item>
-        <van-tabbar-item>价格<van-icon name="arrow" /></van-tabbar-item>
+        <van-tabbar-item ref="overallSort">综合<van-icon name="arrow" /></van-tabbar-item>
+        <van-tabbar-item ref="stockSort">库存<van-icon name="arrow" /></van-tabbar-item>
+        <van-tabbar-item ref="priceSort">价格<van-icon name="arrow" /></van-tabbar-item>
       </van-tabbar>
       <van-list
         v-if="seedData.length"
@@ -36,13 +36,14 @@
             <div class="seedSpec">{{item.seedSpec}}</div>
             <div class="seedPrice"><span>¥</span>{{item.price}}</div>
             <div class="seedSeason">{{item.season}}</div>
-            <div class="seedCount">
-              <van-icon name="add" />
+            <div class="addSeed" v-show="carList && carList[item.seedId].seedId">
+              <div class="iconReduce"
+                   @click="reduceCar(item)"></div>
+              <span class="seedNum">{{carList && carList[item.seedId].num}}</span>
+              <van-icon name="add" @click="addCar(item)"/>
             </div>
-            <div class="addSeed">
-              <div class="iconReduce"></div>
-              <span class="seedNum">12</span>
-              <van-icon name="add"/>
+            <div class="seedCount" @click="addCar(item)" v-show="!(carList && carList[item.seedId])">
+              <van-icon name="add" />
             </div>
           </div>
         </div>
@@ -63,7 +64,7 @@
 <script>
   import api from '@/config/api';
   import axios from '@/config/axios.config'
-  import {mapActions, mapGetters} from 'vuex'
+  import {mapActions, mapGetters, mapMutations} from 'vuex'
   import Function from '@/util/function'
   import constant from '@/config/constant'
   import { Toast } from 'vant';
@@ -72,6 +73,8 @@
     name: "chooseGarden",
     data () {
       return {
+        addShow: false,
+        carList: null,
         sortType: -1,
         key: '',
         page: 0,
@@ -174,21 +177,50 @@
       }
     },
     mounted () {
-      this.getSeedList()
+      this.getSeedList();
+      this.gardenOrder.car ? this.carList = this.gardenOrder.car : null
     },
     methods: {
+      ...mapMutations([
+        'addToLandCar', 'reduceToCar'
+      ]),
+      reduceCar (data) {
+        this.reduceToCar(data);
+        this.carList = this.gardenOrder.car;
+      },
+      addCar (data) {
+        this.addToLandCar(data);
+        this.carList = this.gardenOrder.car;
+      },
       changeActive (active) {
         if (active === 1) {
-          this.sortType = 10 // 库存
+          if (this.sortType === constant.sortType.stockUp) {
+            this.sortType = constant.sortType.stockDown; // 库存
+            this.$refs.stockSort.$children[0].$el.style.transform = 'rotate(-90deg)';
+          } else {
+            this.sortType = constant.sortType.stockUp // 库存
+            this.$refs.stockSort.$children[0].$el.style.transform = 'rotate(90deg)';
+          }
+          this.$refs.priceSort.$children[0].$el.style.transform = 'rotate(-90deg)';
         } else if (active === 2) {
-          this.sortType = 40 // 价格
+          if (this.sortType === constant.sortType.priceUp) {
+            this.sortType = constant.sortType.priceDown; // 价格
+            this.$refs.priceSort.$children[0].$el.style.transform = 'rotate(-90deg)';
+          } else {
+            this.sortType = constant.sortType.priceUp; // 价格
+            this.$refs.priceSort.$children[0].$el.style.transform = 'rotate(90deg)';
+          }
+          this.$refs.stockSort.$children[0].$el.style.transform = 'rotate(-90deg)';
         } else {
-          this.sortType = -1
+          this.sortType = constant.sortType.overall; // 综合
+          this.$refs.stockSort.$children[0].$el.style.transform = 'rotate(-90deg)';
+          this.$refs.stockSort.$children[0].$el.style.transform = 'rotate(-90deg)';
         }
         this.page = 0;
         this.getSeedList()
       },
       getSeedList () {
+        this.isLoading = true;
         axios.get(api.garden.getSeedList, {
           params: {
             key: this.key,
@@ -197,7 +229,14 @@
             sortType: this.sortType
           }
         }).then((res) => {
+          this.isLoading = false;
+          this.loading = false;
+          this.finished = false;
           this.seedData = res.data.data
+        }).catch((res) => {
+          this.loading = false;
+          this.finished = false;
+          this.isLoading = false;
         })
       },
       ...mapActions(['setSelectedLands']),
@@ -236,7 +275,7 @@
     top: 21.5vw;
     right: .1vw;
     .seedNum {
-      font-size: 4vw;
+      font-size: 3.8vw;
       margin: 0 auto;
       color: #555555;
     }

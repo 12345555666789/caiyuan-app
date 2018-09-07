@@ -1,6 +1,13 @@
 // 定义常量
 
 export default {
+  sortType: {
+    overall: -1, // 综合
+    stockUp: 10, // 库存升序
+    stockDown: 11, // 库存降序
+    priceUp: 40, // 价格升序
+    priceDown: 41 // 价格降序
+  },
   seedType: {
     nativeVariety: 1, // 农家品种
     importedVarieties: 2, // 引进品种
@@ -26,6 +33,5 @@ export default {
     fertilizer: 18, //肥料
     orderLand: 50, //菜园订单
     oderFood: 51 //食材订单
-
   }
 }

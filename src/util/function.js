@@ -80,7 +80,35 @@ const Function = {
     let mapList = configList.map(item => [item.code, item.name]);
     let nameMap = new Map(mapList);
     return nameMap.get(code)
+  },
+
+  /**
+   * 存储localStorage
+   */
+  setStore (name, content)  {
+    if (!name) return;
+    if (typeof content !== 'string') {
+      content = JSON.stringify(content);
+    }
+    window.localStorage.setItem(name, content);
+  },
+
+  /**
+   * 获取localStorage
+   */
+  getStore (name) {
+    if (!name) return;
+    return window.localStorage.getItem(name);
+  },
+
+  /**
+   * 删除localStorage
+   */
+  removeStore (name) {
+    if (!name) return;
+    window.localStorage.removeItem(name);
   }
+
 };
 
 export default Function
