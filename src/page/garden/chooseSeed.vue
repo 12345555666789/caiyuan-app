@@ -27,7 +27,7 @@
         @load="getSeedList"
         :offset="30"
         :finished="finished">
-        <div class="seedItem" v-for="item in seedData">
+        <div class="seedItem" v-for="item in seedData" @click="toSeedInfo(item.seedId)">
           <div class="seedPic">
             <img v-lazy="item.seedPics[0]">
           </div>
@@ -36,13 +36,13 @@
             <div class="seedSpec">{{item.seedSpec}}</div>
             <div class="seedPrice"><span>¥</span>{{item.price}}</div>
             <div class="seedSeason">{{item.season}}</div>
-            <div class="addSeed" v-show="carList && carList[item.seedId].seedId">
+            <div class="addSeed" v-if="reduceShow">
               <div class="iconReduce"
-                   @click="reduceCar(item)"></div>
+                   @click.stop="reduceCar(item)"></div>
               <span class="seedNum">{{carList && carList[item.seedId].num}}</span>
-              <van-icon name="add" @click="addCar(item)"/>
+              <van-icon name="add" @click.stop="addCar(item)"/>
             </div>
-            <div class="seedCount" @click="addCar(item)" v-show="!(carList && carList[item.seedId])">
+            <div class="seedCount" @click.stop="addCar(item)" v-else>
               <van-icon name="add" />
             </div>
           </div>
@@ -73,6 +73,7 @@
     name: "chooseGarden",
     data () {
       return {
+        reduceShow: false,
         addShow: false,
         carList: null,
         sortType: -1,
@@ -184,13 +185,27 @@
       ...mapMutations([
         'addToLandCar', 'reduceToCar'
       ]),
+      toSeedInfo (seedId) {
+        this.$router.push({
+          path: '/seedDetails',
+          query: {
+            seedId,
+            title: '种子详情'
+          }
+        })
+      },
+      isShow (seedId) {
+        this.reduceShow =  !!(this.carList && this.carList[seedId])
+      },
       reduceCar (data) {
         this.reduceToCar(data);
         this.carList = this.gardenOrder.car;
+        this.isShow(data.seedId)
       },
       addCar (data) {
         this.addToLandCar(data);
         this.carList = this.gardenOrder.car;
+        this.isShow(data.seedId)
       },
       changeActive (active) {
         if (active === 1) {
@@ -243,8 +258,9 @@
       nextStep () {
 
       },
-      onSearch (val) {
-        console.log(val);
+      onSearch () {
+        this.page = 0;
+        this.getSeedList();
       },
       onCancel (val) {
         console.log(val);
@@ -253,7 +269,7 @@
         window.history.back()
       },
       onRefresh() {
-
+        this.getSeedList();
       }
     }
   }
