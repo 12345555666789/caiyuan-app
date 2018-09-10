@@ -7,42 +7,54 @@ export const setSelectedLands = (state, data) => {
   state.gardenOrder.landInfo = data
 };
 export const addToLandCar = (state, data) => {
+  let car = state.gardenCar;
   if (data.seedId) {
-    if (state.gardenOrder.car && state.gardenOrder.car[data.seedId]) {
-      state.gardenOrder.car[data.seedId].num ++;
+    if (car && car[data.seedId]) {
+      car[data.seedId].num ++;
     } else {
-      state.gardenOrder.car = {
-        [data.seedId]: {...data, num: 1}
-      };
+      if (car) {
+        car[data.seedId] = {...data, num: 1}
+      } else {
+        car = {
+          [data.seedId]: {...data, num: 1}
+        }
+      }
     }
   } else {
-    if (state.gardenOrder.car && state.gardenOrder.car[data.fertilizerId]) {
-      state.gardenOrder.car[data.fertilizerId].num ++;
+    if (car && car[data.fertId]) {
+      car[data.fertId].num ++;
     } else {
-      state.gardenOrder.car = {
-        [data.fertilizerId]: {...data, num: 1}
-      };
+      if (car) {
+        car[data.fertId] = {...data, num: 1}
+      } else {
+        car = {
+          [data.fertId]: {...data, num: 1}
+        }
+      }
     }
   }
-  Function.setStore('landCar', state.gardenOrder.car)
+  state.gardenCar = {...car};
+  Function.setStore('landCar', car)
 };
 export const reduceToCar = (state, data) => {
+  let car = state.gardenCar;
   if (data.seedId) {
-    if (state.gardenOrder.car && state.gardenOrder.car[data.seedId]) {
-      if (state.gardenOrder.car[data.seedId].num !== 1) {
-        state.gardenOrder.car[data.seedId].num --;
+    if (car && car[data.seedId]) {
+      if (car[data.seedId].num !== 1) {
+        car[data.seedId].num --;
       } else {
-        delete state.gardenOrder.car[data.seedId]
+        delete car[data.seedId]
       }
     }
   } else {
-    if (state.gardenOrder.car && state.gardenOrder.car[data.fertilizerId]) {
-      if (state.gardenOrder.car[data.fertilizerId].num !== 1) {
-        state.gardenOrder.car[data.fertilizerId].num --;
+    if (car && car[data.fertId]) {
+      if (car[data.fertId].num !== 1) {
+        car[data.fertId].num --;
       } else {
-        delete state.gardenOrder.car[data.fertilizerId]
+        delete car[data.fertId]
       }
     }
   }
-  Function.setStore('landCar', state.gardenOrder.car)
+  state.gardenCar = {...car};
+  Function.setStore('landCar', car)
 };

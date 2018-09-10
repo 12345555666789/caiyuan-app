@@ -1,30 +1,30 @@
 <template>
   <div>
     <van-nav-bar
-      title="种子详情"
+      title="肥料详情"
       fixed
       left-arrow
       @click-left="onClickLeft"></van-nav-bar>
     <div style="height: 12vw"></div>
-    <van-pull-refresh v-model="isLoading" @refresh="getSeedInfo">
+    <van-pull-refresh v-model="isLoading" @refresh="getfertilizerInfo">
       <van-swipe style="height: 80vw">
-        <van-swipe-item v-for="(item, index) in seedInfo.seedPics">
+        <van-swipe-item v-for="(item, index) in fertilizerInfo.fertPics">
           <img :src="item" height="100%" width="100%">
         </van-swipe-item>
       </van-swipe>
-      <div class="seedInfo">
+      <div class="fertilizerInfo">
         <p class="price">
-          <span>¥</span><b>{{seedInfo.price}}</b>
+          <span>¥</span><b>{{fertilizerInfo.price}}</b>
         </p>
-        <p class="seedName"><b>{{seedInfo.seedName}}</b>
-          <span>{{seedInfo.season}}</span>
+        <p class="fertName"><b>{{fertilizerInfo.fertName}}</b>
+          <span>{{fertilizerInfo.season}}</span>
         </p>
-        <p class="seedDesc">说明:
-          {{seedInfo.seedDesc}}
+        <p class="fertDesc">说明:
+          {{fertilizerInfo.fertDesc}}
         </p>
-        <div class="seedSpec">
+        <div class="fertSpec">
           <span>规格</span>
-          <div>{{seedInfo.seedSpec}}</div>
+          <div>{{fertilizerInfo.fertSpec}}</div>
         </div>
 
       </div>
@@ -32,13 +32,13 @@
     <div class="van-goods-action">
       <div class="carBtn" @click="modalShow = true">
         <span class="iconCar"><span class="totalNum" v-show="totalNum()">{{totalNum()}}</span></span></div>
-      <div class="footerBtn entrustBtn" @click="addCar(seedInfo)">加入菜篮</div>
+      <div class="footerBtn entrustBtn" @click="addCar(fertilizerInfo)">加入菜篮</div>
     </div>
     <van-actionsheet v-model="modalShow" title="已选种子及肥料">
       <div class="goodsCar" v-if="totalNum()">
         <div class="itemGoods" v-for="item in Object.values(carList)">
           <div>
-            <div class="itemGoodsName">{{item['seedName'] || item['fertName']}}</div>
+            <div class="itemGoodsName">{{item['fertName'] || item['fertName']}}</div>
             <div class="addSeed">
               <div class="iconReduce"
                    @click.stop="reduceCar(item)"></div>
@@ -62,7 +62,7 @@
   import Function from '@/util/function'
 
   export default {
-    name: "seedDetails",
+    name: "fertilizerDetails",
     data() {
       return {
         modalShow: false,
@@ -75,15 +75,15 @@
         videoSrc: '',
         videoShow: false,
         isLoading: false,
-        seedId: this.$route.query.seedId,
-        seedInfo: {
-          seedId: 'as1321',
-          seedName: '西瓜',
-          seedType: 2,
-          seedPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
-          seedSpec: '每袋500g',
+        fertId: this.$route.query.fertId,
+        fertilizerInfo: {
+          fertId: 'as1321',
+          fertName: '西瓜',
+          fertType: 2,
+          fertPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
+          fertSpec: '每袋500g',
           price: 500.33,
-          seedDesc: '来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种,薄皮,无子,沙瓤',
+          fertDesc: '来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种,薄皮,无子,沙瓤',
           season: '全季',
           stock: 999
         }
@@ -93,7 +93,7 @@
       ...mapState(['gardenCar']),
     },
     mounted () {
-      this.getSeedInfo();
+      this.getfertilizerInfo();
       this.gardenCar ? this.carList = this.gardenCar : null;
 
     },
@@ -121,13 +121,13 @@
       onClickLeft() {
         window.history.back()
       },
-      getSeedInfo() {
-        axios.get(api.common.getInfo + this.seedId, {
+      getfertilizerInfo() {
+        axios.get(api.common.getInfo + this.fertId, {
           params: {
             objType: constant.infoType.land
           }
         }).then((res) => {
-          this.seedInfo = res.data.data;
+          this.fertilizerInfo = res.data.data;
           this.page = 0;
           this.getComments();
           this.isLoading = false
@@ -194,7 +194,7 @@
     height: 7vw;
     margin-top: 1.5vw;
   }
-  .seedInfo {
+  .fertilizerInfo {
     padding: 5vw 3vw;
     .price {
       color: #F12020;
@@ -205,7 +205,7 @@
         margin-right: 1vw;
       }
     }
-    .seedName {
+    .fertName {
       font-size: 4vw;
       margin-bottom: 2vw;
       span {
@@ -219,14 +219,14 @@
         vertical-align: text-top;
       }
     }
-    .seedDesc {
+    .fertDesc {
       color: #505050;
       font-size: 3.5vw;
       padding-bottom: 2vw;
       margin-bottom: 2vw;
       border-bottom: 1px solid #E1E1E1;
     }
-    .seedSpec {
+    .fertSpec {
       color: #A1A1A1;
       font-size: 3vw;
       div {

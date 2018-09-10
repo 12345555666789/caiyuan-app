@@ -10,6 +10,7 @@ const chooseGarden = r => require.ensure([], () => r(require('../page/garden/cho
 const chooseSeed = r => require.ensure([], () => r(require('../page/garden/chooseSeed')), 'chooseSeed');
 const chooseFertilizers = r => require.ensure([], () => r(require('../page/garden/chooseFertilizers')), 'chooseFertilizers');
 const seedDetails = r => require.ensure([], () => r(require('../page/garden/seedDetails')), 'seedDetails');
+const fertilizerDetails = r => require.ensure([], () => r(require('../page/garden/fertilizerDetails')), 'fertilizerDetails');
 
 const routes = [
   {
@@ -47,8 +48,13 @@ const routes = [
     meta: { keepAlive: true },
   },
   {
-    path: '/seedDetails', // 选择选择肥料
+    path: '/seedDetails', // 肥料详情
     component: seedDetails,
+    meta: { keepAlive: true },
+  },
+  {
+    path: '/fertilizerDetails', // 肥料详情
+    component: fertilizerDetails,
     meta: { keepAlive: true },
   },
 ];
