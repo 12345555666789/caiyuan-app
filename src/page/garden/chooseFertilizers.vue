@@ -92,7 +92,7 @@
       return {
         modalShow: false,
         addShow: false,
-        carList: null,
+        carList: {},
         sortType: -1,
         key: '',
         page: 0,
@@ -191,7 +191,7 @@
     computed: {
       ...mapState(['gardenCar']),
       recMod () {
-        return this.$route.query.recMod
+        return this.$store.state.gardenOrder.landInfo.recMod
       }
     },
     mounted () {
@@ -256,13 +256,11 @@
       },
       getFertilizerList () {
         this.isLoading = true;
-        axios.get(api.garden.getFertilizerList, {
-          params: {
+        axios.post(api.garden.getFertilizerList, {
             key: this.key,
             page: this.page + 1,
             count: this.count,
             sortType: this.sortType
-          }
         }).then((res) => {
           this.isLoading = false;
           this.loading = false;
@@ -277,13 +275,11 @@
       ...mapActions(['setSelectedLands']),
       nextStep () {
         if (this.carList && (Object.values(this.carList).find(item => item.fertId))) {
-          if (this.recMod === 0) {
-
-          } else {
-            this.$router.push({
-              path: '/chooseFertilizers',
-            })
-          }
+          this.$router.push({
+            path: '/valueAddedService',
+          })
+        } else {
+          Toast('请选择肥料')
         }
       },
       onSearch () {

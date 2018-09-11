@@ -92,7 +92,7 @@
       return {
         modalShow: false,
         addShow: false,
-        carList: null,
+        carList: {},
         sortType: -1,
         key: '',
         page: 0,
@@ -257,13 +257,11 @@
       },
       getSeedList () {
         this.isLoading = true;
-        axios.get(api.garden.getSeedList, {
-          params: {
+        axios.post(api.garden.getSeedList, {
             key: this.key,
             page: this.page + 1,
             count: this.count,
             sortType: this.sortType
-          }
         }).then((res) => {
           this.isLoading = false;
           this.loading = false;
@@ -278,15 +276,17 @@
       ...mapActions(['setSelectedLands']),
       nextStep () {
         if (this.carList && (Object.values(this.carList).find(item => item.seedId))) {
-          if (this.recMod === 0) {
+          if (this.recMod === 1) {
             this.$router.push({
               path: '/chooseFertilizers'
             })
           } else {
             this.$router.push({
-              path: '/chooseFertilizers'
+              path: '/landBill'
             })
           }
+        } else {
+          Toast('请选择种苗')
         }
       },
       onSearch () {

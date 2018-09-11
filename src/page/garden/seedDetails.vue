@@ -66,7 +66,7 @@
     data() {
       return {
         modalShow: false,
-        carList: null,
+        carList: {},
         finished: false,
         loading: false,
         message: '',
@@ -122,7 +122,7 @@
         window.history.back()
       },
       getSeedInfo() {
-        axios.get(api.common.getInfo + this.seedId, {
+        axios.post(api.common.getInfo + this.seedId, {
           params: {
             objType: constant.infoType.land
           }

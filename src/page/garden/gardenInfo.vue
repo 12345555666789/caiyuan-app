@@ -166,12 +166,10 @@
     },
     methods: {
       getComments () {
-        axios.get(api.common.commentList + this.gardenId, {
-          params: {
+        axios.post(api.common.commentList + this.gardenId, {
             page: this.page + 1,
             count: this.count,
             objType: constant.infoType.land
-          }
         }).then((res) => {
           this.comments.push(res.data.data.comments);
           this.page = this.page + 1;
@@ -217,10 +215,8 @@
         window.history.back()
       },
       getgardenInfo() {
-        axios.get(api.common.getInfo + this.gardenId, {
-          params: {
+        axios.post(api.common.getInfo + this.gardenId, {
             objType: constant.infoType.land
-          }
         }).then((res) => {
           this.gardenInfo = res.data.data;
           this.page = 0;

@@ -38,7 +38,7 @@
       <div class="goodsCar" v-if="totalNum()">
         <div class="itemGoods" v-for="item in Object.values(carList)">
           <div>
-            <div class="itemGoodsName">{{item['fertName'] || item['fertName']}}</div>
+            <div class="itemGoodsName">{{item['fertName'] || item['seedName']}}</div>
             <div class="addSeed">
               <div class="iconReduce"
                    @click.stop="reduceCar(item)"></div>
@@ -66,7 +66,7 @@
     data() {
       return {
         modalShow: false,
-        carList: null,
+        carList: {},
         finished: false,
         loading: false,
         message: '',
@@ -122,7 +122,7 @@
         window.history.back()
       },
       getfertilizerInfo() {
-        axios.get(api.common.getInfo + this.fertId, {
+        axios.post(api.common.getInfo + this.fertId, {
           params: {
             objType: constant.infoType.land
           }

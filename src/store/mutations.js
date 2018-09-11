@@ -4,7 +4,13 @@ export const setLandData = (state, data) => {
   state.landData = data
 };
 export const setSelectedLands = (state, data) => {
-  state.gardenOrder.landInfo = data
+  state.gardenOrder.landInfo = data;
+};
+export const setSowingMode = (state, data) => {
+  state.gardenOrder.sowingMode = data
+};
+export const setCareMode = (state, data) => {
+  state.gardenOrder.careMode = data
 };
 export const addToLandCar = (state, data) => {
   let car = state.gardenCar;
@@ -34,7 +40,6 @@ export const addToLandCar = (state, data) => {
     }
   }
   state.gardenCar = {...car};
-  Function.setStore('landCar', car)
 };
 export const reduceToCar = (state, data) => {
   let car = state.gardenCar;
@@ -56,5 +61,4 @@ export const reduceToCar = (state, data) => {
     }
   }
   state.gardenCar = {...car};
-  Function.setStore('landCar', car)
 };

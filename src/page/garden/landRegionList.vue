@@ -141,11 +141,9 @@
         this.getLandRegionList()
       },
       getLandRegionList () {
-        axios.get(api.garden.landRegionList, {
-          params: {
+        axios.post(api.garden.landRegionList, {
             page: this.page + 1,
             limit: this.limit
-          }
         }).then((res) => {
           this.landRegionList.push(...res.data.data);
           this.loading = false;

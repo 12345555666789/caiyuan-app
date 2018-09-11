@@ -11,6 +11,8 @@ const chooseSeed = r => require.ensure([], () => r(require('../page/garden/choos
 const chooseFertilizers = r => require.ensure([], () => r(require('../page/garden/chooseFertilizers')), 'chooseFertilizers');
 const seedDetails = r => require.ensure([], () => r(require('../page/garden/seedDetails')), 'seedDetails');
 const fertilizerDetails = r => require.ensure([], () => r(require('../page/garden/fertilizerDetails')), 'fertilizerDetails');
+const valueAddedService = r => require.ensure([], () => r(require('../page/garden/valueAddedService')), 'valueAddedService');
+const landBill = r => require.ensure([], () => r(require('../page/garden/landBill')), 'landBill');
 
 const routes = [
   {
@@ -48,7 +50,7 @@ const routes = [
     meta: { keepAlive: true },
   },
   {
-    path: '/seedDetails', // 肥料详情
+    path: '/seedDetails', // 种子详情
     component: seedDetails,
     meta: { keepAlive: true },
   },
@@ -57,6 +59,16 @@ const routes = [
     component: fertilizerDetails,
     meta: { keepAlive: true },
   },
+  {
+    path: '/valueAddedService', // 增值服务
+    component: valueAddedService,
+    meta: { keepAlive: true },
+  },
+  {
+    path: '/landBill', // 提交账单
+    component: landBill,
+    meta: { keepAlive: true },
+  }
 ];
 
 const router = new Router({

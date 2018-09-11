@@ -151,11 +151,9 @@
         this.getGardenList()
       },
       getGardenList () {
-        axios.get(api.garden.gardenList, {
-          params: {
+        axios.post(api.garden.gardenList, {
             page: this.page + 1,
             count: this.count
-          }
         }).then((res) => {
           this.page = res.data.page + 1;
           this.gardenList.push(...res.data.data);

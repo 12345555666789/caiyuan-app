@@ -128,6 +128,7 @@
     name: "chooseGarden",
     data () {
       return {
+        recMod: 0,
         selectedGarden: [],
         dateTime: new Date(),
         dateShow: false,
@@ -571,7 +572,8 @@
                 col: 1
               }
             ]
-          },{
+          },
+          {
             row: 7,
             lands: [
               {
@@ -812,7 +814,7 @@
     },
     mounted () {
       // TODO 从Vuex中读取以选择菜园信息
-      // this.gardenOrder && this.gardenOrder.landInfo ? this.setLandData() : null;
+      this.gardenOrder && this.gardenOrder.landInfo ? this.setLandData() : null;
       this.getGardenData();
       this.$refs.lands.addEventListener('scroll', () => {
         this.$refs.row.scrollTop = this.$refs.lands.scrollTop
@@ -821,7 +823,10 @@
     methods: {
       setLandData () {
         // TODO 从Vuex中读取以选择菜园信息
-        console.log(this.gardenOrder)
+        this.gardenForm.startDate = this.gardenOrder.landInfo.startDate || '';
+        this.gardenForm.endDate = this.gardenOrder.landInfo.endDate || '';
+        this.gardenForm.landName = this.gardenOrder.landInfo.landName || '';
+        this.recMode = this.gardenOrder.landInfo.recMode || 0;
       },
       ...mapActions(['setSelectedLands']),
       checkForm () {
@@ -842,15 +847,19 @@
           return false
         }
       },
+      setLands () {
+        this.setSelectedLands({
+          landName: this.gardenForm.landName,
+          startDate: this.gardenForm.startDate,
+          endDate: this.gardenForm.endDate,
+          recMode: this.recMod,
+          lands: this.selectedGarden
+        });
+      },
       nextStep (recMod) {
         if (this.checkForm()) {
-          this.setSelectedLands({
-            landName: this.gardenForm.landName,
-            startDate: this.gardenForm.startDate,
-            endDate: this.gardenForm.endDate,
-            recMode: recMod,
-            lands: this.selectedGarden
-          });
+          this.setLands();
+          this.recMod = recMod;
           this.$router.push({
             path: '/chooseSeed',
             query: {recMod}
@@ -867,11 +876,11 @@
       },
       handleLand (land, row) {
         if (land.landStatus === 0) {
+          land.landStatus = 2;
           this.selectedGarden.unshift({
             ...land,
             row
           });
-          land.landStatus = 2
         } else if (land.landStatus === 2) {
           land.landStatus = 0;
           this.selectedGarden.splice(this.selectedGarden.findIndex(item => item.landId === land.landId), 1)
@@ -974,9 +983,25 @@
       goBack () {
         window.history.back()
       },
+      handleLands () {
+        if (this.selectedGarden.length) {
+          this.selectedGarden.forEach(item1 => {
+            this.gardenData.forEach(item2 => {
+              if (item1.row === item2.row) {
+                item2.lands.forEach(item3 => {
+                  if (item3.landId === item1.landId) {
+                    item3.landStatus = item1.landStatus
+                  }
+                })
+              }
+            });
+          })
+        }
+      },
       getGardenData () {
-        axios.get(api.garden.getLandDetails + this.landId).then((res) => {
+        axios.post(api.garden.getLandDetails + this.landId).then((res) => {
           this.gardenData = res.data.landDetails;
+          this.handleLands();
           this.isLoading = false;
         }).catch((err) => {
           this.isLoading = false;
