@@ -152,37 +152,37 @@
                 col: 1
               },
               {
-                landSpec: 60,
+                landSpec: 90,
                 landId: 78645,
                 landStatus: 2,
                 col: 1
               },
               {
-                landSpec: 60,
+                landSpec: 90,
                 landId: 78645,
                 landStatus: 0,
                 col: 1
               },
               {
-                landSpec: 60,
+                landSpec: 90,
                 landId: 78645,
                 landStatus: 1,
                 col: 1
               },
               {
-                landSpec: 60,
+                landSpec: 120,
                 landId: 78645,
                 landStatus: 0,
                 col: 1
               },
               {
-                landSpec: 60,
+                landSpec: 120,
                 landId: 78645,
                 landStatus: 1,
                 col: 1
               },
               {
-                landSpec: 60,
+                landSpec: 120,
                 landId: 78645,
                 landStatus: 1,
                 col: 1

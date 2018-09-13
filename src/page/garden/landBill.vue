@@ -7,62 +7,108 @@
         @click-left="goBack"></van-nav-bar>
       <div style="height: 12vw"></div>
       <van-cell-group>
-        <van-cell title="播种方式" is-link arrow-direction="down" :value="sowingMode" @click="chooseMod('sowingMode')" />
-        <van-cell title="养护方式" is-link arrow-direction="down" :value="careMode" @click="chooseMod('careMode')"/>
+        <van-cell title="菜园名称"><div class="value">{{gardenOrder.landInfo.landName}}</div></van-cell>
+        <van-cell title="菜园规格">
+          <div class="value" v-for="item in setLandSpec"><span>{{item.landSpec}}㎡</span><span> × {{item.count}}</span></div>
+        </van-cell>
+        <van-cell title="租赁时间">
+          <div class="value">{{gardenOrder.landInfo.startDate}}-{{gardenOrder.landInfo.endDate}}</div>
+        </van-cell>
+        <van-cell title="开垦模式"><div class="value">{{gardenOrder.landInfo.recMode === 0 ? '自理' : '托管'}}</div></van-cell>
+        <van-cell title="肥料套餐">
+          <div class="value" v-for="item in setCar.fertilizer"><span>{{item.fertName}}</span><span> × {{item.num}}</span></div>
+        </van-cell>
+        <van-cell title="作物种子">
+          <div class="value" v-for="item in setCar.seed"><span>{{item.seedName}}</span><span> × {{item.num}}</span></div>
+        </van-cell>
+        <van-cell title="余额">
+          <div class="value">{{balance}}</div>
+        </van-cell>
+        <van-cell title="优惠折扣">
+          <!--<div class="value"><span>菜园折扣</span><span>{{getPreAccounting({}, 'landDiscount')}}{{landDiscount.discountRate}}</span></div>-->
+          <!--<div class="value"><span>租赁折扣</span><span>{{getPreAccounting({}, 'dateDiscount')}}{{dateDiscount.discountRate}}</span></div>-->
+          <!--<div class="value"><span>会员折扣</span><span>{{getPreAccounting({}, 'vipDiscount')}}{{vipDiscount.discountRate}}</span></div>-->
+          <!--<div class="value"><span>合计折扣</span><span>{{getPreAccounting({}, 'total')}}{{total.discountRate}}</span></div>-->
+        </van-cell>
       </van-cell-group>
       <div class="van-goods-action">
         <div class="footerBtn entrustBtn" @click="nextStep">提交订单</div>
       </div>
-      <van-popup v-model="show" position="bottom">
-        <van-picker
-          show-toolbar
-          :title="title"
-          :columns="columns"
-          @confirm="onConfirm"
-        />
-      </van-popup>
     </div>
 </template>
 
 <script>
   import {mapActions, mapGetters, mapMutations, mapState } from 'vuex'
+  import api from '@/config/api';
+  import axios from '@/config/axios.config'
   export default {
-      name: "valueAddedService",
+      name: "landBill",
       data() {
         return {
-          title: '',
-          show: false,
-          columns: ['托管', '自理'],
-          mode: '',
-          sowingMode: '托管',
-          careMode: '托管'
+          balance: '暂无余额',
+          landDiscount: {
+            discountRate: 0,
+            totalCost: 0
+          },
+          dateDiscount: {
+            discountRate: 0,
+            totalCost: 0
+          },
+          vipDiscount: {
+            discountRate: 0,
+            totalCost: 0
+          },
+          total: {
+            discountRate: 0,
+            totalCost: 0
+          }
         }
       },
       computed: {
-        ...mapState(['gardenOrder']),
+        ...mapState(['gardenOrder', 'gardenCar']),
+        setLandSpec () {
+          let lands = {};
+          this.gardenOrder.landInfo.lands.forEach(item => {
+            if (lands[item.landSpec]) {
+              lands[item.landSpec].count ++
+            } else {
+              lands[item.landSpec] = {landSpec: item.landSpec, count: 1}
+            }
+          });
+          return lands
+        },
+        setCar () {
+          let car = {
+            seed: {},
+            fertilizer: {}
+          };
+          Object.values(this.gardenCar).forEach(item => {
+            if (item.seedId) {
+              car.seed[item.seedId] = item
+            }
+            if (item.fertId) {
+              car.fertilizer[item.fertId] = item
+            }
+          });
+          return car
+        }
       },
       mounted () {
-        this.sowingMode = this.gardenOrder.sowingMode || '';
-        this.careMode = this.gardenOrder.careMode || '';
+
       },
       methods: {
+        getPreAccounting (order, type) {
+          axios.post(api.order.getPreAccounting, {...order}).then(res => {
+            return res.data.data
+          }).catch(() => {
+            this[type] = {
+              discountRate: Math.round(Math.random()),
+              totalCost: Math.round(Math.random()*1000)
+            }
+          })
+        },
         nextStep () {
-
-        },
-        chooseMod (mod) {
-          this.show = true;
-          this.mode = mod
-        },
-        onConfirm(value) {
-          if (this.mode === 'sowingMode') {
-            this.sowingMode = value;
-            this.$store.commit('setSowingMode', value)
-
-          } else {
-            this.careMode = value;
-            this.$store.commit('setCareMode', value)
-          }
-          this.show = false;
+          // 提交订单
         },
         goBack () {
           window.history.back()
@@ -72,6 +118,9 @@
 </script>
 
 <style scoped lang="less">
+  .value {
+    color: #505050;
+  }
   .van-goods-action {
     padding: 1.5vw 4vw;
     background: #fff;
