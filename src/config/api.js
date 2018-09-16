@@ -16,7 +16,7 @@ const garden = {
   landRegionList: gardenPrefix + 'farm/list',
   getLandDetails: gardenPrefix + 'farm/details/',
   getSeedList: gardenPrefix + 'seed/list',
-  getFertilizerList: gardenPrefix + '/fertilizer/list',
+  getFertilizerList: gardenPrefix + 'fertilizer/list',
 };
 
 const order = {

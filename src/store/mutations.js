@@ -3,6 +3,11 @@ import Function from '@/util/function'
 export const setLandData = (state, data) => {
   state.landData = data
 };
+export const clearLandOrder = (state, data) => {
+  state.gardenOrder = data;
+  state.gardenCar = data;
+  state.landData = data;
+};
 export const setSelectedLands = (state, data) => {
   state.gardenOrder.landInfo = data;
 };

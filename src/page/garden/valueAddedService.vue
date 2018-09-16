@@ -11,7 +11,7 @@
         <van-cell title="养护方式" is-link arrow-direction="down" :value="careMode" @click="chooseMod('careMode')"/>
       </van-cell-group>
       <div class="van-goods-action">
-        <div class="footerBtn entrustBtn" @click="nextStep">提交订单</div>
+        <div class="footerBtn entrustBtn" @click="nextStep">生成订单</div>
       </div>
       <van-popup v-model="show" position="bottom">
         <van-picker

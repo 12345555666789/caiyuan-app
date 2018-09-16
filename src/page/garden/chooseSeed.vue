@@ -276,11 +276,11 @@
       ...mapActions(['setSelectedLands']),
       nextStep () {
         if (this.carList && (Object.values(this.carList).find(item => item.seedId))) {
-          if (this.recMod === 1) {
+          if (Number(this.recMod) === 1) {
             this.$router.push({
               path: '/chooseFertilizers'
             })
-          } else {
+          } else if (Number(this.recMod) === 0) {
             this.$router.push({
               path: '/landBill'
             })

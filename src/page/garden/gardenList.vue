@@ -50,6 +50,7 @@
     name: 'gardenList',
     data () {
       return {
+        token: '',
         page: 0,
         count: 10,
         isLoading: false,
@@ -138,6 +139,7 @@
       }
     },
     mounted () {
+      this.token = window.app.getToken();
       this.getGardenList()
     },
     methods: {
@@ -154,6 +156,10 @@
         axios.post(api.garden.gardenList, {
             page: this.page + 1,
             count: this.count
+        }, {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
         }).then((res) => {
           this.page = res.data.page + 1;
           this.gardenList.push(...res.data.data);
@@ -173,7 +179,9 @@
         })
       },
       onClickLeft () {
-        Toast('返回');
+        if (window.app) {
+          window.app.go2MainPage();
+        }
       }
     }
   }

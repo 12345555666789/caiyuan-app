@@ -107,8 +107,17 @@ const Function = {
   removeStore (name) {
     if (!name) return;
     window.localStorage.removeItem(name);
-  }
+  },
 
+  ///计算两个整数的百分比值
+  GetPercent(num, total) {
+  num = parseFloat(num);
+  total = parseFloat(total);
+  if (isNaN(num) || isNaN(total)) {
+    return "-";
+  }
+  return total <= 0 ? "0%" : (Math.round(num / total * 10000) / 100.00 + "%");
+}
 };
 
 export default Function

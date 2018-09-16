@@ -290,9 +290,12 @@
     justify-content: center;
     justify-items: center;
     .van-icon-play {
-      font-size: 10vw;
-      position: absolute;
       color: #fff;
+      font-size: 10vw;
+      display: flex;
+      justify-content: center;
+      justify-items: center;
+      align-items: center;
     }
   }
 

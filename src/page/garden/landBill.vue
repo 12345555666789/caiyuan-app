@@ -2,8 +2,10 @@
     <div>
       <van-nav-bar
         title="账单详情"
+        right-text="分享"
         fixed
         left-arrow
+        @click-right="shareInfo"
         @click-left="goBack"></van-nav-bar>
       <div style="height: 12vw"></div>
       <van-cell-group>
@@ -25,10 +27,10 @@
           <div class="value">{{balance}}</div>
         </van-cell>
         <van-cell title="优惠折扣">
-          <!--<div class="value"><span>菜园折扣</span><span>{{getPreAccounting({}, 'landDiscount')}}{{landDiscount.discountRate}}</span></div>-->
-          <!--<div class="value"><span>租赁折扣</span><span>{{getPreAccounting({}, 'dateDiscount')}}{{dateDiscount.discountRate}}</span></div>-->
-          <!--<div class="value"><span>会员折扣</span><span>{{getPreAccounting({}, 'vipDiscount')}}{{vipDiscount.discountRate}}</span></div>-->
-          <!--<div class="value"><span>合计折扣</span><span>{{getPreAccounting({}, 'total')}}{{total.discountRate}}</span></div>-->
+          <div class="value discountRate" style="margin-bottom: 1vw;"><span class="discountRateName">菜园折扣</span><span class="discountRateVal">{{landDiscount.discountRate}}折</span></div>
+          <div class="value discountRate" style="margin-bottom: 1vw;"><span class="discountRateName">租赁折扣</span><span class="discountRateVal">{{dateDiscount.discountRate}}折</span></div>
+          <div class="value discountRate" style="margin-bottom: 1vw;"><span class="discountRateName">会员折扣</span><span class="discountRateVal">{{vipDiscount.discountRate}}折</span></div>
+          <div class="dominantHueText discountRate"><span class="discountRateName">合计折扣</span><span class="discountRateVal">{{total.discountRate}}折</span></div>
         </van-cell>
       </van-cell-group>
       <div class="van-goods-action">
@@ -38,13 +40,27 @@
 </template>
 
 <script>
-  import {mapActions, mapGetters, mapMutations, mapState } from 'vuex'
+  import {mapActions, mapGetters, mapMutations, mapState } from 'vuex';
+  import Function from '@/util/function'
+
   import api from '@/config/api';
-  import axios from '@/config/axios.config'
+  import axios from '@/config/axios.config';
+  import { Toast } from 'vant';
+
   export default {
       name: "landBill",
       data() {
         return {
+          oderData: {
+            lands: [],
+            endDate: '',
+            startDate: '',
+            fertilizers: [],
+            seeds: [],
+            recMod: 1,
+            sowingMode: 1,
+            careMode: 1
+          },
           balance: '暂无余额',
           landDiscount: {
             discountRate: 0,
@@ -72,7 +88,7 @@
             if (lands[item.landSpec]) {
               lands[item.landSpec].count ++
             } else {
-              lands[item.landSpec] = {landSpec: item.landSpec, count: 1}
+              lands[item.landSpec] = {landSpec: item.landSpec, count: 1, landId: item.landId}
             }
           });
           return lands
@@ -94,21 +110,77 @@
         }
       },
       mounted () {
+        window['buyFinish'] = (isDone) => {
+          this.buyFinish(isDone)
+        };
+        this.gardenOrder.landInfo.lands.forEach(item => {
+          this.oderData.lands.push(item.landId + "")
+        });
+        this.oderData.startDate = this.gardenOrder.landInfo.startDate;
+        this.oderData.endDate = this.gardenOrder.landInfo.endDate;
+        Object.values(this.setCar.fertilizer).forEach(item => {
+          this.oderData.fertilizers.push({
+            count: item.num,
+            fertilizerId: item.fertId
+          })
+        });
+        Object.values(this.setCar.seed).forEach(item => {
+          this.oderData.seeds.push({
+            count: item.num,
+            seedId: item.seedId
+          })
+        });
+        this.oderData.careMode = this.gardenOrder.careMode === '托管' ? 1 : 2;
+        this.oderData.sowingMode = this.gardenOrder.sowingMode === '托管' ? 1 : 2;
+        this.recMod = this.gardenOrder.recMod === '托管' ? 1 : 2;
 
+        this.getPreAccounting({lands: this.oderData.lands}, 'landDiscount');
+        this.getPreAccounting({
+          startDate: this.oderData.startDate,
+          endDate: this.oderData.endDate
+        }, 'dateDiscount');
+        this.getPreAccounting({}, 'vipDiscount');
+        this.getPreAccounting(this.oderData, 'total');
       },
       methods: {
+        ...mapActions([
+          'clearLandOrder'
+        ]),
+        buyFinish (isDone) {
+          if (isDone) {
+            this.clearLandOrder({});
+            this.$router.push({
+              path: '/gardenList',
+            });
+            window.location.reload()
+          } else {
+            this.$toast('提交失败')
+          }
+        },
+        shareInfo () {
+          try {
+            window.app.shareInfo(window.location.href)
+          } catch (e) {
+            this.$toast('分享失败')
+          }
+        },
         getPreAccounting (order, type) {
           axios.post(api.order.getPreAccounting, {...order}).then(res => {
             return res.data.data
           }).catch(() => {
             this[type] = {
-              discountRate: Math.round(Math.random()),
+              discountRate: Math.round(Math.random()*10),
               totalCost: Math.round(Math.random()*1000)
             }
           })
         },
         nextStep () {
           // 提交订单
+          try {
+            window.app.buyNow(JSON.stringify(this.oderData))
+          } catch (e) {
+            this.$toast('提交失败')
+          }
         },
         goBack () {
           window.history.back()
@@ -118,6 +190,14 @@
 </script>
 
 <style scoped lang="less">
+  .discountRateName {
+    text-align: left;
+  }
+  .discountRateVal {
+    text-align: right;
+    display: inline-block;
+    width: 16vw;
+  }
   .value {
     color: #505050;
   }
