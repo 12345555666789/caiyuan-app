@@ -1,11 +1,9 @@
 <template>
-    <div>
+    <div style="height: 100vh; background: #fff;">
       <van-nav-bar
-        title="账单详情"
-        right-text="分享"
+        title="订单详情"
         fixed
         left-arrow
-        @click-right="shareInfo"
         @click-left="goBack"></van-nav-bar>
       <div style="height: 12vw"></div>
       <van-cell-group>
@@ -31,6 +29,15 @@
           <div class="value discountRate" style="margin-bottom: 1vw;"><span class="discountRateName">租赁折扣</span><span class="discountRateVal">{{dateDiscount.discountRate}}折</span></div>
           <div class="value discountRate" style="margin-bottom: 1vw;"><span class="discountRateName">会员折扣</span><span class="discountRateVal">{{vipDiscount.discountRate}}折</span></div>
           <div class="dominantHueText discountRate"><span class="discountRateName">合计折扣</span><span class="discountRateVal">{{total.discountRate}}折</span></div>
+        </van-cell>
+        <van-cell>
+          <div id="total">
+            <p>
+              <span class="totalLabel">应付金额: </span>
+              <span class="totalPrice"><span class="iconRmb">¥</span>{{total.totalCost}}</span>
+              <span class="originalCost"><span class="iconRmb">¥</span>{{(Number(total.totalCost)*10)/Number(total.discountRate)}}</span>
+            </p>
+          </div>
         </van-cell>
       </van-cell-group>
       <div class="van-goods-action">
@@ -157,13 +164,6 @@
             this.$toast('提交失败')
           }
         },
-        shareInfo () {
-          try {
-            window.app.shareInfo(window.location.href)
-          } catch (e) {
-            this.$toast('分享失败')
-          }
-        },
         getPreAccounting (order, type) {
           axios.post(api.order.getPreAccounting, {...order}).then(res => {
             return res.data.data
@@ -190,6 +190,31 @@
 </script>
 
 <style scoped lang="less">
+  #total {
+    p {
+      text-align: right;
+      padding-left: 30vw;
+      .iconRmb {
+        font-size: 3vw;
+      }
+      .totalLabel {
+        font-size: 3.8vw;
+        font-weight: 600;
+      }
+      .totalPrice {
+        color: #F12020;
+        font-size: 5vw;
+        font-weight: 600;
+      }
+      .originalCost {
+        font-size: 4vw;
+        color: #B4B4B4;
+        text-decoration: line-through;
+        margin-left: 3vw;
+        vertical-align: top;
+      }
+    }
+  }
   .discountRateName {
     text-align: left;
   }

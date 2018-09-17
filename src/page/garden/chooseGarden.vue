@@ -11,10 +11,12 @@
         <div style="display: flex">
           <div class="landText">
             <div class="landTitle">{{landData.farmName}}({{landData.farmGrade}}:{{landData.geologicalType === 1 ? '松软地质' : '沙石地质'}})</div>
-            <p class="landAddress">
-              <van-icon class="dominantHueText" name="location" />
-              {{landData.address}}
-            </p>
+            <div style="height: 10vw; margin-top: 4vw;">
+              <p class="landAddress">
+                <van-icon class="dominantHueText" name="location" />
+                {{landData.address}}
+              </p>
+            </div>
           </div>
           <div class="landPic">
             <img :src="landData.farmPics && landData.farmPics[0]">
@@ -1216,8 +1218,6 @@
       .landAddress {
         color: #7D7D7D;
         font-size: 3.8vw;
-        height: 10vw;
-        margin-top: 4vw;
         overflow: hidden;
         -webkit-line-clamp: 2;
         display: -webkit-box;

@@ -43,14 +43,13 @@
     </div>
 </template>
 <script>
-  import { Toast } from 'vant';
   import api from '@/config/api';
   import axios from '@/config/axios.config'
   export default {
     name: 'gardenList',
     data () {
       return {
-        token: '',
+        token: null,
         page: 0,
         count: 10,
         isLoading: false,
@@ -139,7 +138,11 @@
       }
     },
     mounted () {
-      this.token = window.app.getToken();
+      try {
+        this.token = window.app.getToken();
+      } catch (e) {
+        this.$toast('获取token失败');
+      }
       this.getGardenList()
     },
     methods: {

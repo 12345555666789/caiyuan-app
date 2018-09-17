@@ -4,6 +4,7 @@ const prefix = IP[key];
 const gardenPrefix = prefix + /land/;
 const commonPrefix = prefix + /common/;
 const orderPrefix = prefix + /order/;
+const foodPrefix = prefix + /food/;
 
 const common = {
   getInfo: commonPrefix + 'detail/',
@@ -19,12 +20,18 @@ const garden = {
   getFertilizerList: gardenPrefix + 'fertilizer/list',
 };
 
+const food = {
+  getFoodTypes: foodPrefix + 'types',
+  getFoodList: foodPrefix + 'list'
+};
+
 const order = {
-  getPreAccounting: orderPrefix + '/land/pre_accounting',
+  getPreAccounting: orderPrefix + 'land/pre_accounting',
 };
 
 const api = {
   garden,
+  food,
   common,
   order
 };
