@@ -82,7 +82,7 @@ export const addToFoodCar = (state, data) => {
       }
     }
   }
-  state.gardenCar = {...car};
+  state.foodCar = {...car};
 };
 export const reduceFoodToCar = (state, data) => {
   let car = state.foodCar;
@@ -95,5 +95,5 @@ export const reduceFoodToCar = (state, data) => {
       }
     }
   }
-  state.gardenCar = {...car};
+  state.foodCar = {...car};
 };

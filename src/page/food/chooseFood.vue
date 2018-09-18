@@ -7,12 +7,12 @@
       @click-left="goBack"></van-nav-bar>
     <div style="height: 11vw"></div>
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-      <!--<van-list-->
-        <!--v-if="foodData.length"-->
-        <!--v-model="loading"-->
-        <!--@load="getFoodList"-->
-        <!--:offset="30"-->
-        <!--:finished="finished">-->
+      <van-list
+        v-if="foodData.length"
+        v-model="loading"
+        @load="getFoodList"
+        :offset="30"
+        :finished="finished">
         <div class="foodItem" v-for="item in foodData" @click="tofoodInfo(item.foodId)">
           <div class="foodPic">
             <img v-lazy="item.foodPics[0]">
@@ -34,7 +34,7 @@
           </div>
         </div>
         <div style="height: 5vw; background-color: #fff"></div>
-      <!--</van-list>-->
+      </van-list>
     </van-pull-refresh>
 
     <div style="height: 10vw"></div>
@@ -87,7 +87,7 @@
           },{
             "commentCount": 967826,
             "foodDesc": "美食",
-            "foodId": "a4b90de784c5495db774653ca409bcd8",
+            "foodId": "a4b90de784c5495db774653csdcabcd8",
             "foodName": "XXXX食材-0",
             "foodPics": [
               "http://images.meishij.net/p/20111001/d59c1b6ea3a9d89ac49292f8fd9a4da4.jpg"
@@ -99,7 +99,7 @@
           },{
             "commentCount": 967826,
             "foodDesc": "美食",
-            "foodId": "a4b90de784c5495db774653ca409bcd8",
+            "foodId": "a4b90de784c5495db774asdc409bcd8",
             "foodName": "XXXX食材-0",
             "foodPics": [
               "http://images.meishij.net/p/20111001/d59c1b6ea3a9d89ac49292f8fd9a4da4.jpg"
@@ -111,7 +111,7 @@
           },{
             "commentCount": 967826,
             "foodDesc": "美食",
-            "foodId": "a4b90de784c5495db774653ca409bcd8",
+            "foodId": "a4b90de784c5495db77adsca409bcd8",
             "foodName": "XXXX食材-0",
             "foodPics": [
               "http://images.meishij.net/p/20111001/d59c1b6ea3a9d89ac49292f8fd9a4da4.jpg"
@@ -123,7 +123,7 @@
           },{
             "commentCount": 967826,
             "foodDesc": "美食",
-            "foodId": "a4b90de784c5495db774653ca409bcd8",
+            "foodId": "a4b90de784c5495db7746acacac409bcd8",
             "foodName": "XXXX食材-0",
             "foodPics": [
               "http://images.meishij.net/p/20111001/d59c1b6ea3a9d89ac49292f8fd9a4da4.jpg"
@@ -135,7 +135,7 @@
           },{
             "commentCount": 967826,
             "foodDesc": "美食",
-            "foodId": "a4b90de784c5495db774653ca409bcd8",
+            "foodId": "a4b90de784c5495db77qweqea409bcd8",
             "foodName": "XXXX食材-0",
             "foodPics": [
               "http://images.meishij.net/p/20111001/d59c1b6ea3a9d89ac49292f8fd9a4da4.jpg"
@@ -207,7 +207,7 @@
       },
       getFoodList () {
         this.isLoading = true;
-        axios.post(api.garden.getFoodList, {
+        axios.post(api.food.getFoodList, {
           page: this.page + 1,
           foodType: this.$route.query.foodType,
           count: this.count,
