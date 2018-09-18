@@ -1,79 +1,47 @@
 <template>
   <div>
     <van-nav-bar
-      :title="Number(recMod) === 0 ? '委托开垦选苗' : Number(recMod) === 1 ? '自主开垦选苗' : '开垦选苗'"
+      title="选择食材"
       fixed
       left-arrow
       @click-left="goBack"></van-nav-bar>
     <div style="height: 11vw"></div>
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-      <form action="/">
-        <van-search
-          v-model="searchValue"
-          placeholder="搜索"
-          background="#fff"
-          @search="onSearch"
-          @cancel="onCancel"
-        />
-      </form>
-      <van-tabbar v-model="active" @change="changeActive" :fixed="false" style="margin-bottom: 1vw;">
-        <van-tabbar-item ref="overallSort">综合<van-icon name="arrow" /></van-tabbar-item>
-        <van-tabbar-item ref="stockSort">库存<van-icon name="arrow" /></van-tabbar-item>
-        <van-tabbar-item ref="priceSort">价格<van-icon name="arrow" /></van-tabbar-item>
-      </van-tabbar>
-      <van-list
-        v-if="seedData.length"
-        v-model="loading"
-        @load="getSeedList"
-        :offset="30"
-        :finished="finished">
-        <div class="seedItem" v-for="item in seedData" @click="toSeedInfo(item.seedId)">
-          <div class="seedPic">
-            <img v-lazy="item.seedPics[0]">
+      <!--<van-list-->
+        <!--v-if="foodData.length"-->
+        <!--v-model="loading"-->
+        <!--@load="getFoodList"-->
+        <!--:offset="30"-->
+        <!--:finished="finished">-->
+        <div class="foodItem" v-for="item in foodData" @click="tofoodInfo(item.foodId)">
+          <div class="foodPic">
+            <img v-lazy="item.foodPics[0]">
           </div>
-          <div class="seedInfo">
-            <div class="seedName">{{item.seedName}}</div>
-            <div class="seedSpec">{{item.seedSpec}}</div>
-            <div class="seedPrice"><span>¥</span>{{item.price}}</div>
-            <div class="seedSeason">{{item.season}}</div>
-            <div class="addSeed" v-if="carList && carList[item.seedId]">
+          <div class="foodInfo">
+            <div class="foodName">{{item.foodName}}</div>
+            <div class="foodSpec">{{item.foodSpec}}</div>
+            <div class="foodPrice"><span>¥</span>{{item.price}}</div>
+            <div class="foodSeason"><span style="margin-right: 3vw">{{item.commentCount}}条评价</span><span>{{item.praiseRate}}%好评</span></div>
+            <div class="addfood" v-if="carList && carList[item.foodId]">
               <div class="iconReduce"
                    @click.stop="reduceCar(item)"></div>
-              <span class="seedNum">{{carList && carList[item.seedId].num}}</span>
+              <span class="foodNum">{{carList && carList[item.foodId].num}}</span>
               <van-icon name="add" @click.stop="addCar(item)"/>
             </div>
-            <div class="seedCount" @click.stop="addCar(item)" v-else>
+            <div class="foodCount" @click.stop="addCar(item)" v-else>
               <van-icon name="add" />
             </div>
           </div>
         </div>
         <div style="height: 5vw; background-color: #fff"></div>
-      </van-list>
+      <!--</van-list>-->
     </van-pull-refresh>
 
     <div style="height: 10vw"></div>
     <div class="van-goods-action">
       <div class="footerBtn entrustBtn" @click="nextStep">下一步</div>
     </div>
-    <van-actionsheet v-model="modalShow" title="已选种子及肥料">
-      <div class="goodsCar" v-if="totalNum()">
-        <div class="itemGoods" v-for="item in Object.values(carList)">
-          <div>
-            <div class="itemGoodsName">{{item['seedName'] || item['fertName']}}</div>
-            <div class="addSeed">
-              <div class="iconReduce"
-                   @click.stop="reduceCar(item)"></div>
-              <span class="seedNum">{{carList && ((carList[item.fertId] && carList[item.fertId].num) || (carList[item.seedId] && carList[item.seedId].num))}}</span>
-              <van-icon name="add" @click.stop="addCar(item)"/>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="carNoData" v-else>
-        <p>菜篮空空如也~</p>
-      </div>
-    </van-actionsheet>
-    <div class="carBtn" @click="modalShow = true">
+    <div class="carBtn" @click="openCar">
       <span class="iconCar"><span class="totalNum" v-show="totalNum()">{{totalNum()}}</span></span>
     </div>
   </div>
@@ -88,10 +56,9 @@
   import { Toast } from 'vant';
 
   export default {
-    name: "chooseSeed",
+    name: "chooseFood",
     data () {
       return {
-        modalShow: false,
         addShow: false,
         carList: {},
         sortType: -1,
@@ -104,105 +71,114 @@
         loading: false,
         isLoading: false,
         searchValue: '',
-        seedData: [
+        foodData: [
           {
-            seedId: 'as1321',
-            seedName: '种子',
-            seedType: 2,
-            seedPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
-            seedSpec: '每袋500g',
-            price: 500.33,
-            seedDesc: '来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种,薄皮,无子,沙瓤',
-            season: '全季',
-            stock: 999
+            "commentCount": 967826,
+            "foodDesc": "美食",
+            "foodId": "a4b90de784c5495db774653ca409bcd8",
+            "foodName": "XXXX食材-0",
+            "foodPics": [
+              "http://images.meishij.net/p/20111001/d59c1b6ea3a9d89ac49292f8fd9a4da4.jpg"
+            ],
+            "foodSpec": "500g/只",
+            "foodType": "肉禽",
+            "praiseRate": 38,
+            "price": 625.604736328125
           },{
-            seedId: 'a2342321',
-            seedName: '种子',
-            seedType: 2,
-            seedPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
-            seedSpec: '每袋500g',
-            price: 500.33,
-            seedDesc: '来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种,薄皮,无子,沙瓤',
-            season: '全季',
-            stock: 999
+            "commentCount": 967826,
+            "foodDesc": "美食",
+            "foodId": "a4b90de784c5495db774653ca409bcd8",
+            "foodName": "XXXX食材-0",
+            "foodPics": [
+              "http://images.meishij.net/p/20111001/d59c1b6ea3a9d89ac49292f8fd9a4da4.jpg"
+            ],
+            "foodSpec": "500g/只",
+            "foodType": "肉禽",
+            "praiseRate": 38,
+            "price": 625.604736328125
           },{
-            seedId: 'a2352521',
-            seedName: '种子',
-            seedType: 2,
-            seedPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
-            seedSpec: '每袋500g',
-            price: 500.33,
-            seedDesc: '来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种,薄皮,无子,沙瓤',
-            season: '全季',
-            stock: 999
+            "commentCount": 967826,
+            "foodDesc": "美食",
+            "foodId": "a4b90de784c5495db774653ca409bcd8",
+            "foodName": "XXXX食材-0",
+            "foodPics": [
+              "http://images.meishij.net/p/20111001/d59c1b6ea3a9d89ac49292f8fd9a4da4.jpg"
+            ],
+            "foodSpec": "500g/只",
+            "foodType": "肉禽",
+            "praiseRate": 38,
+            "price": 625.604736328125
           },{
-            seedId: 'as1321',
-            seedName: '种子',
-            seedType: 2,
-            seedPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
-            seedSpec: '每袋500g',
-            price: 500.33,
-            seedDesc: '来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种,薄皮,无子,沙瓤',
-            season: '全季',
-            stock: 999
+            "commentCount": 967826,
+            "foodDesc": "美食",
+            "foodId": "a4b90de784c5495db774653ca409bcd8",
+            "foodName": "XXXX食材-0",
+            "foodPics": [
+              "http://images.meishij.net/p/20111001/d59c1b6ea3a9d89ac49292f8fd9a4da4.jpg"
+            ],
+            "foodSpec": "500g/只",
+            "foodType": "肉禽",
+            "praiseRate": 38,
+            "price": 625.604736328125
           },{
-            seedId: 'as1321',
-            seedName: '种子',
-            seedType: 2,
-            seedPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
-            seedSpec: '每袋500g',
-            price: 500.33,
-            seedDesc: '来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种,薄皮,无子,沙瓤',
-            season: '全季',
-            stock: 999
+            "commentCount": 967826,
+            "foodDesc": "美食",
+            "foodId": "a4b90de784c5495db774653ca409bcd8",
+            "foodName": "XXXX食材-0",
+            "foodPics": [
+              "http://images.meishij.net/p/20111001/d59c1b6ea3a9d89ac49292f8fd9a4da4.jpg"
+            ],
+            "foodSpec": "500g/只",
+            "foodType": "肉禽",
+            "praiseRate": 38,
+            "price": 625.604736328125
           },{
-            seedId: 'as1321',
-            seedName: '种子',
-            seedType: 2,
-            seedPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
-            seedSpec: '每袋500g',
-            price: 500.33,
-            seedDesc: '来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种,薄皮,无子,沙瓤',
-            season: '全季',
-            stock: 999
+            "commentCount": 967826,
+            "foodDesc": "美食",
+            "foodId": "a4b90de784c5495db774653ca409bcd8",
+            "foodName": "XXXX食材-0",
+            "foodPics": [
+              "http://images.meishij.net/p/20111001/d59c1b6ea3a9d89ac49292f8fd9a4da4.jpg"
+            ],
+            "foodSpec": "500g/只",
+            "foodType": "肉禽",
+            "praiseRate": 38,
+            "price": 625.604736328125
           },{
-            seedId: 'as1321',
-            seedName: '种子',
-            seedType: 2,
-            seedPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
-            seedSpec: '每袋500g',
-            price: 500.33,
-            seedDesc: '来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种,薄皮,无子,沙瓤',
-            season: '全季',
-            stock: 999
-          },{
-            seedId: 'as1321',
-            seedName: '种子',
-            seedType: 2,
-            seedPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
-            seedSpec: '每袋500g',
-            price: 500.33,
-            seedDesc: '来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种,薄皮,无子,沙瓤',
-            season: '全季',
-            stock: 999
+            "commentCount": 967826,
+            "foodDesc": "美食",
+            "foodId": "a4b90de784c5495db774653ca409bcd8",
+            "foodName": "XXXX食材-0",
+            "foodPics": [
+              "http://images.meishij.net/p/20111001/d59c1b6ea3a9d89ac49292f8fd9a4da4.jpg"
+            ],
+            "foodSpec": "500g/只",
+            "foodType": "肉禽",
+            "praiseRate": 38,
+            "price": 625.604736328125
           }
         ]
       }
     },
     computed: {
-      ...mapState(['gardenCar']),
-      recMod () {
-        return this.$route.query.recMod
+      ...mapState(['foodCar']),
+      typeId () {
+        return this.$route.query.typeId
       }
     },
     mounted () {
-      this.getSeedList();
-      this.gardenCar ? this.carList = this.gardenCar : null
+      this.getFoodList();
+      this.foodCar ? this.carList = this.foodCar : null
     },
     methods: {
       ...mapMutations([
-        'addToLandCar', 'reduceToCar'
+        'addToFoodCar', 'reduceFoodToCar'
       ]),
+      openCar () {
+        this.$router.push({
+          path: '/foodCar'
+        })
+      },
       totalNum () {
         let totalNum = 0;
         if (this.carList) {
@@ -212,62 +188,34 @@
           return totalNum
         }
       },
-      toSeedInfo (seedId) {
+      tofoodInfo (foodId) {
         this.$router.push({
-          path: '/seedDetails',
+          path: '/foodDetails',
           query: {
-            seedId,
-            title: '种子详情'
+            foodId,
+            title: '菜品详情'
           }
         })
       },
       reduceCar (data) {
-        this.reduceToCar(data);
-        this.carList = this.gardenCar;
+        this.reduceFoodToCar(data);
+        this.carList = this.foodCar;
       },
       addCar (data) {
-        this.addToLandCar(data);
-        this.carList = this.gardenCar;
+        this.addToFoodCar(data);
+        this.carList = this.foodCar;
       },
-      changeActive (active) {
-        if (active === 1) {
-          if (this.sortType === constant.sortType.stockUp) {
-            this.sortType = constant.sortType.stockDown; // 库存
-            this.$refs.stockSort.$children[0].$el.style.transform = 'rotate(-90deg)';
-          } else {
-            this.sortType = constant.sortType.stockUp // 库存
-            this.$refs.stockSort.$children[0].$el.style.transform = 'rotate(90deg)';
-          }
-          this.$refs.priceSort.$children[0].$el.style.transform = 'rotate(-90deg)';
-        } else if (active === 2) {
-          if (this.sortType === constant.sortType.priceUp) {
-            this.sortType = constant.sortType.priceDown; // 价格
-            this.$refs.priceSort.$children[0].$el.style.transform = 'rotate(-90deg)';
-          } else {
-            this.sortType = constant.sortType.priceUp; // 价格
-            this.$refs.priceSort.$children[0].$el.style.transform = 'rotate(90deg)';
-          }
-          this.$refs.stockSort.$children[0].$el.style.transform = 'rotate(-90deg)';
-        } else {
-          this.sortType = constant.sortType.overall; // 综合
-          this.$refs.stockSort.$children[0].$el.style.transform = 'rotate(-90deg)';
-          this.$refs.stockSort.$children[0].$el.style.transform = 'rotate(-90deg)';
-        }
-        this.page = 0;
-        this.getSeedList()
-      },
-      getSeedList () {
+      getFoodList () {
         this.isLoading = true;
-        axios.post(api.garden.getSeedList, {
-            key: this.key,
-            page: this.page + 1,
-            count: this.count,
-            sortType: this.sortType
+        axios.post(api.garden.getFoodList, {
+          page: this.page + 1,
+          foodType: this.$route.query.foodType,
+          count: this.count,
         }).then((res) => {
           this.isLoading = false;
           this.loading = false;
           this.finished = false;
-          this.seedData = res.data.data
+          this.foodData = res.data.data
         }).catch((res) => {
           this.loading = false;
           this.finished = false;
@@ -276,7 +224,7 @@
       },
       ...mapActions(['setSelectedLands']),
       nextStep () {
-        if (this.carList && (Object.values(this.carList).find(item => item.seedId))) {
+        if (this.carList && (Object.values(this.carList).find(item => item.foodId))) {
           if (Number(this.recMod) === 1) {
             this.$router.push({
               path: '/chooseFertilizers'
@@ -292,7 +240,7 @@
       },
       onSearch () {
         this.page = 0;
-        this.getSeedList();
+        this.getFoodList();
       },
       onCancel (val) {
         console.log(val);
@@ -301,7 +249,7 @@
         window.history.back()
       },
       onRefresh() {
-        this.getSeedList();
+        this.getFoodList();
       }
     }
   }
@@ -309,7 +257,7 @@
 
 <style lang="less" scoped>
   .itemGoods {
-    .addSeed {
+    .addfood {
       height: 6vw;
       width: 20vw;
       font-size: 6vw;
@@ -323,7 +271,7 @@
       position: absolute;
       top: 4vw;
       right: 4vw;
-      .seedNum {
+      .foodNum {
         font-size: 3.8vw;
         margin: 0 auto;
         color: #555555;
@@ -383,7 +331,7 @@
     right: 6vw;
     z-index: 9;
   }
-  .addSeed {
+  .addfood {
     height: 6vw;
     width: 20vw;
     font-size: 6vw;
@@ -397,19 +345,19 @@
     position: absolute;
     top: 21.5vw;
     right: .1vw;
-    .seedNum {
+    .foodNum {
       font-size: 3.8vw;
       margin: 0 auto;
       color: #555555;
     }
   }
-  .seedItem {
+  .foodItem {
     background-color: #fff;
     padding-top: 5vw;
     padding-left: 4vw;
     padding-right: 4vw;
     display: flex;
-    .seedPic {
+    .foodPic {
       width: 28vw;
       height: 28vw;
       margin-right: 4vw;
@@ -418,22 +366,22 @@
         height: 100%;
       }
     }
-    .seedInfo {
+    .foodInfo {
       height: 28vw;
       width: 60vw;
       overflow: hidden;
       position: relative;
-      .seedName {
+      .foodName {
         margin-bottom: 2vw;
         font-size: 4vw;
         font-weight: 700;
       }
-      .seedSpec {
+      .foodSpec {
         margin-bottom: 6vw;
         font-size: 2.5vw;
         color: #959595;
       }
-      .seedPrice {
+      .foodPrice {
         margin-bottom: 1vw;
         color: #F12020;
         font-size: 4vw;
@@ -442,16 +390,13 @@
           font-size: 3vw;
         }
       }
-      .seedSeason {
+      .foodSeason {
         display: inline-block;
-        padding: 0.5vw 2vw;
-        background-color: #E9F2F2;
-        color: #38ACA5;
-        border-radius: 3vw;
+        color: #ADADAD;
         font-size: 2.5vw;
         text-align: center;
       }
-      .seedCount {
+      .foodCount {
         height: 6vw;
         width: 6vw;
         font-size: 6vw;

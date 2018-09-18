@@ -99,7 +99,7 @@
     },
     methods: {
       ...mapMutations([
-        'addToLandCar', 'reduceToCar'
+        'addToLandCar', 'reduceLandToCar'
       ]),
        totalNum () {
         let totalNum = 0;
@@ -115,7 +115,7 @@
         this.carList = this.gardenCar;
       },
       reduceCar (data) {
-        this.reduceToCar(data);
+        this.reduceLandToCar(data);
         this.carList = this.gardenCar;
       },
       onClickLeft() {

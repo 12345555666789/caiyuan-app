@@ -18,7 +18,7 @@
           </div>
         </div>
       </van-pull-refresh>
-      <div class="carBtn">
+      <div class="carBtn" @click="openCar">
         <span class="iconCar"><span class="totalNum" v-show="totalNum()">{{totalNum()}}</span></span>
       </div>
     </div>
@@ -89,6 +89,11 @@
         this.getFoodTypes();
       },
       methods: {
+        openCar () {
+          this.$router.push({
+            path: '/foodCar'
+          })
+        },
         totalNum () {
           let totalNum = 0;
           if (this.carList) {
@@ -102,7 +107,7 @@
           this.$router.push({
             path: '/chooseFood',
             query: {
-              typeId
+              foodType: typeId
             }
           })
         },

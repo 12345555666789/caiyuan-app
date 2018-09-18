@@ -46,7 +46,7 @@ export const addToLandCar = (state, data) => {
   }
   state.gardenCar = {...car};
 };
-export const reduceToCar = (state, data) => {
+export const reduceLandToCar = (state, data) => {
   let car = state.gardenCar;
   if (data.seedId) {
     if (car && car[data.seedId]) {
@@ -62,6 +62,36 @@ export const reduceToCar = (state, data) => {
         car[data.fertId].num --;
       } else {
         delete car[data.fertId]
+      }
+    }
+  }
+  state.gardenCar = {...car};
+};
+export const addToFoodCar = (state, data) => {
+  let car = state.foodCar;
+  if (data.foodId) {
+    if (car && car[data.foodId]) {
+      car[data.foodId].num ++;
+    } else {
+      if (car) {
+        car[data.foodId] = {...data, num: 1}
+      } else {
+        car = {
+          [data.foodId]: {...data, num: 1}
+        }
+      }
+    }
+  }
+  state.gardenCar = {...car};
+};
+export const reduceFoodToCar = (state, data) => {
+  let car = state.foodCar;
+  if (data.foodId) {
+    if (car && car[data.foodId]) {
+      if (car[data.foodId].num !== 1) {
+        car[data.foodId].num --;
+      } else {
+        delete car[data.foodId]
       }
     }
   }

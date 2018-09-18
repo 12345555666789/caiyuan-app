@@ -200,7 +200,7 @@
     },
     methods: {
       ...mapMutations([
-        'addToLandCar', 'reduceToCar'
+        'addToLandCar', 'reduceLandToCar'
       ]),
       totalNum () {
         let totalNum = 0;
@@ -220,7 +220,7 @@
         })
       },
       reduceCar (data) {
-        this.reduceToCar(data);
+        this.reduceLandToCar(data);
         this.carList = this.gardenCar;
       },
       addCar (data) {
