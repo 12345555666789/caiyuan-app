@@ -1,152 +1,108 @@
 <template>
     <div style="height: 100vh; background: #fff;">
       <van-nav-bar
-        title="订单详情"
+        title="订单"
         fixed
         left-arrow
         @click-left="goBack"></van-nav-bar>
       <div style="height: 12vw"></div>
       <van-cell-group>
-
+        <van-field
+          v-model="orderData.peopleNum"
+          type="number"
+          required
+          clearable
+          label="就餐人数"
+          placeholder="请输入就餐人数"
+          input-align="right"
+        />
+        <van-field
+          v-model="orderData.dinerTime"
+          required
+          clearable
+          readonly
+          @focus="chooseDate"
+          input-align="right"
+          label="开始时间"
+          placeholder="请选择开始时间"
+        />
       </van-cell-group>
       <div class="van-goods-action">
-        <div class="footerBtn entrustBtn" @click="nextStep">提交订单</div>
+        <div class="footerBtn entrustBtn" @click="nextStep">确认</div>
       </div>
+      <van-popup v-model="dateShow" position="bottom" :overlay="true" click-overlay="cancelDate">
+        <van-datetime-picker
+          v-model="dateTime"
+          type="datetime"
+          :formatter="dateFormatter"
+          title="就餐时间"
+          @confirm="handleDate"
+          @cancel="cancelDate"
+        />
+      </van-popup>
     </div>
 </template>
 
 <script>
   import {mapActions, mapGetters, mapMutations, mapState } from 'vuex';
-  import Function from '@/util/function'
-
   import api from '@/config/api';
   import axios from '@/config/axios.config';
-  import { Toast } from 'vant';
+  import Function from '@/util/function'
 
   export default {
       name: "foodBill",
       data() {
         return {
-          oderData: {
-            lands: [],
-            endDate: '',
-            startDate: '',
-            fertilizers: [],
-            seeds: [],
-            recMod: 1,
-            sowingMode: 1,
-            careMode: 1
-          },
-          balance: '暂无余额',
-          landDiscount: {
-            discountRate: 0,
-            totalCost: 0
-          },
-          dateDiscount: {
-            discountRate: 0,
-            totalCost: 0
-          },
-          vipDiscount: {
-            discountRate: 0,
-            totalCost: 0
-          },
-          total: {
-            discountRate: 0,
-            totalCost: 0
+          dateShow: false,
+          dateTime: new Date(),
+          keyboardMode: '',
+          orderData: {
+            contactName: '',
+            diners: '',
+            dinerTime: '',
+            telephone: '',
+            total: '',
+            foodList: []
           }
         }
       },
       computed: {
-        ...mapState(['gardenOrder', 'gardenCar']),
-        setLandSpec () {
-          let lands = {};
-          this.gardenOrder.landInfo.lands.forEach(item => {
-            if (lands[item.landSpec]) {
-              lands[item.landSpec].count ++
-            } else {
-              lands[item.landSpec] = {landSpec: item.landSpec, count: 1, landId: item.landId}
-            }
-          });
-          return lands
-        },
-        setCar () {
-          let car = {
-            seed: {},
-            fertilizer: {}
-          };
-          Object.values(this.gardenCar).forEach(item => {
-            if (item.seedId) {
-              car.seed[item.seedId] = item
-            }
-            if (item.fertId) {
-              car.fertilizer[item.fertId] = item
-            }
-          });
-          return car
+        ...mapState(['foodOrder', 'foodCar']),
+        dinerTime () {
+          return
         }
       },
       mounted () {
-        window['buyFinish'] = (isDone) => {
-          this.buyFinish(isDone)
-        };
-        this.gardenOrder.landInfo.lands.forEach(item => {
-          this.oderData.lands.push(item.landId + "")
-        });
-        this.oderData.startDate = this.gardenOrder.landInfo.startDate;
-        this.oderData.endDate = this.gardenOrder.landInfo.endDate;
-        Object.values(this.setCar.fertilizer).forEach(item => {
-          this.oderData.fertilizers.push({
-            count: item.num,
-            fertilizerId: item.fertId
-          })
-        });
-        Object.values(this.setCar.seed).forEach(item => {
-          this.oderData.seeds.push({
-            count: item.num,
-            seedId: item.seedId
-          })
-        });
-        this.oderData.careMode = this.gardenOrder.careMode === '托管' ? 1 : 2;
-        this.oderData.sowingMode = this.gardenOrder.sowingMode === '托管' ? 1 : 2;
-        this.recMod = this.gardenOrder.recMod === '托管' ? 1 : 2;
 
-        this.getPreAccounting({lands: this.oderData.lands}, 'landDiscount');
-        this.getPreAccounting({
-          startDate: this.oderData.startDate,
-          endDate: this.oderData.endDate
-        }, 'dateDiscount');
-        this.getPreAccounting({}, 'vipDiscount');
-        this.getPreAccounting(this.oderData, 'total');
       },
       methods: {
-        ...mapActions([
-          'clearLandOrder'
-        ]),
-        buyFinish (isDone) {
-          if (isDone) {
-            this.clearLandOrder({});
-            this.$router.push({
-              path: '/gardenList',
-            });
-            window.location.reload()
+        handleDate (value) {
+          let tomorrowd = new Date().setDate(new Date().getDate()+1);
+          if (new Date(value.toLocaleDateString()).getTime() < tomorrowd) {
+            this.$toast('至少选择一天后作为就餐时间')
           } else {
-            this.$toast('提交失败')
+            this.orderData.dinerTime = Function.dateFormat(new Date(value).getTime(), 'YYYY年MM月DD日H:M');
+            this.dateShow = false;
           }
         },
-        getPreAccounting (order, type) {
-          axios.post(api.order.getPreAccounting, {...order}).then(res => {
-            return res.data.data
-          }).catch(() => {
-            this[type] = {
-              discountRate: Math.round(Math.random()*10),
-              totalCost: Math.round(Math.random()*1000)
-            }
-          })
+        cancelDate () {
+          this.dateShow = false
+        },
+        chooseDate () {
+          this.dateShow = true
+        },
+        dateFormatter(type, value) {
+          if (type === 'year') {
+            return `${value}年`;
+          } else if (type === 'month') {
+            return `${value}月`
+          }
+          return value;
         },
         nextStep () {
           // 提交订单
           try {
-            window.app.buyNow(JSON.stringify(this.oderData))
+            window.app.buyNow(JSON.stringify(this.orderData))
           } catch (e) {
             this.$toast('提交失败')
           }
