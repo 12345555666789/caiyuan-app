@@ -27,7 +27,9 @@
 <script>
   import api from '@/config/api';
   import axios from '@/config/axios.config'
-    export default {
+  import {mapActions, mapGetters, mapMutations, mapState } from 'vuex'
+
+  export default {
       name: "makeFood",
       data () {
         return {
@@ -80,12 +82,16 @@
           ]
         }
       },
+      computed: {
+        ...mapState(['foodCar'])
+      },
       mounted() {
         try {
           this.token = window.app.getToken();
         } catch (e) {
           this.$toast('获取token失败');
         }
+        this.foodCar ? this.carList = this.foodCar : null;
         this.getFoodTypes();
       },
       methods: {

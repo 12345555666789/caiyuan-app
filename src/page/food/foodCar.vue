@@ -67,7 +67,7 @@
         },
         orderSubmit () {
           this.$router.push({
-            path: 'foodOrder'
+            path: '/foodBill'
           })
         },
         addCar (data) {
@@ -238,7 +238,7 @@
         font-weight: 700;
       }
       .foodSpec {
-        margin-bottom: 6vw;
+        margin-bottom: 4vw;
         font-size: 2.5vw;
         color: #959595;
       }
@@ -299,7 +299,7 @@
     .footerBtn {
       width: 36vw;
       height: 10vw;
-      line-height: 9vw;
+      line-height: 10vw;
       font-size: 4vw;
       border-radius: 6vw;
       color: #fff;

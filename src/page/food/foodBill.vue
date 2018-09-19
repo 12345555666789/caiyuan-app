@@ -7,38 +7,7 @@
         @click-left="goBack"></van-nav-bar>
       <div style="height: 12vw"></div>
       <van-cell-group>
-        <van-cell title="菜园名称"><div class="value">{{gardenOrder.landInfo.landName}}</div></van-cell>
-        <van-cell title="菜园规格">
-          <div class="value" v-for="item in setLandSpec"><span>{{item.landSpec}}㎡</span><span> × {{item.count}}</span></div>
-        </van-cell>
-        <van-cell title="租赁时间">
-          <div class="value">{{gardenOrder.landInfo.startDate}}-{{gardenOrder.landInfo.endDate}}</div>
-        </van-cell>
-        <van-cell title="开垦模式"><div class="value">{{gardenOrder.landInfo.recMode === 0 ? '自理' : '托管'}}</div></van-cell>
-        <van-cell title="肥料套餐">
-          <div class="value" v-for="item in setCar.fertilizer"><span>{{item.fertName}}</span><span> × {{item.num}}</span></div>
-        </van-cell>
-        <van-cell title="作物种子">
-          <div class="value" v-for="item in setCar.seed"><span>{{item.seedName}}</span><span> × {{item.num}}</span></div>
-        </van-cell>
-        <van-cell title="余额">
-          <div class="value">{{balance}}</div>
-        </van-cell>
-        <van-cell title="优惠折扣">
-          <div class="value discountRate" style="margin-bottom: 1vw;"><span class="discountRateName">菜园折扣</span><span class="discountRateVal">{{landDiscount.discountRate}}折</span></div>
-          <div class="value discountRate" style="margin-bottom: 1vw;"><span class="discountRateName">租赁折扣</span><span class="discountRateVal">{{dateDiscount.discountRate}}折</span></div>
-          <div class="value discountRate" style="margin-bottom: 1vw;"><span class="discountRateName">会员折扣</span><span class="discountRateVal">{{vipDiscount.discountRate}}折</span></div>
-          <div class="dominantHueText discountRate"><span class="discountRateName">合计折扣</span><span class="discountRateVal">{{total.discountRate}}折</span></div>
-        </van-cell>
-        <van-cell>
-          <div id="total">
-            <p>
-              <span class="totalLabel">应付金额: </span>
-              <span class="totalPrice"><span class="iconRmb">¥</span>{{total.totalCost}}</span>
-              <span class="originalCost"><span class="iconRmb">¥</span>{{(Number(total.totalCost)*10)/Number(total.discountRate)}}</span>
-            </p>
-          </div>
-        </van-cell>
+
       </van-cell-group>
       <div class="van-goods-action">
         <div class="footerBtn entrustBtn" @click="nextStep">提交订单</div>
@@ -55,7 +24,7 @@
   import { Toast } from 'vant';
 
   export default {
-      name: "landBill",
+      name: "foodBill",
       data() {
         return {
           oderData: {

@@ -7,6 +7,15 @@
       @click-left="goBack"></van-nav-bar>
     <div style="height: 11vw"></div>
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+      <form action="/">
+        <van-search
+          v-model="searchValue"
+          placeholder="搜索"
+          background="#fff"
+          @search="onSearch"
+          @cancel="onCancel"
+        />
+      </form>
       <van-list
         v-if="foodData.length"
         v-model="loading"
@@ -37,10 +46,10 @@
       </van-list>
     </van-pull-refresh>
 
-    <div style="height: 10vw"></div>
-    <div class="van-goods-action">
-      <div class="footerBtn entrustBtn" @click="nextStep">下一步</div>
-    </div>
+    <!--<div style="height: 10vw"></div>-->
+    <!--<div class="van-goods-action">-->
+      <!--<div class="footerBtn entrustBtn" @click="nextStep">提交订单</div>-->
+    <!--</div>-->
     <div class="carBtn" @click="openCar">
       <span class="iconCar"><span class="totalNum" v-show="totalNum()">{{totalNum()}}</span></span>
     </div>
@@ -211,6 +220,7 @@
           page: this.page + 1,
           foodType: this.$route.query.foodType,
           count: this.count,
+          key: this.searchValue
         }).then((res) => {
           this.isLoading = false;
           this.loading = false;
@@ -225,17 +235,11 @@
       ...mapActions(['setSelectedLands']),
       nextStep () {
         if (this.carList && (Object.values(this.carList).find(item => item.foodId))) {
-          if (Number(this.recMod) === 1) {
-            this.$router.push({
-              path: '/chooseFertilizers'
-            })
-          } else if (Number(this.recMod) === 0) {
-            this.$router.push({
-              path: '/landBill'
-            })
-          }
+          this.$router.push({
+            path: '/foodBill'
+          })
         } else {
-          Toast('请选择种苗')
+          Toast('请选择食材')
         }
       },
       onSearch () {
@@ -327,7 +331,7 @@
   .carBtn {
     border-radius: 50%;
     position: fixed;
-    bottom: 15vw;
+    bottom: 5vw;
     right: 6vw;
     z-index: 9;
   }
