@@ -59,7 +59,6 @@
       <van-cell-group>
         <van-field
           v-model="gardenForm.landName"
-          required
           clearable
           input-align="right"
           label="菜园名称"
@@ -69,7 +68,6 @@
       <van-cell-group>
       <van-field
           v-model="gardenForm.startDate"
-          required
           clearable
           readonly
           @focus="chooseDate('startDate')"
@@ -81,7 +79,6 @@
       <van-cell-group>
       <van-field
           v-model="gardenForm.endDate"
-          required
           clearable
           readonly
           @focus="chooseDate('endDate')"

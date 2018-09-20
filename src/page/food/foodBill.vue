@@ -5,12 +5,11 @@
         fixed
         left-arrow
         @click-left="goBack"></van-nav-bar>
-      <div style="height: 12vw"></div>
+      <div style="height: 11vw"></div>
       <van-cell-group>
         <van-field
           v-model="orderData.peopleNum"
           type="number"
-          required
           clearable
           label="就餐人数"
           placeholder="请输入就餐人数"
@@ -18,17 +17,33 @@
         />
         <van-field
           v-model="orderData.dinerTime"
-          required
           clearable
           readonly
           @focus="chooseDate"
           input-align="right"
-          label="开始时间"
-          placeholder="请选择开始时间"
+          label="就餐时间"
+          placeholder="请选择就餐时间"
+        />
+        <van-field
+          v-model="orderData.contactName"
+          type="text"
+          clearable
+          label="联系人"
+          placeholder="请输入联系人"
+          input-align="right"
+        />
+        <van-field
+          v-model="orderData.telephone"
+          type="number"
+          clearable
+          label="联系电话"
+          placeholder="请输入联系电话"
+          input-align="right"
         />
       </van-cell-group>
+      <div class="totalCast">总计预算: <span class="total"><span class="iconRmb">¥</span>{{orderData.total}}</span></div>
       <div class="van-goods-action">
-        <div class="footerBtn entrustBtn" @click="nextStep">确认</div>
+        <div class="footerBtn entrustBtn" @click="nextStep">完成</div>
       </div>
       <van-popup v-model="dateShow" position="bottom" :overlay="true" click-overlay="cancelDate">
         <van-datetime-picker
@@ -68,12 +83,9 @@
       },
       computed: {
         ...mapState(['foodOrder', 'foodCar']),
-        dinerTime () {
-          return
-        }
       },
       mounted () {
-
+        this.orderData.total = this.foodOrder.total
       },
       methods: {
         handleDate (value) {
@@ -96,16 +108,17 @@
             return `${value}年`;
           } else if (type === 'month') {
             return `${value}月`
+          } else if (type === 'day') {
+            return `${value}日`
+          } else if (type === 'hour') {
+            return `${value}时`
+          } else if (type === 'minute') {
+            return `${value}分`
           }
           return value;
         },
         nextStep () {
           // 提交订单
-          try {
-            window.app.buyNow(JSON.stringify(this.orderData))
-          } catch (e) {
-            this.$toast('提交失败')
-          }
         },
         goBack () {
           window.history.back()
@@ -115,28 +128,15 @@
 </script>
 
 <style scoped lang="less">
-  #total {
-    p {
-      text-align: right;
-      padding-left: 30vw;
+  .totalCast {
+    margin-top: 4vw;
+    text-align: center;
+    .total {
+      color: #F12020;
+      font-size: 4vw;
+      font-weight: 600;
       .iconRmb {
         font-size: 3vw;
-      }
-      .totalLabel {
-        font-size: 3.8vw;
-        font-weight: 600;
-      }
-      .totalPrice {
-        color: #F12020;
-        font-size: 5vw;
-        font-weight: 600;
-      }
-      .originalCost {
-        font-size: 4vw;
-        color: #B4B4B4;
-        text-decoration: line-through;
-        margin-left: 3vw;
-        vertical-align: top;
       }
     }
   }

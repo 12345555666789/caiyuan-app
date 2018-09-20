@@ -6,52 +6,54 @@
       left-arrow
       @click-left="onClickLeft"></van-nav-bar>
     <div style="height: 12vw"></div>
-    <van-pull-refresh v-model="isLoading" @refresh="getfertilizerInfo">
+    <van-pull-refresh v-model="isLoading" @refresh="getfoodInfo">
       <van-swipe style="height: 80vw">
-        <van-swipe-item v-for="(item, index) in fertilizerInfo.fertPics">
+        <van-swipe-item v-for="(item, index) in foodInfo.foodPics">
           <img :src="item" height="100%" width="100%">
         </van-swipe-item>
       </van-swipe>
-      <div class="fertilizerInfo">
+      <div class="foodInfo">
         <p class="price">
-          <span>¥</span><b>{{fertilizerInfo.price}}</b>
+          <span>¥</span><b>{{foodInfo.price}}</b>
         </p>
-        <p class="fertName"><b>{{fertilizerInfo.fertName}}</b>
-          <span>{{fertilizerInfo.season}}</span>
+        <p class="foodName">
+          <b>{{foodInfo.foodName}}</b>
         </p>
-        <p class="fertDesc">说明:
-          {{fertilizerInfo.fertDesc}}
+        <p class="foodDesc">说明:
+          {{foodInfo.foodDesc}}
         </p>
-        <div class="fertSpec">
+        <div class="foodSpec">
           <span>规格</span>
-          <div>{{fertilizerInfo.fertSpec}}</div>
+          <div>{{foodInfo.foodSpec}}</div>
         </div>
-
+      </div>
+      <div class="foodComment">
+        <p style="font-size: 3vw; padding: 1vw 3vw; color: #505050;">商品评价 ({{foodInfo.commentCount}}条) <span class="praiseRate">好评率<span class="praiseNum">{{foodInfo.praiseRate}}%</span></span></p>
+        <div class="comments">
+          <van-list
+            v-model="loading"
+            :finished="finished"
+            @load="getComments"
+          >
+            <div class="comment" v-for="item in comments">
+              <div class="iconurl">
+                <img :src="item.iconurl" width="100%" height="100%">
+              </div>
+              <div class="commentContent">
+                <div class="nickName">{{item.nickName}}</div>
+                <span class="commentDate">{{commentDate(item.commentDate)}}</span>
+                <div class="commentText">{{item.content}}</div>
+              </div>
+            </div>
+          </van-list>
+        </div>
       </div>
     </van-pull-refresh>
     <div class="van-goods-action">
-      <div class="carBtn" @click="modalShow = true">
+      <div class="carBtn" @click="openCar">
         <span class="iconCar"><span class="totalNum" v-show="totalNum()">{{totalNum()}}</span></span></div>
-      <div class="footerBtn entrustBtn" @click="addCar(fertilizerInfo)">加入菜篮</div>
+      <div class="footerBtn entrustBtn" @click="addCar(foodInfo)">加入菜篮</div>
     </div>
-    <van-actionsheet v-model="modalShow" title="已选种子及肥料">
-      <div class="goodsCar" v-if="totalNum()">
-        <div class="itemGoods" v-for="item in Object.values(carList)">
-          <div>
-            <div class="itemGoodsName">{{item['fertName'] || item['seedName']}}</div>
-            <div class="addSeed">
-              <div class="iconReduce"
-                   @click.stop="reduceCar(item)"></div>
-              <span class="seedNum">{{carList && ((carList[item.fertId] && carList[item.fertId].num) || (carList[item.seedId] && carList[item.seedId].num))}}</span>
-              <van-icon name="add" @click.stop="addCar(item)"/>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="carNoData" v-else>
-        <p>菜篮空空如也~</p>
-      </div>
-    </van-actionsheet>
   </div>
 </template>
 <script>
@@ -62,9 +64,66 @@
   import Function from '@/util/function'
 
   export default {
-    name: "fertilizerDetails",
+    name: "foodDetails",
     data() {
       return {
+        comments: [
+          {
+            userId: 4651321,
+            nickName: '辛苦的评论人',
+            commentDate: new Date().getTime(),
+            content: '哇,管理的真不错哇,管理的真不错哇,管理的真不错哇,管理的真不错哇,管理的真不错哇,管理的真不错哇,管理的真不错',
+            iconurl: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3198678185,878755003&fm=27&gp=0.jpg'
+          },{
+            userId: 4651321,
+            nickName: '辛苦的评论人',
+            commentDate: new Date().getTime(),
+            content: '哇,管理的真不错',
+            iconurl: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3198678185,878755003&fm=27&gp=0.jpg'
+          },{
+            userId: 4651321,
+            nickName: '辛苦的评论人',
+            commentDate: new Date().getTime(),
+            content: '哇,管理的真不错',
+            iconurl: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3198678185,878755003&fm=27&gp=0.jpg'
+          },{
+            userId: 4651321,
+            nickName: '辛苦的评论人',
+            commentDate: new Date().getTime(),
+            content: '哇,管理的真不错',
+            iconurl: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3198678185,878755003&fm=27&gp=0.jpg'
+          },{
+            userId: 4651321,
+            nickName: '辛苦的评论人',
+            commentDate: new Date().getTime(),
+            content: '哇,管理的真不错',
+            iconurl: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3198678185,878755003&fm=27&gp=0.jpg'
+          },{
+            userId: 4651321,
+            nickName: '辛苦的评论人',
+            commentDate: new Date().getTime(),
+            content: '哇,管理的真不错',
+            iconurl: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3198678185,878755003&fm=27&gp=0.jpg'
+          },{
+            userId: 4651321,
+            nickName: '辛苦的评论人',
+            commentDate: new Date().getTime(),
+            content: '哇,管理的真不错',
+            iconurl: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3198678185,878755003&fm=27&gp=0.jpg'
+          },{
+            userId: 4651321,
+            nickName: '辛苦的评论人',
+            commentDate: new Date().getTime(),
+            content: '哇,管理的真不错',
+            iconurl: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3198678185,878755003&fm=27&gp=0.jpg'
+          },{
+            userId: 4651321,
+            nickName: '辛苦的评论人',
+            commentDate: new Date().getTime(),
+            content: '哇,管理的真不错',
+            iconurl: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3198678185,878755003&fm=27&gp=0.jpg'
+          }
+        ],
         modalShow: false,
         carList: {},
         finished: false,
@@ -75,69 +134,109 @@
         videoSrc: '',
         videoShow: false,
         isLoading: false,
-        fertId: this.$route.query.fertId,
-        fertilizerInfo: {
-          fertId: 'as1321',
-          fertName: '西瓜',
-          fertType: 2,
-          fertPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
-          fertSpec: '每袋500g',
-          price: 500.33,
-          fertDesc: '来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种,薄皮,无子,沙瓤',
-          season: '全季',
-          stock: 999
+        foodId: this.$route.query.foodId,
+        foodInfo: {
+          "commentCount": 967826,
+          "foodDesc": "美食",
+          "foodId": "a4b90de784c5495db774653ca409bcd8",
+          "foodName": "XXXX食材-0",
+          "foodPics": [
+            "http://images.meishij.net/p/20111001/d59c1b6ea3a9d89ac49292f8fd9a4da4.jpg"
+          ],
+          "foodSpec": "500g/只",
+          "foodType": "肉禽",
+          "praiseRate": 38,
+          "price": 625.604736328125
         }
       }
     },
     computed: {
-      ...mapState(['gardenCar']),
+      ...mapState(['foodCar']),
     },
     mounted () {
-      this.getfertilizerInfo();
-      this.gardenCar ? this.carList = this.gardenCar : null;
+      this.getfoodInfo();
+      this.foodCar ? this.carList = this.foodCar : null;
 
     },
     methods: {
+      openCar () {
+        this.$router.push({
+          path: '/foodCar'
+        })
+      },
+      getComments () {
+        axios.post(api.common.commentList + this.foodId, {
+          page: this.page + 1,
+          count: this.count,
+          objType: constant.infoType.food
+        }).then((res) => {
+          this.comments.push(res.data.data.comments);
+          this.page = this.page + 1;
+          this.loading = false;
+          if (res.data.data.comments.length) {
+            this.finished = true;
+          }
+        }).catch(() => {
+          this.finished = true;
+          this.loading = false;
+        })
+      },
+      sendComment () {
+        this.message = this.message.replace(/\s/g, "");
+        if (this.message) {
+          axios.post(api.common.userAction, {
+            objId: this.gardenId,
+            actionType: constant.actionType.comment,
+            objType: constant.infoType.land,
+            content: this.message
+          }).then(() => {
+            this.message = '';
+            this.$toast('发送成功');
+            this.getgardenInfo();
+          });
+        } else {
+          this.$toast('不能发送空内容哦');
+          this.message = ''
+        }
+      },
+      commentDate (date) {
+        return Function.dateFormat(date, 'YYYY-MM-DD')
+      },
       ...mapMutations([
-        'addToLandCar', 'reduceLandToCar'
+        'addToFoodCar', 'reduceFoodToCar'
       ]),
        totalNum () {
         let totalNum = 0;
-        if (this.gardenCar) {
-          for (let item in this.gardenCar) {
-            totalNum += this.gardenCar[item].num
+        if (this.foodCar) {
+          for (let item in this.foodCar) {
+            totalNum += this.foodCar[item].num
           }
           return totalNum
         }
       },
       addCar (data) {
-        this.addToLandCar(data);
-        this.carList = this.gardenCar;
+        this.addToFoodCar(data);
+        this.carList = this.foodCar;
       },
       reduceCar (data) {
-        this.reduceLandToCar(data);
-        this.carList = this.gardenCar;
+        this.reduceFoodToCar(data);
+        this.carList = this.foodCar;
       },
       onClickLeft() {
         window.history.back()
       },
-      getfertilizerInfo() {
-        axios.post(api.common.getInfo + this.fertId, {
+      getfoodInfo() {
+        axios.post(api.common.getInfo + this.foodId, {
           params: {
-            objType: constant.infoType.land
+            objType: constant.infoType.food
           }
         }).then((res) => {
-          this.fertilizerInfo = res.data.data;
+          this.foodInfo = res.data.data;
           this.page = 0;
           this.getComments();
           this.isLoading = false
         }).catch((err) => {
           this.isLoading = false
-        })
-      },
-      landRegion() {
-        this.$router.push({
-          path: '/landRegionList'
         })
       }
     }
@@ -145,6 +244,64 @@
 </script>
 
 <style lang="less" scoped>
+  .praiseRate {
+    float: right;
+    color: #A1A1A1;
+    .praiseNum {
+      color: #F12020;
+    }
+  }
+  .foodComment {
+    background-color: #fff;
+    margin-top: 1vw;
+    .comments {
+      background: #fff;
+      .commentSend {
+        padding: 0 3vw;
+        .van-cell {
+          padding: 10px 0;
+        }
+        [class*=van-hairline]::after {
+          border-top: 0 #fff;
+        }
+      }
+      .comment {
+        position: relative;
+        min-height: 10vw;
+        padding: 7vw 4vw;
+        padding-bottom: 0;
+        display: flex;
+        .commentContent {
+          flex: 8;
+          .nickName {
+            font-size: 3.2vw;
+            color: #505050;
+          }
+          .commentText {
+            font-size: 3.8vw;
+          }
+          .commentDate {
+            position: absolute;
+            right: 3vw;
+            top: 4vw;
+            color: #A1A1A1;
+            font-size: 3vw;
+          }
+        }
+        .iconurl {
+          width: 10vw;
+          height: 10vw;
+          overflow: hidden;
+          border-radius: 50%;
+          border: 1px solid;
+          margin-right: 2vw;
+          flex: 1;
+        }
+      }
+    }
+
+  }
+
   .carNoData {
     height: 20vw;
     display: flex;
@@ -194,7 +351,8 @@
     height: 7vw;
     margin-top: 1.5vw;
   }
-  .fertilizerInfo {
+  .foodInfo {
+    background-color: #fff;
     padding: 5vw 3vw;
     .price {
       color: #F12020;
@@ -205,7 +363,7 @@
         margin-right: 1vw;
       }
     }
-    .fertName {
+    .foodName {
       font-size: 4vw;
       margin-bottom: 2vw;
       span {
@@ -219,14 +377,14 @@
         vertical-align: text-top;
       }
     }
-    .fertDesc {
+    .foodDesc {
       color: #505050;
       font-size: 3.5vw;
       padding-bottom: 2vw;
       margin-bottom: 2vw;
       border-bottom: 1px solid #E1E1E1;
     }
-    .fertSpec {
+    .foodSpec {
       color: #A1A1A1;
       font-size: 3vw;
       div {

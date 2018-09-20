@@ -17,6 +17,9 @@ export const setSowingMode = (state, data) => {
 export const setCareMode = (state, data) => {
   state.gardenOrder.careMode = data
 };
+export const setFoodTotalPrice = (state, data) => {
+  state.foodOrder.total = data
+};
 export const addToLandCar = (state, data) => {
   let car = state.gardenCar;
   if (data.seedId) {

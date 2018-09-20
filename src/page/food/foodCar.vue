@@ -49,7 +49,7 @@
         }
       },
       computed: {
-        ...mapState(['foodCar']),
+        ...mapState(['foodCar', 'foodOrder']),
       },
       mounted () {
         this.foodCar ? this.carList = this.foodCar : null;
@@ -57,7 +57,7 @@
       },
       methods: {
         ...mapMutations([
-          'addToFoodCar', 'reduceFoodToCar'
+          'addToFoodCar', 'reduceFoodToCar', 'setFoodTotalPrice'
         ]),
         totalPrice () {
           this.price = 0;
@@ -66,6 +66,7 @@
           });
         },
         orderSubmit () {
+          this.setFoodTotalPrice(this.price);
           this.$router.push({
             path: '/foodBill'
           })

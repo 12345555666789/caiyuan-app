@@ -201,8 +201,7 @@
         this.$router.push({
           path: '/foodDetails',
           query: {
-            foodId,
-            title: '菜品详情'
+            foodId
           }
         })
       },
@@ -381,7 +380,7 @@
         font-weight: 700;
       }
       .foodSpec {
-        margin-bottom: 6vw;
+        margin-bottom: 4vw;
         font-size: 2.5vw;
         color: #959595;
       }
