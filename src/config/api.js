@@ -27,6 +27,7 @@ const food = {
 
 const order = {
   getPreAccounting: orderPrefix + 'land/pre_accounting',
+  submitFoodOrder: orderPrefix + 'food/submit'
 };
 
 const api = {
