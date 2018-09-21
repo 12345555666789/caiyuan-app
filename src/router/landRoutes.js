@@ -16,52 +16,82 @@ const landRoutes = [
   {
     path: '/gardenList', // 我的菜园列表
     component: gardenList,
-    meta: { keepAlive: true },
+    meta: {
+      keepAlive: true,
+      index: 0
+    },
   },
   {
     path: '/gardenInfo', // 菜园详情
     component: gardenInfo,
-    meta: { keepAlive: true },
+    meta: {
+      keepAlive: true,
+      index: 1
+    },
   },
   {
     path: '/landRegionList', // 农场列表
     component: landRegionList,
-    meta: { keepAlive: true },
+    meta: {
+      keepAlive: true,
+      index: 2
+    },
   },
   {
     path: '/chooseGarden', // 选择菜园
     component: chooseGarden,
-    meta: { keepAlive: true },
+    meta: {
+      keepAlive: true,
+      index: 3
+    },
   },
   {
     path: '/chooseSeed', // 选择种子
     component: chooseSeed,
-    meta: { keepAlive: true },
+    meta: {
+      keepAlive: true,
+      index: 4
+    },
   },
   {
     path: '/chooseFertilizers', // 选择选择肥料
     component: chooseFertilizers,
-    meta: { keepAlive: true },
+    meta: {
+      keepAlive: true,
+      index: 6
+    },
   },
   {
     path: '/seedDetails', // 种子详情
     component: seedDetails,
-    meta: { keepAlive: true },
+    meta: {
+      keepAlive: true,
+      index: 5
+    },
   },
   {
     path: '/fertilizerDetails', // 肥料详情
     component: fertilizerDetails,
-    meta: { keepAlive: true },
+    meta: {
+      keepAlive: true,
+      index: 7
+    },
   },
   {
     path: '/valueAddedService', // 增值服务
     component: valueAddedService,
-    meta: { keepAlive: true },
+    meta: {
+      keepAlive: true,
+      index: 8
+    },
   },
   {
     path: '/landBill', // 提交账单
     component: landBill,
-    meta: { keepAlive: true },
+    meta: {
+      keepAlive: true,
+      index: 9
+    },
   }
 ];
 
