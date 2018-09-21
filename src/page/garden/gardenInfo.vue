@@ -161,7 +161,10 @@
         ]
       }
     },
-    mounted() {
+    mounted () {
+      this.getgardenInfo()
+    },
+    activated () {
       this.getgardenInfo()
     },
     methods: {

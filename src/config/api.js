@@ -9,7 +9,8 @@ const foodPrefix = prefix + /food/;
 const common = {
   getInfo: commonPrefix + 'detail/',
   commentList: commonPrefix + 'comment/list/',
-  userAction: commonPrefix + 'user/action'
+  userAction: commonPrefix + 'user/action',
+  uploadFile: commonPrefix + 'file/upload'
 };
 
 const garden = {

@@ -85,15 +85,21 @@
         ...mapState(['foodOrder', 'foodCar'])
       },
       mounted () {
-        this.orderData.total = this.foodOrder.total;
-        Object.values(this.foodCar).forEach(item => {
-          this.orderData.foodList.push({
-            foodId: item.foodId,
-            count: item.num
-          })
-        })
+        this.initPage()
+      },
+      activated () {
+        this.initPage()
       },
       methods: {
+        initPage () {
+          this.orderData.total = this.foodOrder.total;
+          Object.values(this.foodCar).forEach(item => {
+            this.orderData.foodList.push({
+              foodId: item.foodId,
+              count: item.num
+            })
+          })
+        },
         handleDate (value) {
           let tomorrowTime = new Date().setDate(new Date().getDate()+1);
           if (new Date(value.toLocaleDateString()).getTime() < tomorrowTime) {

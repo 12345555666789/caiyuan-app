@@ -145,6 +145,14 @@
       }
       this.getGardenList()
     },
+    activated () {
+      try {
+        this.token = window.app.getToken();
+      } catch (e) {
+        this.$toast('获取token失败');
+      }
+      this.getGardenList()
+    },
     methods: {
       landRegion () {
         this.$router.push({

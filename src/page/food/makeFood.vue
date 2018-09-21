@@ -85,7 +85,7 @@
       computed: {
         ...mapState(['foodCar'])
       },
-      mounted() {
+      mounted () {
         try {
           this.token = window.app.getToken();
         } catch (e) {
@@ -93,6 +93,14 @@
         }
         this.foodCar ? this.carList = this.foodCar : null;
         this.getFoodTypes();
+      },
+      activated () {
+        try {
+          this.token = window.app.getToken();
+        } catch (e) {
+          this.$toast('获取token失败');
+        }
+        this.foodCar ? this.carList = this.foodCar : null;
       },
       methods: {
         openCar () {

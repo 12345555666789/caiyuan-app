@@ -179,6 +179,10 @@
       this.getFoodList();
       this.foodCar ? this.carList = this.foodCar : null
     },
+    activated () {
+      this.getFoodList();
+      this.foodCar ? this.carList = this.foodCar : null
+    },
     methods: {
       ...mapMutations([
         'addToFoodCar', 'reduceFoodToCar'

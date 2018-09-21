@@ -198,6 +198,9 @@
       this.getSeedList();
       this.gardenCar ? this.carList = this.gardenCar : null
     },
+    activated () {
+      this.gardenCar ? this.carList = this.gardenCar : null
+    },
     methods: {
       ...mapMutations([
         'addToLandCar', 'reduceLandToCar'
@@ -428,7 +431,7 @@
         font-weight: 700;
       }
       .seedSpec {
-        margin-bottom: 6vw;
+        margin-bottom: 4vw;
         font-size: 2.5vw;
         color: #959595;
       }

@@ -819,6 +819,10 @@
         this.$refs.row.scrollTop = this.$refs.lands.scrollTop
       })
     },
+    activated () {
+      this.gardenOrder && this.gardenOrder.landInfo ? this.setLandData() : null;
+      this.getGardenData();
+    },
     methods: {
       setLandData () {
         // TODO 从Vuex中读取以选择菜园信息

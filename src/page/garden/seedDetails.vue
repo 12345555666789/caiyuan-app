@@ -95,7 +95,10 @@
     mounted () {
       this.getSeedInfo();
       this.gardenCar ? this.carList = this.gardenCar : null;
-
+    },
+    activated () {
+      this.getSeedInfo();
+      this.gardenCar ? this.carList = this.gardenCar : null;
     },
     methods: {
       ...mapMutations([

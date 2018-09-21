@@ -45,6 +45,10 @@
         this.sowingMode = this.gardenOrder.sowingMode || '';
         this.careMode = this.gardenOrder.careMode || '';
       },
+      activated () {
+        this.sowingMode = this.gardenOrder.sowingMode || '';
+        this.careMode = this.gardenOrder.careMode || '';
+      },
       methods: {
         nextStep () {
           this.$router.push({

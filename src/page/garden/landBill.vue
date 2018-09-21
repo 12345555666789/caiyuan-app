@@ -120,36 +120,42 @@
         window['buyFinish'] = (isDone) => {
           this.buyFinish(isDone)
         };
-        this.gardenOrder.landInfo.lands.forEach(item => {
-          this.oderData.lands.push(item.landId + "")
-        });
-        this.oderData.startDate = this.gardenOrder.landInfo.startDate;
-        this.oderData.endDate = this.gardenOrder.landInfo.endDate;
-        Object.values(this.setCar.fertilizer).forEach(item => {
-          this.oderData.fertilizers.push({
-            count: item.num,
-            fertilizerId: item.fertId
-          })
-        });
-        Object.values(this.setCar.seed).forEach(item => {
-          this.oderData.seeds.push({
-            count: item.num,
-            seedId: item.seedId
-          })
-        });
-        this.oderData.careMode = this.gardenOrder.careMode === '托管' ? 1 : 2;
-        this.oderData.sowingMode = this.gardenOrder.sowingMode === '托管' ? 1 : 2;
-        this.recMod = this.gardenOrder.recMod === '托管' ? 1 : 2;
-
-        this.getPreAccounting({lands: this.oderData.lands}, 'landDiscount');
-        this.getPreAccounting({
-          startDate: this.oderData.startDate,
-          endDate: this.oderData.endDate
-        }, 'dateDiscount');
-        this.getPreAccounting({}, 'vipDiscount');
-        this.getPreAccounting(this.oderData, 'total');
+        this.initPage()
+      },
+      activated () {
+        this.initPage()
       },
       methods: {
+        initPage () {
+          this.gardenOrder.landInfo.lands.forEach(item => {
+            this.oderData.lands.push(item.landId + "")
+          });
+          this.oderData.startDate = this.gardenOrder.landInfo.startDate;
+          this.oderData.endDate = this.gardenOrder.landInfo.endDate;
+          Object.values(this.setCar.fertilizer).forEach(item => {
+            this.oderData.fertilizers.push({
+              count: item.num,
+              fertilizerId: item.fertId
+            })
+          });
+          Object.values(this.setCar.seed).forEach(item => {
+            this.oderData.seeds.push({
+              count: item.num,
+              seedId: item.seedId
+            })
+          });
+          this.oderData.careMode = this.gardenOrder.careMode === '托管' ? 1 : 2;
+          this.oderData.sowingMode = this.gardenOrder.sowingMode === '托管' ? 1 : 2;
+          this.recMod = this.gardenOrder.recMod === '托管' ? 1 : 2;
+
+          this.getPreAccounting({lands: this.oderData.lands}, 'landDiscount');
+          this.getPreAccounting({
+            startDate: this.oderData.startDate,
+            endDate: this.oderData.endDate
+          }, 'dateDiscount');
+          this.getPreAccounting({}, 'vipDiscount');
+          this.getPreAccounting(this.oderData, 'total');
+        },
         ...mapActions([
           'clearLandOrder'
         ]),

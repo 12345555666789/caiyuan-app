@@ -55,6 +55,10 @@
         this.foodCar ? this.carList = this.foodCar : null;
         this.totalPrice()
       },
+      activated () {
+        this.foodCar ? this.carList = this.foodCar : null;
+        this.totalPrice()
+      },
       methods: {
         ...mapMutations([
           'addToFoodCar', 'reduceFoodToCar', 'setFoodTotalPrice'

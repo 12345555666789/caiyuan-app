@@ -95,7 +95,10 @@
     mounted () {
       this.getfertilizerInfo();
       this.gardenCar ? this.carList = this.gardenCar : null;
-
+    },
+    activated () {
+      this.getfertilizerInfo();
+      this.gardenCar ? this.carList = this.gardenCar : null;
     },
     methods: {
       ...mapMutations([
