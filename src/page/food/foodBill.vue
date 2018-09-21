@@ -8,7 +8,7 @@
       <div style="height: 11vw"></div>
       <van-cell-group>
         <van-field
-          v-model="orderData.peopleNum"
+          v-model="orderData.diners"
           type="number"
           clearable
           label="就餐人数"
@@ -16,7 +16,7 @@
           input-align="right"
         />
         <van-field
-          v-model="orderData.dinerTime"
+          v-model="this.orderData.dinerTime"
           clearable
           readonly
           @focus="chooseDate"
@@ -82,18 +82,24 @@
         }
       },
       computed: {
-        ...mapState(['foodOrder', 'foodCar']),
+        ...mapState(['foodOrder', 'foodCar'])
       },
       mounted () {
-        this.orderData.total = this.foodOrder.total
+        this.orderData.total = this.foodOrder.total;
+        Object.values(this.foodCar).forEach(item => {
+          this.orderData.foodList.push({
+            foodId: item.foodId,
+            count: item.num
+          })
+        })
       },
       methods: {
         handleDate (value) {
-          let tomorrowd = new Date().setDate(new Date().getDate()+1);
-          if (new Date(value.toLocaleDateString()).getTime() < tomorrowd) {
+          let tomorrowTime = new Date().setDate(new Date().getDate()+1);
+          if (new Date(value.toLocaleDateString()).getTime() < tomorrowTime) {
             this.$toast('至少选择一天后作为就餐时间')
           } else {
-            this.orderData.dinerTime = Function.dateFormat(new Date(value).getTime(), 'YYYY年MM月DD日H:M');
+            this.orderData.dinerTime = Function.dateFormat(new Date(value).getTime(), 'YYYY-MM-DD    H:M');
             this.dateShow = false;
           }
         },
@@ -117,8 +123,47 @@
           }
           return value;
         },
+        checkForm () {
+          let dinersReg = /^[1-9]\d*$/;
+          let phoneReg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
+          let nameReg =  /^[\u4E00-\u9FA5A-Za-z]+$/;
+          if (!this.orderData.diners && !dinersReg.test(this.orderData.diners)) {
+            this.$toast('请输入就餐人数');
+            return false
+          } else if (!this.orderData.dinerTime) {
+            this.$toast('请选择就餐时间');
+            return false
+          } else if (!this.orderData.contactName && !nameReg.test(this.orderData.contactName)) {
+            this.$toast('请输入中文或英文的联系人名字');
+            return false
+          } else if (!this.orderData.telephone && !phoneReg.test(this.orderData.telephone)) {
+            this.$toast('请输入手机号码格式的联系电话');
+            return false
+          } else if (!this.orderData.foodList.length) {
+            this.$toast('您尚未选择食材，请先返回选择');
+            return false
+          } else if (!this.orderData.total) {
+            this.$toast('系统结算失败，请退出并重试');
+            return false
+          } else {
+            return true
+          }
+        },
         nextStep () {
           // 提交订单
+          if (this.checkForm()) {
+            axios.post(api.order.submitFoodOrder, this.orderData).then(res => {
+              this.$toast('提交成功');
+              this.$router.push({
+                path: '/orderList',
+                query: {
+                  mod: 'food'
+                }
+              })
+            }).catch(() => {
+              this.$toast('提交失败请重试')
+            })
+          }
         },
         goBack () {
           window.history.back()
@@ -129,11 +174,11 @@
 
 <style scoped lang="less">
   .totalCast {
-    margin-top: 4vw;
+    margin-top: 7vw;
     text-align: center;
     .total {
       color: #F12020;
-      font-size: 4vw;
+      font-size: 4.5vw;
       font-weight: 600;
       .iconRmb {
         font-size: 3vw;
