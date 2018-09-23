@@ -7,7 +7,7 @@
       @click-left="onClickLeft"></van-nav-bar>
     <div style="height: 12vw"></div>
     <van-pull-refresh v-model="isLoading" @refresh="getgardenInfo">
-      <van-swipe style="height: 50vw">
+      <van-swipe style="height: 50vw; width: 100vw">
         <van-swipe-item v-for="(item, index) in gardenInfo.landVideos">
           <div class="videoShadow" style="overflow: hidden;height: 50vw; width: 100vw" @click="videoPlay(item)">
             <van-icon name="play"/>
@@ -21,10 +21,10 @@
       <div class="gardenInfo">
         <van-cell-group>
           <van-cell title="菜园名称"><span class='valueColor'>{{gardenInfo.landName}}</span></van-cell>
-          <van-cell title="菜园编号"><span class='valueColor'>{{gardenInfo.landId}}</span></van-cell>
+          <van-cell title="菜园编号"><span class='useCopy valueColor'>{{gardenInfo.landId}}</span></van-cell>
           <van-cell title="菜园规格"><span class='valueColor'>{{gardenInfo.landSize + '平米'}}</span></van-cell>
           <van-cell title="开垦模式"><span class='valueColor'>{{gardenInfo.recMod ? '托管' : '自理'}}</span></van-cell>
-          <van-cell title="租赁期限"><span class='valueColor'>{{gardenInfo.startDate}}-{{gardenInfo.endDate}}</span>
+          <van-cell title="租赁期限"><span class='valueColor'>{{dateFormat(gardenInfo.startDate, 'YYYY/MM/DD')}}-{{dateFormat(gardenInfo.endDate, 'YYYY/MM/DD')}}</span>
           </van-cell>
         </van-cell-group>
         <p style="font-size: 3vw; padding: 1vw 3vw">评论 ({{comments.length}})</p>
@@ -47,16 +47,16 @@
             :finished="finished"
             @load="getComments"
           >
-            <div class="comment" v-for="item in comments">
+            <div class="comment" v-for="(item, index) in comments" :key="index">
               <div class="iconurl">
                 <img :src="item.iconurl" width="100%" height="100%">
               </div>
               <div class="commentContent">
-                <div class="nickName">{{item.nickName}}</div>
-                <span class="commentDate">{{commentDate(item.commentDate)}}</span>
+                <div class="nickName">{{item.nickName}}<span class="commentDate">{{commentDate(item.commentDate)}}</span></div>
                 <div class="commentText">{{item.content}}</div>
               </div>
             </div>
+            <div class="noDataList"><span>已经到底啦~</span></div>
           </van-list>
         </div>
       </div>
@@ -90,94 +90,29 @@
         videoShow: false,
         isLoading: false,
         gardenId: this.$route.query.gardenId,
-        gardenInfo: {
-          landId: 'ad75d',
-          landName: '菜地1',
-          landSize: 60,
-          landPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg', 'http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
-          landVideos: ['https://ykyl.oss-cn-qingdao.aliyuncs.com/1008/20180822150821/H9X46RbINX.mp4', 'https://ykyl.oss-cn-qingdao.aliyuncs.com/1008/20180822150821/H9X46RbINX.mp4'],
-          startDate: '2018/09/27',
-          endDate: '2019/09/27',
-          recMod: 0,
-          commentCount: 4999,
-          viewCount: 13999
-        },
-        comments: [
-          {
-            userId: 4651321,
-            nickName: '辛苦的评论人',
-            commentDate: new Date().getTime(),
-            content: '哇,管理的真不错哇,管理的真不错哇,管理的真不错哇,管理的真不错哇,管理的真不错哇,管理的真不错哇,管理的真不错',
-            iconurl: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3198678185,878755003&fm=27&gp=0.jpg'
-          },{
-            userId: 4651321,
-            nickName: '辛苦的评论人',
-            commentDate: new Date().getTime(),
-            content: '哇,管理的真不错',
-            iconurl: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3198678185,878755003&fm=27&gp=0.jpg'
-          },{
-            userId: 4651321,
-            nickName: '辛苦的评论人',
-            commentDate: new Date().getTime(),
-            content: '哇,管理的真不错',
-            iconurl: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3198678185,878755003&fm=27&gp=0.jpg'
-          },{
-            userId: 4651321,
-            nickName: '辛苦的评论人',
-            commentDate: new Date().getTime(),
-            content: '哇,管理的真不错',
-            iconurl: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3198678185,878755003&fm=27&gp=0.jpg'
-          },{
-            userId: 4651321,
-            nickName: '辛苦的评论人',
-            commentDate: new Date().getTime(),
-            content: '哇,管理的真不错',
-            iconurl: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3198678185,878755003&fm=27&gp=0.jpg'
-          },{
-            userId: 4651321,
-            nickName: '辛苦的评论人',
-            commentDate: new Date().getTime(),
-            content: '哇,管理的真不错',
-            iconurl: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3198678185,878755003&fm=27&gp=0.jpg'
-          },{
-            userId: 4651321,
-            nickName: '辛苦的评论人',
-            commentDate: new Date().getTime(),
-            content: '哇,管理的真不错',
-            iconurl: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3198678185,878755003&fm=27&gp=0.jpg'
-          },{
-            userId: 4651321,
-            nickName: '辛苦的评论人',
-            commentDate: new Date().getTime(),
-            content: '哇,管理的真不错',
-            iconurl: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3198678185,878755003&fm=27&gp=0.jpg'
-          },{
-            userId: 4651321,
-            nickName: '辛苦的评论人',
-            commentDate: new Date().getTime(),
-            content: '哇,管理的真不错',
-            iconurl: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3198678185,878755003&fm=27&gp=0.jpg'
-          }
-        ]
+        gardenInfo: {},
+        comments: []
       }
     },
     mounted () {
       this.getgardenInfo()
     },
-    activated () {
-      this.getgardenInfo()
-    },
     methods: {
+      dateFormat (date, format) {
+        return Function.dateFormat(date, format)
+      },
       getComments () {
-        axios.post(api.common.commentList + this.gardenId, {
+        axios.post(api.common.commentList, {
             page: this.page + 1,
             count: this.count,
+            objId: this.gardenId,
             objType: constant.infoType.land
         }).then((res) => {
-          this.comments.push(res.data.data.comments);
-          this.page = this.page + 1;
+          this.page += 1;
           this.loading = false;
           if (res.data.data.comments.length) {
+            this.comments.push(...res.data.data.comments);
+          } else {
             this.finished = true;
           }
         }).catch(() => {
@@ -197,6 +132,9 @@
             this.message = '';
             this.$toast('发送成功');
             this.getgardenInfo();
+          }).catch(err => {
+            console.log(err);
+            this.$toast('发送失败');
           });
         } else {
           this.$toast('不能发送空内容哦');
@@ -218,11 +156,13 @@
         window.history.back()
       },
       getgardenInfo() {
-        axios.post(api.common.getInfo + this.gardenId, {
+        axios.post(api.common.getInfo, {
+            objId: this.gardenId,
             objType: constant.infoType.land
         }).then((res) => {
           this.gardenInfo = res.data.data;
           this.page = 0;
+          this.comments = [];
           this.getComments();
           this.isLoading = false
         }).catch((err) => {
@@ -267,9 +207,7 @@
           font-size: 3.8vw;
         }
         .commentDate {
-          position: absolute;
-          right: 3vw;
-          top: 4vw;
+          float: right;
           color: #A1A1A1;
           font-size: 3vw;
         }

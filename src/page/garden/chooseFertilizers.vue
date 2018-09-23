@@ -9,7 +9,7 @@
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <form action="/">
         <van-search
-          v-model="searchValue"
+          v-model="key"
           placeholder="搜索"
           background="#fff"
           @search="onSearch"
@@ -48,7 +48,9 @@
           </div>
         </div>
         <div style="height: 5vw; background-color: #fff"></div>
+        <div class="noDataList"><span>已经到底啦~</span></div>
       </van-list>
+      <div class="carNoData" v-else>暂无数据</div>
     </van-pull-refresh>
 
     <div style="height: 10vw"></div>
@@ -103,89 +105,7 @@
         loading: false,
         isLoading: false,
         searchValue: '',
-        fertData: [
-          {
-            fertId: 'a2422',
-            fertName: '肥料',
-            fertType: 2,
-            fertPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
-            fertSpec: '每袋500g',
-            price: 500.33,
-            fertDesc: '来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种,薄皮,无子,沙瓤',
-            season: '全季',
-            stock: 999
-          },{
-            fertId: 'as32423422',
-            fertName: '肥料',
-            fertType: 2,
-            fertPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
-            fertSpec: '每袋500g',
-            price: 500.33,
-            fertDesc: '来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种,薄皮,无子,沙瓤',
-            season: '全季',
-            stock: 999
-          },{
-            fertId: 'as163563562',
-            fertName: '肥料',
-            fertType: 2,
-            fertPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
-            fertSpec: '每袋500g',
-            price: 500.33,
-            fertDesc: '来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种,薄皮,无子,沙瓤',
-            season: '全季',
-            stock: 999
-          },{
-            fertId: 'as1222',
-            fertName: '肥料',
-            fertType: 2,
-            fertPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
-            fertSpec: '每袋500g',
-            price: 500.33,
-            fertDesc: '来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种,薄皮,无子,沙瓤',
-            season: '全季',
-            stock: 999
-          },{
-            fertId: 'as1222',
-            fertName: '肥料',
-            fertType: 2,
-            fertPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
-            fertSpec: '每袋500g',
-            price: 500.33,
-            fertDesc: '来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种,薄皮,无子,沙瓤',
-            season: '全季',
-            stock: 999
-          },{
-            fertId: 'as1222',
-            fertName: '肥料',
-            fertType: 2,
-            fertPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
-            fertSpec: '每袋500g',
-            price: 500.33,
-            fertDesc: '来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种,薄皮,无子,沙瓤',
-            season: '全季',
-            stock: 999
-          },{
-            fertId: 'as1222',
-            fertName: '肥料',
-            fertType: 2,
-            fertPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
-            fertSpec: '每袋500g',
-            price: 500.33,
-            fertDesc: '来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种,薄皮,无子,沙瓤',
-            season: '全季',
-            stock: 999
-          },{
-            fertId: 'as1222',
-            fertName: '肥料',
-            fertType: 2,
-            fertPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
-            fertSpec: '每袋500g',
-            price: 500.33,
-            fertDesc: '来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种,薄皮,无子,沙瓤',
-            season: '全季',
-            stock: 999
-          }
-        ]
+        fertData: []
       }
     },
     computed: {
@@ -265,14 +185,18 @@
             count: this.count,
             sortType: this.sortType
         }).then((res) => {
+          this.page += 1;
           this.isLoading = false;
           this.loading = false;
-          this.finished = false;
-          this.fertData = res.data.data
+          if (res.data.data.length) {
+            this.fertData.push(...res.data.data)
+          } else {
+            this.finished = true;
+          }
         }).catch((res) => {
           this.loading = false;
           this.finished = false;
-          this.isLoading = false;
+          this.isLoading = true;
         })
       },
       ...mapActions(['setSelectedLands']),

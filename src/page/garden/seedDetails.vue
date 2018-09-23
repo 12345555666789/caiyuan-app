@@ -7,8 +7,8 @@
       @click-left="onClickLeft"></van-nav-bar>
     <div style="height: 12vw"></div>
     <van-pull-refresh v-model="isLoading" @refresh="getSeedInfo">
-      <van-swipe style="height: 80vw">
-        <van-swipe-item v-for="(item, index) in seedInfo.seedPics">
+      <van-swipe style="height: 80vw; width: 100vw;">
+        <van-swipe-item v-for="(item, index) in seedInfo.seedPics" :key="item">
           <img :src="item" height="100%" width="100%">
         </van-swipe-item>
       </van-swipe>
@@ -70,23 +70,11 @@
         finished: false,
         loading: false,
         message: '',
-        page: 0,
-        count: 10,
         videoSrc: '',
         videoShow: false,
         isLoading: false,
         seedId: this.$route.query.seedId,
-        seedInfo: {
-          seedId: 'as1321',
-          seedName: '西瓜',
-          seedType: 2,
-          seedPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
-          seedSpec: '每袋500g',
-          price: 500.33,
-          seedDesc: '来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种,薄皮,无子,沙瓤',
-          season: '全季',
-          stock: 999
-        }
+        seedInfo: {}
       }
     },
     computed: {
@@ -97,7 +85,6 @@
       this.gardenCar ? this.carList = this.gardenCar : null;
     },
     activated () {
-      this.getSeedInfo();
       this.gardenCar ? this.carList = this.gardenCar : null;
     },
     methods: {
@@ -125,16 +112,14 @@
         window.history.back()
       },
       getSeedInfo() {
-        axios.post(api.common.getInfo + this.seedId, {
-          params: {
-            objType: constant.infoType.land
-          }
+        axios.post(api.common.getInfo, {
+          objType: constant.infoType.seed,
+          objId: this.seedId
         }).then((res) => {
           this.seedInfo = res.data.data;
-          this.page = 0;
-          this.getComments();
           this.isLoading = false
         }).catch((err) => {
+          console.log(err);
           this.isLoading = false
         })
       },

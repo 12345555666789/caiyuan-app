@@ -36,50 +36,7 @@
           carList: {},
           isLoading: false,
           token: null,
-          foodTypes: [
-            {
-              "content": "食材介绍,....",
-              "typeId": 859,
-              "typeName": "食材分类-0",
-              "typePic": "http://pic.58pic.com/58pic/15/40/08/62m58PICPEG_1024.jpg"
-            },
-            {
-              "content": "食材介绍,....",
-              "typeId": 859,
-              "typeName": "食材分类-0",
-              "typePic": "http://pic.58pic.com/58pic/15/40/08/62m58PICPEG_1024.jpg"
-            },
-            {
-              "content": "食材介绍,....",
-              "typeId": 859,
-              "typeName": "食材分类-0",
-              "typePic": "http://pic.58pic.com/58pic/15/40/08/62m58PICPEG_1024.jpg"
-            },
-            {
-              "content": "食材介绍,....",
-              "typeId": 859,
-              "typeName": "食材分类-0",
-              "typePic": "http://pic.58pic.com/58pic/15/40/08/62m58PICPEG_1024.jpg"
-            },
-            {
-              "content": "食材介绍,....",
-              "typeId": 859,
-              "typeName": "食材分类-0",
-              "typePic": "http://pic.58pic.com/58pic/15/40/08/62m58PICPEG_1024.jpg"
-            },
-            {
-              "content": "食材介绍,....",
-              "typeId": 859,
-              "typeName": "食材分类-0",
-              "typePic": "http://pic.58pic.com/58pic/15/40/08/62m58PICPEG_1024.jpg"
-            },
-            {
-              "content": "食材介绍,....",
-              "typeId": 859,
-              "typeName": "食材分类-0",
-              "typePic": "http://pic.58pic.com/58pic/15/40/08/62m58PICPEG_1024.jpg"
-            }
-          ]
+          foodTypes: []
         }
       },
       computed: {
@@ -127,7 +84,7 @@
         },
         getFoodTypes () {
           axios.post(api.food.getFoodTypes).then(res => {
-            this.foodTypes = res.data;
+            this.foodTypes = res.data.data;
             this.isLoading = false;
           }).catch(() => {
             this.isLoading = false;

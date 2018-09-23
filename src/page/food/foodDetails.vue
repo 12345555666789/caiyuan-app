@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="width: 100vw; height: 100vh;">
     <van-nav-bar
       title="食材详情"
       fixed
@@ -35,13 +35,13 @@
             :finished="finished"
             @load="getComments"
           >
-            <div class="comment" v-for="item in comments">
+            <div class="comment" v-for="(item, index) in comments" :key="index">
               <div class="iconurl">
                 <img :src="item.iconurl" width="100%" height="100%">
               </div>
               <div class="commentContent">
-                <div class="nickName">{{item.nickName}}</div>
-                <span class="commentDate">{{commentDate(item.commentDate)}}</span>
+                <div class="nickName">{{item.nickName}}<span class="commentDate">{{commentDate(item.commentDate)}}</span>
+                </div>
                 <div class="commentText">{{item.content}}</div>
               </div>
             </div>
@@ -67,63 +67,7 @@
     name: "foodDetails",
     data() {
       return {
-        comments: [
-          {
-            userId: 4651321,
-            nickName: '辛苦的评论人',
-            commentDate: new Date().getTime(),
-            content: '哇,管理的真不错哇,管理的真不错哇,管理的真不错哇,管理的真不错哇,管理的真不错哇,管理的真不错哇,管理的真不错',
-            iconurl: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3198678185,878755003&fm=27&gp=0.jpg'
-          },{
-            userId: 4651321,
-            nickName: '辛苦的评论人',
-            commentDate: new Date().getTime(),
-            content: '哇,管理的真不错',
-            iconurl: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3198678185,878755003&fm=27&gp=0.jpg'
-          },{
-            userId: 4651321,
-            nickName: '辛苦的评论人',
-            commentDate: new Date().getTime(),
-            content: '哇,管理的真不错',
-            iconurl: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3198678185,878755003&fm=27&gp=0.jpg'
-          },{
-            userId: 4651321,
-            nickName: '辛苦的评论人',
-            commentDate: new Date().getTime(),
-            content: '哇,管理的真不错',
-            iconurl: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3198678185,878755003&fm=27&gp=0.jpg'
-          },{
-            userId: 4651321,
-            nickName: '辛苦的评论人',
-            commentDate: new Date().getTime(),
-            content: '哇,管理的真不错',
-            iconurl: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3198678185,878755003&fm=27&gp=0.jpg'
-          },{
-            userId: 4651321,
-            nickName: '辛苦的评论人',
-            commentDate: new Date().getTime(),
-            content: '哇,管理的真不错',
-            iconurl: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3198678185,878755003&fm=27&gp=0.jpg'
-          },{
-            userId: 4651321,
-            nickName: '辛苦的评论人',
-            commentDate: new Date().getTime(),
-            content: '哇,管理的真不错',
-            iconurl: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3198678185,878755003&fm=27&gp=0.jpg'
-          },{
-            userId: 4651321,
-            nickName: '辛苦的评论人',
-            commentDate: new Date().getTime(),
-            content: '哇,管理的真不错',
-            iconurl: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3198678185,878755003&fm=27&gp=0.jpg'
-          },{
-            userId: 4651321,
-            nickName: '辛苦的评论人',
-            commentDate: new Date().getTime(),
-            content: '哇,管理的真不错',
-            iconurl: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3198678185,878755003&fm=27&gp=0.jpg'
-          }
-        ],
+        comments: [],
         modalShow: false,
         carList: {},
         finished: false,
@@ -135,19 +79,7 @@
         videoShow: false,
         isLoading: false,
         foodId: this.$route.query.foodId,
-        foodInfo: {
-          "commentCount": 967826,
-          "foodDesc": "美食",
-          "foodId": "a4b90de784c5495db774653ca409bcd8",
-          "foodName": "XXXX食材-0",
-          "foodPics": [
-            "http://images.meishij.net/p/20111001/d59c1b6ea3a9d89ac49292f8fd9a4da4.jpg"
-          ],
-          "foodSpec": "500g/只",
-          "foodType": "肉禽",
-          "praiseRate": 38,
-          "price": 625.604736328125
-        }
+        foodInfo: {}
       }
     },
     computed: {
@@ -167,15 +99,17 @@
         })
       },
       getComments () {
-        axios.post(api.common.commentList + this.foodId, {
+        axios.post(api.common.commentList, {
           page: this.page + 1,
           count: this.count,
-          objType: constant.infoType.food
+          objType: constant.infoType.food,
+          objId: this.foodId
         }).then((res) => {
-          this.comments.push(res.data.data.comments);
-          this.page = this.page + 1;
+          this.page += 1;
           this.loading = false;
           if (res.data.data.comments.length) {
+            this.comments.push(...res.data.data.comments);
+          } else {
             this.finished = true;
           }
         }).catch(() => {
@@ -228,10 +162,9 @@
         window.history.back()
       },
       getfoodInfo() {
-        axios.post(api.common.getInfo + this.foodId, {
-          params: {
-            objType: constant.infoType.food
-          }
+        axios.post(api.common.getInfo, {
+          objType: constant.infoType.food,
+          objId: this.foodId
         }).then((res) => {
           this.foodInfo = res.data.data;
           this.page = 0;
@@ -283,9 +216,7 @@
             font-size: 3.8vw;
           }
           .commentDate {
-            position: absolute;
-            right: 3vw;
-            top: 4vw;
+            float: right;
             color: #A1A1A1;
             font-size: 3vw;
           }

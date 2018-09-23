@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="width: 100vw; height: 100vh;;">
     <van-nav-bar
       title="选择食材"
       fixed
@@ -9,7 +9,7 @@
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <form action="/">
         <van-search
-          v-model="searchValue"
+          v-model="key"
           placeholder="搜索"
           background="#fff"
           @search="onSearch"
@@ -43,7 +43,9 @@
           </div>
         </div>
         <div style="height: 5vw; background-color: #fff"></div>
+        <div class="noDataList"><span>已经到底啦~</span></div>
       </van-list>
+      <div class="carNoData" v-else>暂无数据</div>
     </van-pull-refresh>
 
     <!--<div style="height: 10vw"></div>-->
@@ -80,93 +82,7 @@
         loading: false,
         isLoading: false,
         searchValue: '',
-        foodData: [
-          {
-            "commentCount": 967826,
-            "foodDesc": "美食",
-            "foodId": "a4b90de784c5495db774653ca409bcd8",
-            "foodName": "XXXX食材-0",
-            "foodPics": [
-              "http://images.meishij.net/p/20111001/d59c1b6ea3a9d89ac49292f8fd9a4da4.jpg"
-            ],
-            "foodSpec": "500g/只",
-            "foodType": "肉禽",
-            "praiseRate": 38,
-            "price": 625.604736328125
-          },{
-            "commentCount": 967826,
-            "foodDesc": "美食",
-            "foodId": "a4b90de784c5495db774653csdcabcd8",
-            "foodName": "XXXX食材-0",
-            "foodPics": [
-              "http://images.meishij.net/p/20111001/d59c1b6ea3a9d89ac49292f8fd9a4da4.jpg"
-            ],
-            "foodSpec": "500g/只",
-            "foodType": "肉禽",
-            "praiseRate": 38,
-            "price": 625.604736328125
-          },{
-            "commentCount": 967826,
-            "foodDesc": "美食",
-            "foodId": "a4b90de784c5495db774asdc409bcd8",
-            "foodName": "XXXX食材-0",
-            "foodPics": [
-              "http://images.meishij.net/p/20111001/d59c1b6ea3a9d89ac49292f8fd9a4da4.jpg"
-            ],
-            "foodSpec": "500g/只",
-            "foodType": "肉禽",
-            "praiseRate": 38,
-            "price": 625.604736328125
-          },{
-            "commentCount": 967826,
-            "foodDesc": "美食",
-            "foodId": "a4b90de784c5495db77adsca409bcd8",
-            "foodName": "XXXX食材-0",
-            "foodPics": [
-              "http://images.meishij.net/p/20111001/d59c1b6ea3a9d89ac49292f8fd9a4da4.jpg"
-            ],
-            "foodSpec": "500g/只",
-            "foodType": "肉禽",
-            "praiseRate": 38,
-            "price": 625.604736328125
-          },{
-            "commentCount": 967826,
-            "foodDesc": "美食",
-            "foodId": "a4b90de784c5495db7746acacac409bcd8",
-            "foodName": "XXXX食材-0",
-            "foodPics": [
-              "http://images.meishij.net/p/20111001/d59c1b6ea3a9d89ac49292f8fd9a4da4.jpg"
-            ],
-            "foodSpec": "500g/只",
-            "foodType": "肉禽",
-            "praiseRate": 38,
-            "price": 625.604736328125
-          },{
-            "commentCount": 967826,
-            "foodDesc": "美食",
-            "foodId": "a4b90de784c5495db77qweqea409bcd8",
-            "foodName": "XXXX食材-0",
-            "foodPics": [
-              "http://images.meishij.net/p/20111001/d59c1b6ea3a9d89ac49292f8fd9a4da4.jpg"
-            ],
-            "foodSpec": "500g/只",
-            "foodType": "肉禽",
-            "praiseRate": 38,
-            "price": 625.604736328125
-          },{
-            "commentCount": 967826,
-            "foodDesc": "美食",
-            "foodId": "a4b90de784c5495db774653ca409bcd8",
-            "foodName": "XXXX食材-0",
-            "foodPics": [
-              "http://images.meishij.net/p/20111001/d59c1b6ea3a9d89ac49292f8fd9a4da4.jpg"
-            ],
-            "foodSpec": "500g/只",
-            "foodType": "肉禽",
-            "praiseRate": 38,
-            "price": 625.604736328125
-          }
-        ]
+        foodData: []
       }
     },
     computed: {
@@ -180,7 +96,6 @@
       this.foodCar ? this.carList = this.foodCar : null
     },
     activated () {
-      this.getFoodList();
       this.foodCar ? this.carList = this.foodCar : null
     },
     methods: {
@@ -227,11 +142,14 @@
         }).then((res) => {
           this.isLoading = false;
           this.loading = false;
-          this.finished = false;
-          this.foodData = res.data.data
+          if (res.data.data.length) {
+            this.foodData.push(...res.data.data)
+          } else {
+            this.finished = true;
+          }
         }).catch((res) => {
           this.loading = false;
-          this.finished = false;
+          this.finished = true;
           this.isLoading = false;
         })
       },

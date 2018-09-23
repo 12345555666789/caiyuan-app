@@ -14,6 +14,7 @@ axios.interceptors.request.use((config) => {
   return Promise.reject(error)
 });
 axios.interceptors.response.use((config) => {
+  return config
 }, (error, res) => {
   if (error.response && error.response.data.errMessage) {
     Toast(error.response.data.errMessage)

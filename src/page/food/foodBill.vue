@@ -1,5 +1,5 @@
 <template>
-    <div style="height: 100vh; background: #fff;">
+    <div style="height: 100vh; width: 100vw; background: #fff;">
       <van-nav-bar
         title="订单"
         fixed
@@ -133,16 +133,16 @@
           let dinersReg = /^[1-9]\d*$/;
           let phoneReg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
           let nameReg =  /^[\u4E00-\u9FA5A-Za-z]+$/;
-          if (!this.orderData.diners && !dinersReg.test(this.orderData.diners)) {
+          if (!this.orderData.diners || !dinersReg.test(this.orderData.diners)) {
             this.$toast('请输入就餐人数');
             return false
           } else if (!this.orderData.dinerTime) {
             this.$toast('请选择就餐时间');
             return false
-          } else if (!this.orderData.contactName && !nameReg.test(this.orderData.contactName)) {
+          } else if (!this.orderData.contactName || !nameReg.test(this.orderData.contactName)) {
             this.$toast('请输入中文或英文的联系人名字');
             return false
-          } else if (!this.orderData.telephone && !phoneReg.test(this.orderData.telephone)) {
+          } else if (!this.orderData.telephone || !phoneReg.test(this.orderData.telephone)) {
             this.$toast('请输入手机号码格式的联系电话');
             return false
           } else if (!this.orderData.foodList.length) {

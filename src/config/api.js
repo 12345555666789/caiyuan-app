@@ -5,10 +5,12 @@ const gardenPrefix = prefix + /land/;
 const commonPrefix = prefix + /common/;
 const orderPrefix = prefix + /order/;
 const foodPrefix = prefix + /food/;
+const momentPrefix = prefix + /moment/;
+const myPrefix = prefix + /my/;
 
 const common = {
-  getInfo: commonPrefix + 'detail/',
-  commentList: commonPrefix + 'comment/list/',
+  getInfo: commonPrefix + 'detail',
+  commentList: commonPrefix + 'comment/list',
   userAction: commonPrefix + 'user/action',
   uploadFile: commonPrefix + 'file/upload'
 };
@@ -31,11 +33,21 @@ const order = {
   submitFoodOrder: orderPrefix + 'food/submit'
 };
 
+const moment = {
+  momentList : momentPrefix + 'list',
+  momentPublish: momentPrefix + 'publish'
+};
+
+const my = {
+  landList: myPrefix + 'land/list'
+};
+
 const api = {
   garden,
   food,
   common,
-  order
+  order,
+  my
 };
 
 export default api

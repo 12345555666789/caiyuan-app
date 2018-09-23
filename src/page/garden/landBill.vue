@@ -1,5 +1,5 @@
 <template>
-    <div style="height: 100vh; background: #fff;">
+    <div style="height: 100vh; width: 100vw; background: #fff;">
       <van-nav-bar
         title="订单详情"
         fixed
@@ -9,7 +9,7 @@
       <van-cell-group>
         <van-cell title="菜园名称"><div class="value">{{gardenOrder.landInfo.landName}}</div></van-cell>
         <van-cell title="菜园规格">
-          <div class="value" v-for="item in setLandSpec"><span>{{item.landSpec}}㎡</span><span> × {{item.count}}</span></div>
+          <div class="value" v-for="item in setlandSize"><span>{{item.landSize}}</span><span> × {{item.count}}</span></div>
         </van-cell>
         <van-cell title="租赁时间">
           <div class="value">{{gardenOrder.landInfo.startDate}}-{{gardenOrder.landInfo.endDate}}</div>
@@ -35,7 +35,7 @@
             <p>
               <span class="totalLabel">应付金额: </span>
               <span class="totalPrice"><span class="iconRmb">¥</span>{{total.totalCost}}</span>
-              <span class="originalCost"><span class="iconRmb">¥</span>{{(Number(total.totalCost)*10)/Number(total.discountRate)}}</span>
+              <span class="originalCost"><span class="iconRmb">¥</span>{{((Number(total.totalCost)*10)/Number(total.discountRate)).toFixed(2)}}</span>
             </p>
           </div>
         </van-cell>
@@ -89,13 +89,13 @@
       },
       computed: {
         ...mapState(['gardenOrder', 'gardenCar']),
-        setLandSpec () {
+        setlandSize () {
           let lands = {};
           this.gardenOrder.landInfo.lands.forEach(item => {
-            if (lands[item.landSpec]) {
-              lands[item.landSpec].count ++
+            if (lands[item.landSize]) {
+              lands[item.landSize].count ++
             } else {
-              lands[item.landSpec] = {landSpec: item.landSpec, count: 1, landId: item.landId}
+              lands[item.landSize] = {landSize: item.landSize, count: 1, landId: item.landId}
             }
           });
           return lands
@@ -120,7 +120,6 @@
         window['buyFinish'] = (isDone) => {
           this.buyFinish(isDone)
         };
-        this.initPage()
       },
       activated () {
         this.initPage()
@@ -172,12 +171,12 @@
         },
         getPreAccounting (order, type) {
           axios.post(api.order.getPreAccounting, {...order}).then(res => {
-            return res.data.data
-          }).catch(() => {
             this[type] = {
-              discountRate: Math.round(Math.random()*10),
-              totalCost: Math.round(Math.random()*1000)
-            }
+              discountRate: res.data.data.discountRate,
+              totalCost: res.data.data.totalCost
+            };
+          }).catch(err => {
+            console.log(err);
           })
         },
         nextStep () {
@@ -199,7 +198,7 @@
   #total {
     p {
       text-align: right;
-      padding-left: 30vw;
+      padding-left: 10vw;
       .iconRmb {
         font-size: 3vw;
       }

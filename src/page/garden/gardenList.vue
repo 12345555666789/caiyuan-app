@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="width: 100vw; height: 100vh">
       <van-nav-bar
         title="我的菜园"
         fixed
@@ -16,15 +16,15 @@
             <van-cell class="gardenItem" v-for="(item, index) in gardenList" :key="index">
             <template slot="title">
               <div style="border-bottom: 1px solid #e5e5e5; padding: 3vw 3vw;">
-                <span class="van-cell-text">菜园编号: <span class="useCopy" style="color: #505050;">{{item.landId}}</span></span>
+                <span class="van-cell-text">菜园编号: <span class="useCopy landId ellipse" style="color: #505050;">{{item.landId}}</span></span>
                 <div style="color:#53B2AC;float: right">长按复制</div>
               </div>
               <div class="gardenItemInfo">
                 <div>
                   <div class="infoItem ellipse">菜园名称: <span>{{item.landName}}</span></div>
-                  <div class="infoItem ellipse">规格: <span>{{item.landSize}}平米</span></div>
+                  <div class="infoItem ellipse">规格: <span>{{item.landSize}}</span></div>
                   <div class="infoItem ellipse">开垦模式: <span>{{item.recMod === 0 ? '自理' : '托管'}}</span></div>
-                  <div class="infoItem ellipse">租赁期限: <span>{{item.startDate}}-{{item.endDate}}</span></div>
+                  <div class="infoItem ellipse">租赁期限: <span>{{dateFormat(item.startDate, 'YYYY/MM/DD')}}-{{dateFormat(item.endDate, 'YYYY/MM/DD')}}</span></div>
                 </div>
                 <div class="gardenItemPic">
                   <img v-lazy="item.landPics[0]"/>
@@ -33,6 +33,7 @@
               </div>
             </template>
           </van-cell>
+          <div class="noDataList"><span>已经到底啦~</span></div>
         </van-list>
         <div v-else class="notGardenData"><span>您还没有菜园哦,<br/>快点击下方的"订购菜园"成为农场主人吧~</span></div>
       </van-pull-refresh>
@@ -45,6 +46,7 @@
 <script>
   import api from '@/config/api';
   import axios from '@/config/axios.config'
+  import Function from '@/util/function'
   export default {
     name: 'gardenList',
     data () {
@@ -55,86 +57,7 @@
         isLoading: false,
         finished: false,
         loading: false,
-        gardenList: [
-          {
-            landId: 'ad75d',
-            landName: '菜地1',
-            landSize: 60,
-            landPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
-            landVideos: ['https://ykyl.oss-cn-qingdao.aliyuncs.com/1008/20180822150821/H9X46RbINX.mp4','https://ykyl.oss-cn-qingdao.aliyuncs.com/1008/20180822150821/H9X46RbINX.mp4'],
-            startDate: '2018/09/27',
-            endDate: '2019/09/27',
-            recMod: 0,
-            commentCount: 4999,
-            viewCount: 13999,
-          },{
-            landId: 'ad75d',
-            landName: '菜地1',
-            landSize: 60,
-            landPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
-            landVideos: ['https://ykyl.oss-cn-qingdao.aliyuncs.com/1008/20180822150821/H9X46RbINX.mp4','https://ykyl.oss-cn-qingdao.aliyuncs.com/1008/20180822150821/H9X46RbINX.mp4'],
-            startDate: '2018/09/27',
-            endDate: '2019/09/27',
-            recMod: 0,
-            commentCount: 4999,
-            viewCount: 13999,
-          },{
-            landId: 'ad75d',
-            landName: '菜地1',
-            landSize: 60,
-            landPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
-            landVideos: ['https://ykyl.oss-cn-qingdao.aliyuncs.com/1008/20180822150821/H9X46RbINX.mp4','https://ykyl.oss-cn-qingdao.aliyuncs.com/1008/20180822150821/H9X46RbINX.mp4'],
-            startDate: '2018/09/27',
-            endDate: '2019/09/27',
-            recMod: 0,
-            commentCount: 4999,
-            viewCount: 13999,
-          },{
-            landId: 'ad75d',
-            landName: '菜地1',
-            landSize: 60,
-            landPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
-            landVideos: ['https://ykyl.oss-cn-qingdao.aliyuncs.com/1008/20180822150821/H9X46RbINX.mp4','https://ykyl.oss-cn-qingdao.aliyuncs.com/1008/20180822150821/H9X46RbINX.mp4'],
-            startDate: '2018/09/27',
-            endDate: '2019/09/27',
-            recMod: 0,
-            commentCount: 4999,
-            viewCount: 13999,
-          },{
-            landId: 'ad75d',
-            landName: '菜地1',
-            landSize: 60,
-            landPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
-            landVideos: ['https://ykyl.oss-cn-qingdao.aliyuncs.com/1008/20180822150821/H9X46RbINX.mp4','https://ykyl.oss-cn-qingdao.aliyuncs.com/1008/20180822150821/H9X46RbINX.mp4'],
-            startDate: '2018/09/27',
-            endDate: '2019/09/27',
-            recMod: 0,
-            commentCount: 4999,
-            viewCount: 13999,
-          },{
-            landId: 'ad75d',
-            landName: '菜地1',
-            landSize: 60,
-            landPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
-            landVideos: ['https://ykyl.oss-cn-qingdao.aliyuncs.com/1008/20180822150821/H9X46RbINX.mp4','https://ykyl.oss-cn-qingdao.aliyuncs.com/1008/20180822150821/H9X46RbINX.mp4'],
-            startDate: '2018/09/27',
-            endDate: '2019/09/27',
-            recMod: 0,
-            commentCount: 4999,
-            viewCount: 13999,
-          },{
-            landId: 'ad75d',
-            landName: '菜地1',
-            landSize: 60,
-            landPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
-            landVideos: ['https://ykyl.oss-cn-qingdao.aliyuncs.com/1008/20180822150821/H9X46RbINX.mp4','https://ykyl.oss-cn-qingdao.aliyuncs.com/1008/20180822150821/H9X46RbINX.mp4'],
-            startDate: '2018/09/27',
-            endDate: '2019/09/27',
-            recMod: 0,
-            commentCount: 4999,
-            viewCount: 13999,
-          }
-        ]
+        gardenList: []
       }
     },
     mounted () {
@@ -145,15 +68,10 @@
       }
       this.getGardenList()
     },
-    activated () {
-      try {
-        this.token = window.app.getToken();
-      } catch (e) {
-        this.$toast('获取token失败');
-      }
-      this.getGardenList()
-    },
     methods: {
+      dateFormat (date, format) {
+        return Function.dateFormat(date, format)
+      },
       landRegion () {
         this.$router.push({
           path: '/landRegionList'
@@ -164,22 +82,23 @@
         this.getGardenList()
       },
       getGardenList () {
-        axios.post(api.garden.gardenList, {
+        axios.post(api.my.landList, {
             page: this.page + 1,
-            count: this.count
-        }, {
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
+            count: this.count,
+        }).then(res => {
+          this.page += 1;
+          this.loading = false;
+          this.isLoading = false;
+          if (res.data.data.length) {
+            this.gardenList.push(...res.data.data);
+          } else {
+            this.finished = true;
           }
-        }).then((res) => {
-          this.page = res.data.page + 1;
-          this.gardenList.push(...res.data.data);
-          this.loading = false;
-          this.isLoading = false;
         }).catch((err) => {
+          console.log(err);
           this.loading = false;
           this.isLoading = false;
-          this.finished = false;
+          this.finished = true;
         })
       },
       goGardenInfo (gardenInfo) {
@@ -265,5 +184,10 @@
       width: 100%;
       height: 100%;
     }
+  }
+  .landId {
+    display: inline-block;
+    width: 50vw;
+    vertical-align: bottom;
   }
 </style>

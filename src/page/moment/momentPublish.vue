@@ -21,15 +21,21 @@
           <p style="color: #6c6c6c;margin-bottom: 3vw;">({{momentPics.length}}/9)</p>
           <div class="momentPics">
             <div class="momentPic" v-for="item in momentPics">
-              <img :src="item.momentPicUrl">
+              <img :src="item.fileUrl">
               <span class="deleteItem"></span>
             </div>
           </div>
-          <van-uploader :after-read="onRead" v-if="!(momentPics.length === 9)" accept="image/gif, image/jpeg" multiple>
+          <van-uploader :after-read="onRead" v-if="!(momentPics.length === 9) && !uploadState" accept="image/gif, image/jpeg" multiple :disabled="uploadState">
             <div class="photograph">
               <span class="icon-plus">＋</span>
             </div>
           </van-uploader>
+          <div class="uploading" v-else>
+            <div class="uploadingItem" v-for="item in uploading">
+              <div class="uploadingMask"><span>正在上传</span></div>
+              <img :src="item">
+            </div>
+          </div>
         </div>
       </van-cell-group>
       <div class="van-goods-action">
@@ -48,7 +54,9 @@
         return {
           momentTitle: '',
           momentDesc: '',
-          momentPics: []
+          momentPics: [],
+          uploadState: false,
+          uploading: []
         }
       },
       computed: {
@@ -59,16 +67,42 @@
       },
       methods: {
         uploadImg (file) {
-          console.log(file);
-          axios.post(api.common.uploadFile, {
-
-          })
+            let formData = new FormData();
+            this.uploadState = true;
+            this.uploading.push(file.content);
+            formData.append('file', file.file);
+            axios.post(api.common.uploadFile,
+              formData,
+              {
+                headers: {
+                  'Content-Type': 'multipart/form-data'
+                }
+              }
+            ).then((res) => {
+              this.momentPics.push({
+                fileId: res.data.data.fileId,
+                fileSize: res.data.data.fileSize,
+                fileUrl: res.data.data.fileUrl
+              });
+              this.uploadState = false;
+              this.uploading = [];
+            }).catch(err => {
+              this.$toast('上传失败');
+              this.uploading = [];
+              this.uploadState = false;
+            });
         },
         onRead (file) {
-          if (file.length) {
-            file.forEach(item => this.uploadImg(item))
-          } else if (file.file) {
-            this.uploadImg(file)
+          if (this.momentPics.length < 10) {
+            if (file.length) {
+              if (file.length < 10) {
+                file.forEach(item => this.uploadImg(item))
+              } else {
+                this.$toast('最多上传9张照片');
+              }
+            } else if (file.file) {
+              this.uploadImg(file)
+            }
           }
         },
         nextStep () {
@@ -86,15 +120,38 @@
 <style scoped lang="less">
   .uploaderBox {
     padding: 4vw 5vw;
-    .momentPic {
+    .momentPics {
+      display: inline-block;
+    }
+    .van-uploader {
+      vertical-align: bottom;
+    }
+    .momentPic, .uploadingItem {
+      display: inline-block;
+      position: relative;
       width: 25vw;
       height: 25vw;
-      margin-right: 8vw;
+      margin-right: 5vw;
+      margin-bottom: 2vw;
       border-radius: 3px;
       overflow: hidden;
       img {
         width: 100%;
         height: 100%;
+      }
+      .uploadingMask {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 25vw;
+        height: 25vw;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+        background-color: rgba(0,0,0,0.5);
+        color: #fff;
+        font-size: 3.5vw;
       }
     }
     .photograph {

@@ -7,7 +7,7 @@
       @click-left="onClickLeft"></van-nav-bar>
     <div style="height: 12vw"></div>
     <van-pull-refresh v-model="isLoading" @refresh="getfertilizerInfo">
-      <van-swipe style="height: 80vw">
+      <van-swipe style="height: 80vw;width: 100vw;">
         <van-swipe-item v-for="(item, index) in fertilizerInfo.fertPics">
           <img :src="item" height="100%" width="100%">
         </van-swipe-item>
@@ -76,17 +76,7 @@
         videoShow: false,
         isLoading: false,
         fertId: this.$route.query.fertId,
-        fertilizerInfo: {
-          fertId: 'as1321',
-          fertName: '西瓜',
-          fertType: 2,
-          fertPics: ['http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg','http://i1.ucaiyuan.com/h5/active/20180628_h5_pt/images/banner_p.jpg'],
-          fertSpec: '每袋500g',
-          price: 500.33,
-          fertDesc: '来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种, 薄皮,无子,沙瓤来自新疆新密产区新培育品种,薄皮,无子,沙瓤',
-          season: '全季',
-          stock: 999
-        }
+        fertilizerInfo: {}
       }
     },
     computed: {
@@ -97,7 +87,6 @@
       this.gardenCar ? this.carList = this.gardenCar : null;
     },
     activated () {
-      this.getfertilizerInfo();
       this.gardenCar ? this.carList = this.gardenCar : null;
     },
     methods: {
@@ -125,10 +114,9 @@
         window.history.back()
       },
       getfertilizerInfo() {
-        axios.post(api.common.getInfo + this.fertId, {
-          params: {
-            objType: constant.infoType.land
-          }
+        axios.post(api.common.getInfo, {
+          objType: constant.infoType.fertilizer,
+          objId: this.fertId
         }).then((res) => {
           this.fertilizerInfo = res.data.data;
           this.page = 0;

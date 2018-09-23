@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100vh;background-color: #fff">
+  <div style="height: 100vh; width: 100vw;background-color: #fff">
     <van-nav-bar
       title="菜篮"
       fixed
@@ -31,7 +31,7 @@
     </div>
     <div v-else class="noData"><span>菜篮空空如也~</span></div>
     <div class="van-goods-action" v-if="Object.values(foodCar).length">
-      <div class="totalPrice">总计预算：<span class="price"><span class="iconRmb">¥</span>{{price}}</span></div><div class="footerBtn entrustBtn" @click="orderSubmit">提交订单</div>
+      <div class="totalPrice">总计预算：<span class="price ellipse"><span class="iconRmb">¥</span>{{price}}</span></div><div class="footerBtn entrustBtn" @click="orderSubmit">提交订单</div>
     </div>
   </div>
 </template>

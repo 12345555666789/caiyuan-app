@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="height: 100vh;width: 100vw;">
       <van-nav-bar
         title="增值服务"
         fixed
@@ -51,9 +51,13 @@
       },
       methods: {
         nextStep () {
-          this.$router.push({
-            path: '/landBill',
-          })
+          if (this.sowingMode && this.careMode) {
+            this.$router.push({
+              path: '/landBill',
+            })
+          } else {
+            this.$toast('请选择播种及养护方式')
+          }
         },
         chooseMod (mod) {
           this.show = true;
