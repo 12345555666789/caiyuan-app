@@ -20,20 +20,20 @@
         <div class="uploaderBox">
           <p style="color: #6c6c6c;margin-bottom: 3vw;">({{momentPics.length}}/9)</p>
           <div class="momentPics">
-            <div class="momentPic" v-for="item in momentPics">
+            <div class="momentPic bounceIn" v-for="item in momentPics">
               <img :src="item.fileUrl">
-              <span class="deleteItem"></span>
+              <van-icon class="deleteItem" name="clear" @click="deleteItem(item.fileId)"/>
             </div>
-          </div>
-          <van-uploader :after-read="onRead" v-if="!(momentPics.length === 9) && !uploadState" accept="image/gif, image/jpeg" multiple :disabled="uploadState">
-            <div class="photograph">
-              <span class="icon-plus">＋</span>
+            <van-uploader :after-read="onRead" v-if="!(momentPics.length === 9) && !uploadState" accept="image/gif, image/jpeg" multiple :disabled="uploadState">
+              <div class="photograph">
+                <span class="icon-plus">＋</span>
+              </div>
+            </van-uploader>
+            <div class="uploading" v-else>
             </div>
-          </van-uploader>
-          <div class="uploading" v-else>
             <div class="uploadingItem" v-for="item in uploading">
               <div class="uploadingMask"><span>正在上传</span></div>
-              <img :src="item">
+              <img style="border-radius: 3px" :src="item">
             </div>
           </div>
         </div>
@@ -66,6 +66,25 @@
       activated () {
       },
       methods: {
+        checkForm () {
+          if (!this.momentTitle) {
+            this.$toast('请输入圈子标题');
+            return false
+          } else if (!this.momentDesc) {
+            this.$toast('请输入圈子内容');
+            return false
+          } else if (!this.momentPics.length) {
+            this.$toast('请上传圈子图片');
+            return false
+          } else {
+            return true
+          }
+        },
+        deleteItem (fileId) {
+          if (this.momentPics.findIndex(item => item.fileId === fileId) !== -1) {
+            this.momentPics.splice(this.momentPics.findIndex(item => item.fileId === fileId), 1)
+          }
+        },
         uploadImg (file) {
             let formData = new FormData();
             this.uploadState = true;
@@ -80,9 +99,8 @@
               }
             ).then((res) => {
               this.momentPics.push({
-                fileId: res.data.data.fileId,
-                fileSize: res.data.data.fileSize,
-                fileUrl: res.data.data.fileUrl
+                momentPicId: res.data.data.fileId,
+                momentPicUrl: res.data.data.fileUrl
               });
               this.uploadState = false;
               this.uploading = [];
@@ -95,7 +113,7 @@
         onRead (file) {
           if (this.momentPics.length < 10) {
             if (file.length) {
-              if (file.length < 10) {
+              if ((file.length + this.momentPics.length) < 10) {
                 file.forEach(item => this.uploadImg(item))
               } else {
                 this.$toast('最多上传9张照片');
@@ -106,7 +124,19 @@
           }
         },
         nextStep () {
-
+          if (this.checkForm()) {
+            axios.post(api.moment.momentPublish, {
+              momentDesc: this.momentDesc,
+              momentPics: this.momentPics,
+              momentTitle: this.momentTitle
+            }).then(() => {
+              this.$toast('发送成功');
+              this.goApp()
+            }).catch(err => {
+              this.$toast('发送失败');
+              console.log(err);
+            })
+          }
         },
         goApp () {
           if (window.app) {
@@ -118,13 +148,23 @@
 </script>
 
 <style scoped lang="less">
+  .deleteItem {
+    color: #acacac;
+    display: inline-block;
+    position: absolute;
+    top: -2.5vw;
+    right: -2.5vw;
+    width: 5vw;
+    height: 5vw;
+    font-size: 5vw;
+  }
   .uploaderBox {
     padding: 4vw 5vw;
     .momentPics {
       display: inline-block;
     }
     .van-uploader {
-      vertical-align: bottom;
+      vertical-align: top;
     }
     .momentPic, .uploadingItem {
       display: inline-block;
@@ -132,12 +172,11 @@
       width: 25vw;
       height: 25vw;
       margin-right: 5vw;
-      margin-bottom: 2vw;
-      border-radius: 3px;
-      overflow: hidden;
+      margin-bottom: 3vw;
       img {
         width: 100%;
         height: 100%;
+        border-radius: 3px;
       }
       .uploadingMask {
         position: absolute;

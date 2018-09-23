@@ -47,7 +47,8 @@ const api = {
   food,
   common,
   order,
-  my
+  my,
+  moment
 };
 
 export default api

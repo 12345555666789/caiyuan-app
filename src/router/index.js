@@ -22,7 +22,7 @@ const router = new Router({
       }
     },
     {
-      path: '/momentDetails', // 发布圈子
+      path: '/momentDetails', // 圈子详情
       component: momentDetails,
       meta: {
         keepAlive: true,
