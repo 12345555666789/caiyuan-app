@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height: 100vh; width: 100vw;">
     <van-nav-bar
       title="选择菜园"
       fixed
@@ -445,7 +445,7 @@
         font-size: 2.8vw;
         text-align: left;
         top: 3vw;
-        width: 9vw;
+        width: 13vw;
         left: 10vw;
       }
     }

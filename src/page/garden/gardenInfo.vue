@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="width: 100vw; height: 100vh">
     <van-nav-bar
       title="菜园详情"
       fixed

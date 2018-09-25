@@ -1,7 +1,7 @@
 <template>
   <div style="height: 100vh; width: 100vw">
     <van-nav-bar
-      title="圈子"
+      title="活动详情"
       fixed
       left-arrow
       @click-right="share"
@@ -9,23 +9,28 @@
       <span class="iconShare" slot="right"></span>
     </van-nav-bar>
     <div style="height: 15vw"></div>
-    <van-pull-refresh v-model="isLoading" @refresh="getmomentInfo">
-      <div class="momentInfo">
-        <div class="momentContent">
-          <p class="momentTitle">{{momentInfo.title}}</p>
-          <div class="userInfo">
-            <span class="avatar"><img :src="momentInfo.iconurl"></span>
-            <span class="username">{{momentInfo.username}}</span>
-            <span class="createDate">{{commentDate(momentInfo.createDate)}}</span>
-          </div>
-          <p class="momentDesc">{{momentInfo.momentDesc}}</p>
-          <div class="momentPics">
-            <div class="momentPic" v-for="item in momentInfo.momentPics">
-              <img :src="item">
+    <van-pull-refresh v-model="isLoading" @refresh="getactivityInfo">
+      <div class="activityInfo">
+        <div class="activityContent">
+          <p class="activityTitle">{{activityInfo.activityName}}</p>
+          <p class="activityDesc">{{activityInfo.activityDesc}}</p>
+          <div class="activityPics">
+            <div class="activityPic" v-for="item in activityInfo.activityPic">
+              <img v-lazy="item">
             </div>
           </div>
+          <div class="activityVideos">
+            <div class="activityVideo">
+              <video v-lazy="activityInfo.activityVideo" controls autoplay height="100%" width="100%"></video>
+            </div>
+          </div>
+          <div class="likeCount">
+            <span v-if="isLike" class="likedIcon"></span>
+            <span v-else class="likeIcon" @click="like"></span>
+            <span class="count">{{activityInfo.likeCount}}</span>
+          </div>
         </div>
-        <p style="font-size: 3vw; padding: 1vw 3vw">评论 ({{momentInfo.commentCount}})</p>
+        <p style="font-size: 3vw; padding: 1vw 3vw">评论 ({{activityInfo.commentCount}})</p>
         <div class="comments">
           <van-list
             v-model="loading"
@@ -69,9 +74,10 @@
   import Function from '@/util/function'
 
   export default {
-    name: "momentInfo",
+    name: "activityDetails",
     data() {
       return {
+        isLike: false,
         finished: false,
         loading: false,
         message: '',
@@ -80,15 +86,25 @@
         videoSrc: '',
         videoShow: false,
         isLoading: false,
-        momentId: this.$route.query.momentId,
-        momentInfo: {},
+        activityId: this.$route.query.activityId,
+        activityInfo: {},
         comments: []
       }
     },
     mounted () {
-      this.getmomentInfo()
+      this.getactivityInfo()
     },
     methods: {
+      like () {
+        axios.post(api.common.userAction, {
+          actionType: constant.actionType.like,
+          objId: this.activityInfo.activityId,
+          objType: constant.infoType.activity
+        }).then(() => {
+          this.isLike = true;
+          this.getactivityInfo();
+        })
+      },
       share () {
         if (window.app.shareInfo) {
           window.app.shareInfo(window.location.href)
@@ -101,8 +117,8 @@
         axios.post(api.common.commentList, {
           page: this.page + 1,
           count: this.count,
-          objId: this.momentInfo.momentId,
-          objType: constant.infoType.moment
+          objId: this.activityInfo.activityId,
+          objType: constant.infoType.activity
         }).then((res) => {
           this.page += 1;
           this.loading = false;
@@ -120,14 +136,14 @@
         this.message = this.message.replace(/\s/g, "");
         if (this.message) {
           axios.post(api.common.userAction, {
-            objId: this.momentInfo.momentId,
+            objId: this.activityId,
             actionType: constant.actionType.comment,
-            objType: constant.infoType.moment,
+            objType: constant.infoType.activity,
             content: this.message
           }).then(() => {
             this.message = '';
             this.$toast('发送成功');
-            this.getmomentInfo();
+            this.getactivityInfo();
           }).catch(err => {
             console.log(err);
             this.$toast('发送失败');
@@ -153,12 +169,12 @@
           window.app.go2MainPage();
         }
       },
-      getmomentInfo() {
+      getactivityInfo() {
         axios.post(api.common.getInfo, {
-          objId: this.momentId,
-          objType: constant.infoType.moment
+          objId: this.activityId,
+          objType: constant.infoType.activity
         }).then((res) => {
-          this.momentInfo = res.data.data;
+          this.activityInfo = res.data.data;
           this.page = 0;
           this.comments = [];
           this.getComments();
@@ -172,12 +188,36 @@
 </script>
 
 <style lang="less" scoped>
-  .momentContent {
+  .likeCount {
+    text-align: right;
+    margin-top: 5vw;
+    .likeIcon {
+      width: 8vw;
+      height: 8vw;
+      display: inline-block;
+      vertical-align: bottom;
+      background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAMAAAAPkIrYAAAAWlBMVEUAAAChoaGioqKenp6ioqKioqKgoKChoaGioqKioqKfn5+ioqKioqKhoaGioqKioqKhoaGgoKCioqKioqKhoaGioqKioqKhoaGjo6OhoaGioqKhoaGhoaGhoaH2U/h2AAAAHXRSTlMA6/MZg44kQ1pLBg163a1x5BNSM8plPLkropXTwXI/v/EAAAISSURBVFjD7ZfblqMgEEUjRASDYrTV3M7//+ZUdSch093epnibnIfIWi52irri7q3/RYchr+twKhOgzBmsLD/KrfrAXfVBysqJorKMf4MQpSsgs8YEot2EpyyIsadnSfapk4zVA+h44RTgRCg2pzK86hogyKI4AuOnm0wF5GLXX0pencguL2INAMIzCFaaXVmxY1kOgsj1ZEz1le4eaIyE1eLh8PICfGiJWSOxTl8BPXNABayOC+eeHDUXtyxR4e6ss+yMpnnZ74nb/7tZ3AT9a5Hj3BZF4ZxrW0tqu9UODACu+km+4Keufp0Lh+bhreixn6qXTTtoW+FbMZehUn+LYfvpkcOO6ENeNyDdvgVOF5bVtq1j2ZzLYqIY3K15/B+r6paiw8FtJ99EqRWu6JqJQ1r1ivLDwnCda5BHHoRjT37wBFWLnLkG2T3HaZGtZQ3Z78UQCOB261lzw4lbqNnIYhd3iVh9HMBiVoiNW8oq98A1ESsOATnrUMchIGaNnJJSViyVc5mGpWM5ylkK8IlYBkBIxBoAZROxLLeDRKxAWwY5K25JxKqBRidiUapWZSIW3112iVg8IRKxNLEuYlacXD4RyxHLJmL1xCp+feM5iTexLsQykxbn5QaWuQLZdGNT3mitLbP0kroxhnHiypSRPp9LAqk6TXXvGhul+plvg2wTqXKz96ne79cqtMfdW2+99QcEjUnq3oVLkQAAAABJRU5ErkJggg==") no-repeat;
+      background-size: 100% 100%;
+    }
+    .likedIcon {
+      width: 8vw;
+      height: 8vw;
+      display: inline-block;
+      vertical-align: bottom;
+      background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAMAAAAPkIrYAAAAYFBMVEUAAAD/cnL/cHD/b2//b2//b2//b2//cHD/b2//b2//cHD/b2//cHD/bm7/b2//b2//b2//b2//b2//bm7/b2//b2//b2//b2//b2//b2//b2//b2//bm7/b2//b2//b29la1TQAAAAH3RSTlMACxKDupD5XPPnsYtJGVDt3sZ2KiNwZUE7onxUM9jNvkoeMwAAAWVJREFUWMPt18tugzAQhWGwg28Yc4dASOb937KNqta0Mg14Zhf+FatPcGTJIjl7l9JrbkzfUlDdJOCzMmP4t6rhK2FSrJXDd6pHUsUdfqoLnDWW3lLI/QcBPouey4cbLDVrK8dNX62tGWVdYZ2km0ssKEuvLd1hqJuH0Gf1AusuDLO8hnUmxS7veyC+sdO/LTHEWxP8bXLjaK117naTUrpl94A9vEo8mn0TjhpeJwzbQckK9iT49pXz3ME+n2BnVRembK1LpZRhByzhglTjz/d+C3hwIRVl5QGK1RBlzQFrgThrCK0VadmAlUdaS8DK4izV0lm6o7PuBZ1VE1oXRmeZlM6aEjoro7MEJ7R6OktJOqu0hNaVztItoVXQWVVCZz0ILUNoZYRWQ2hJD6DvoTFozVFWF7RsjFVu/UZFWFkSrhGHrardsJg5aqkh2SzT4oCl7i75p3aYOefyeU3xVzWOJWdnZx/d+QBjGW086gAAAABJRU5ErkJggg==") no-repeat;
+      background-size: 100% 100%;
+    }
+    .count {
+      vertical-align: super;
+      color: #A1A1A1;
+    }
+  }
+  .activityContent {
     background-color: #fff;
     padding: 5vw 3vw;
     width: 100vw;
     overflow: hidden;
-    .momentTitle {
+    .activityTitle {
       font-size: 4.8vw;
       font-weight: 600;
       margin-bottom: 4vw;
@@ -207,12 +247,18 @@
         color: #a1a1a1;
       }
     }
-    .momentDesc {
+    .activityDesc {
       color: #505050;
       margin-bottom: 6vw;
     }
-    .momentPics {
+    .activityPics {
       img {
+        height: 100%;
+        width: 100%;
+      }
+    }
+    .activityVideos {
+      video {
         height: 100%;
         width: 100%;
       }

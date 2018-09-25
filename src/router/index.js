@@ -4,6 +4,8 @@ import landRoutes from '@/router/landRoutes';
 import foodRoutes from '@/router/foodRoutes';
 const momentPublish = r => require.ensure([], () => r(require('../page/moment/momentPublish')), 'momentPublish');
 const momentDetails = r => require.ensure([], () => r(require('../page/moment/momentDetails')), 'momentDetails');
+const activityDetails = r => require.ensure([], () => r(require('../page/activity/activityDetails')), 'activityDetails');
+const wikiDetails = r => require.ensure([], () => r(require('../page/wiki/wikiDetails')), 'wikiDetails');
 
 
 Vue.use(Router);
@@ -24,6 +26,22 @@ const router = new Router({
     {
       path: '/momentDetails', // 圈子详情
       component: momentDetails,
+      meta: {
+        keepAlive: true,
+        index: 0
+      }
+    },
+    {
+      path: '/activityDetails', // 活动详情
+      component: activityDetails,
+      meta: {
+        keepAlive: true,
+        index: 0
+      }
+    },
+    {
+      path: '/wikiDetails', // 百科详情
+      component: wikiDetails,
       meta: {
         keepAlive: true,
         index: 0

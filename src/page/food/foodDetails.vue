@@ -123,7 +123,7 @@
           axios.post(api.common.userAction, {
             objId: this.gardenId,
             actionType: constant.actionType.comment,
-            objType: constant.infoType.land,
+            objType: constant.infoType.food,
             content: this.message
           }).then(() => {
             this.message = '';

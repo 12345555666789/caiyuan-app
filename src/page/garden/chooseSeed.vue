@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="width: 100vw; height: 100vh">
     <van-nav-bar
       :title="Number(recMod) === 0 ? '委托开垦选苗' : Number(recMod) === 1 ? '自主开垦选苗' : '开垦选苗'"
       fixed
