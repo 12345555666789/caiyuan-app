@@ -39,6 +39,7 @@ const moment = {
 };
 
 const my = {
+  userInfo: myPrefix + 'info',
   landList: myPrefix + 'land/list'
 };
 

@@ -100,3 +100,20 @@ export const reduceFoodToCar = (state, data) => {
   }
   state.foodCar = {...car};
 };
+export const setUserAction = (state, data) => {
+  let userAction = state.userAction;
+  if (userAction[data.userId]) {
+
+  } else {
+    userAction[data.userId] = {
+      actionType: data.actionType,
+      objId: data.objId,
+      objType: data.objType,
+      userId: data.userId
+    }
+  }
+  state.userAction = userAction
+};
+export const setUserInfo = (state, data) => {
+  state.userInfo = data
+};

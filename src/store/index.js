@@ -14,7 +14,9 @@ const state = {
   gardenOrder: {},
   foodOrder: {},
   gardenCar: {},
-  foodCar: {}
+  foodCar: {},
+  userAction: {},
+  userInfo: {}
 };
 
 const store = new Vuex.Store({

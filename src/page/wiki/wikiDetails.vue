@@ -36,6 +36,7 @@
   import axios from '@/config/axios.config'
   import constant from '@/config/constant'
   import Function from '@/util/function'
+  import {mapState, mapMutations} from 'vuex'
 
   export default {
     name: "wikiDetails",
@@ -49,10 +50,29 @@
         wikiInfo: {},
       }
     },
+    computed: {
+      ...mapState(['userInfo', 'userAction'])
+    },
     mounted () {
-      this.getwikiInfo()
+      this.getwikiInfo();
+      this.getUserInfo();
+    },
+    activated () {
+      this.checkAction();
     },
     methods: {
+      ...mapMutations(['setUserAction', 'setUserInfo']),
+      checkAction () {
+        if (this.userAction[this.userInfo.userId]) {
+          !this.userAction[this.userInfo.userId][this.wikiInfo.wikiId || this.wikiId] ? this.isFavor = false : true
+        }
+      },
+      getUserInfo () {
+        axios.post(api.my.userInfo).then(res => {
+          this.setUserInfo(res.data.data);
+          this.checkAction();
+        })
+      },
       favor () {
         axios.post(api.common.userAction, {
           "actionType": constant.actionType.favor,

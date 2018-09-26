@@ -1,6 +1,6 @@
 import axios from 'axios/index'
 import { Toast } from 'vant';
-// TODO 拦截器逻辑
+// 拦截器逻辑
 axios.interceptors.request.use((config) => {
   try {
     config.headers['Authorization'] = window.app.getToken();

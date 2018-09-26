@@ -72,6 +72,7 @@
   import axios from '@/config/axios.config'
   import constant from '@/config/constant'
   import Function from '@/util/function'
+  import {mapState, mapMutations} from 'vuex'
 
   export default {
     name: "activityDetails",
@@ -91,17 +92,42 @@
         comments: []
       }
     },
+    computed: {
+      ...mapState(['userInfo', 'userAction'])
+    },
     mounted () {
-      this.getactivityInfo()
+      this.getactivityInfo();
+      this.getUserInfo();
+    },
+    activated () {
+      this.checkAction();
     },
     methods: {
+      ...mapMutations(['setUserAction', 'setUserInfo']),
+      checkAction () {
+        if (this.userAction[this.userInfo.userId]) {
+          !this.userAction[this.userInfo.userId][this.activityInfo.activityId || this.activityId] ? this.isLike = false : true
+        }
+      },
+      getUserInfo () {
+        axios.post(api.my.userInfo).then(res => {
+          this.setUserInfo(res.data.data);
+          this.checkAction();
+        })
+      },
       like () {
         axios.post(api.common.userAction, {
           actionType: constant.actionType.like,
-          objId: this.activityInfo.activityId,
+          objId: this.activityInfo.activityId || this.activityId,
           objType: constant.infoType.activity
         }).then(() => {
           this.isLike = true;
+          this.setUserAction({
+            actionType: constant.actionType.like,
+            objId: this.activityInfo.activityId || this.activityId,
+            objType: constant.infoType.activity,
+            userId: this.userInfo.userId
+          });
           this.getactivityInfo();
         })
       },
