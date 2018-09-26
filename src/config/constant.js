@@ -6,7 +6,15 @@ export default {
     stockUp: 10, // 库存升序
     stockDown: 11, // 库存降序
     priceUp: 40, // 价格升序
-    priceDown: 41 // 价格降序
+    priceDown: 41, // 价格降序
+    viewUp: 20, // 浏览数升序
+    viewDown: 21, // 浏览数降序
+    commentsUp: 30, // 评论数升序
+    commentsDown: 31, // 评论数降序
+    scaleUp: 50, // 规模升序
+    scaleDown: 51, // 规模降序
+    consumeUp: 60, // 消费升序
+    consumeDown: 61 // 消费降序
   },
   seedType: {
     nativeVariety: 1, // 农家品种

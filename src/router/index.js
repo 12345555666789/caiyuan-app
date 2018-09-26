@@ -6,6 +6,7 @@ const momentPublish = r => require.ensure([], () => r(require('../page/moment/mo
 const momentDetails = r => require.ensure([], () => r(require('../page/moment/momentDetails')), 'momentDetails');
 const activityDetails = r => require.ensure([], () => r(require('../page/activity/activityDetails')), 'activityDetails');
 const wikiDetails = r => require.ensure([], () => r(require('../page/wiki/wikiDetails')), 'wikiDetails');
+const landTopList = r => require.ensure([], () => r(require('../page/ranking/landTopList')), 'landTopList');
 
 
 Vue.use(Router);
@@ -42,6 +43,14 @@ const router = new Router({
     {
       path: '/wikiDetails', // 百科详情
       component: wikiDetails,
+      meta: {
+        keepAlive: true,
+        index: 0
+      }
+    },
+    {
+      path: '/landTopList', // 排行榜
+      component: landTopList,
       meta: {
         keepAlive: true,
         index: 0

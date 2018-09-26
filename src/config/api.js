@@ -7,6 +7,7 @@ const orderPrefix = prefix + /order/;
 const foodPrefix = prefix + /food/;
 const momentPrefix = prefix + /moment/;
 const myPrefix = prefix + /my/;
+const rankingPrefix = prefix + /ranking/;
 
 const common = {
   getInfo: commonPrefix + 'detail',
@@ -43,13 +44,19 @@ const my = {
   landList: myPrefix + 'land/list'
 };
 
+const ranking = {
+  landRanking: rankingPrefix + 'land',
+  owerRanking: rankingPrefix + 'landower'
+};
+
 const api = {
   garden,
   food,
   common,
   order,
   my,
-  moment
+  moment,
+  ranking
 };
 
 export default api

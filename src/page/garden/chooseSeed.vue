@@ -16,10 +16,10 @@
           @cancel="onCancel"
         />
       </form>
-      <van-tabbar v-model="active" @change="changeActive" :fixed="false" style="margin-bottom: 1vw;">
-        <van-tabbar-item ref="overallSort">综合<van-icon name="arrow" /></van-tabbar-item>
-        <van-tabbar-item ref="stockSort">库存<van-icon name="arrow" /></van-tabbar-item>
-        <van-tabbar-item ref="priceSort">价格<van-icon name="arrow" /></van-tabbar-item>
+      <van-tabbar v-model="active" :fixed="false" style="margin-bottom: 1vw;">
+        <van-tabbar-item @click="changeActive(0)" ref="overallSort">综合<van-icon name="arrow" /></van-tabbar-item>
+        <van-tabbar-item @click="changeActive(1)" ref="stockSort">库存<van-icon name="arrow" /></van-tabbar-item>
+        <van-tabbar-item @click="changeActive(2)" ref="priceSort">价格<van-icon name="arrow" /></van-tabbar-item>
       </van-tabbar>
       <van-list
         v-if="seedData.length"
@@ -155,25 +155,25 @@
         if (active === 1) {
           if (this.sortType === constant.sortType.stockUp) {
             this.sortType = constant.sortType.stockDown; // 库存
-            this.$refs.stockSort.$children[0].$el.style.transform = 'rotate(-90deg)';
+            this.$refs.stockSort.$children[1].$el.style.transform = 'rotate(-90deg)';
           } else {
-            this.sortType = constant.sortType.stockUp // 库存
-            this.$refs.stockSort.$children[0].$el.style.transform = 'rotate(90deg)';
+            this.sortType = constant.sortType.stockUp; // 库存
+            this.$refs.stockSort.$children[1].$el.style.transform = 'rotate(90deg)';
           }
-          this.$refs.priceSort.$children[0].$el.style.transform = 'rotate(-90deg)';
+          this.$refs.priceSort.$children[1].$el.style.transform = 'rotate(-90deg)';
         } else if (active === 2) {
           if (this.sortType === constant.sortType.priceUp) {
             this.sortType = constant.sortType.priceDown; // 价格
-            this.$refs.priceSort.$children[0].$el.style.transform = 'rotate(-90deg)';
+            this.$refs.priceSort.$children[1].$el.style.transform = 'rotate(-90deg)';
           } else {
             this.sortType = constant.sortType.priceUp; // 价格
-            this.$refs.priceSort.$children[0].$el.style.transform = 'rotate(90deg)';
+            this.$refs.priceSort.$children[1].$el.style.transform = 'rotate(90deg)';
           }
-          this.$refs.stockSort.$children[0].$el.style.transform = 'rotate(-90deg)';
+          this.$refs.stockSort.$children[1].$el.style.transform = 'rotate(-90deg)';
         } else {
           this.sortType = constant.sortType.overall; // 综合
-          this.$refs.stockSort.$children[0].$el.style.transform = 'rotate(-90deg)';
-          this.$refs.stockSort.$children[0].$el.style.transform = 'rotate(-90deg)';
+          this.$refs.stockSort.$children[1].$el.style.transform = 'rotate(-90deg)';
+          this.$refs.priceSort.$children[1].$el.style.transform = 'rotate(-90deg)';
         }
         this.page = 0;
         this.getSeedList()

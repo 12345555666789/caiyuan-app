@@ -16,10 +16,10 @@
           @cancel="onCancel"
         />
       </form>
-      <van-tabbar v-model="active" @change="changeActive" :fixed="false" style="margin-bottom: 1vw;">
-        <van-tabbar-item ref="overallSort">综合<van-icon name="arrow" /></van-tabbar-item>
-        <van-tabbar-item ref="stockSort">库存<van-icon name="arrow" /></van-tabbar-item>
-        <van-tabbar-item ref="priceSort">价格<van-icon name="arrow" /></van-tabbar-item>
+      <van-tabbar v-model="active" :fixed="false" style="margin-bottom: 1vw;">
+        <van-tabbar-item @click="changeActive(0)" ref="overallSort">综合<van-icon name="arrow" /></van-tabbar-item>
+        <van-tabbar-item @click="changeActive(1)" ref="stockSort">库存<van-icon name="arrow" /></van-tabbar-item>
+        <van-tabbar-item @click="changeActive(2)" ref="priceSort">价格<van-icon name="arrow" /></van-tabbar-item>
       </van-tabbar>
       <van-list
         v-if="fertData.length"
