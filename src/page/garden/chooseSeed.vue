@@ -176,6 +176,7 @@
           this.$refs.priceSort.$children[1].$el.style.transform = 'rotate(-90deg)';
         }
         this.page = 0;
+        this.seedData = [];
         this.getSeedList()
       },
       getSeedList () {
@@ -339,7 +340,7 @@
       margin-right: 4vw;
       img {
         width: 100%;
-        height: 100%;
+        /*height: 100%;*/
       }
     }
     .seedInfo {
