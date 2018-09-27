@@ -25,12 +25,13 @@
                   <van-cell title="开垦模式"><div class="value">{{item.recMode === 1 ? '托管' : '自理'}}</div></van-cell>
                   <van-cell title="肥料套餐"><div class="value" v-for="fertilizer in item.fertilizers">{{fertilizer.replace('x', ' × ')}}</div></van-cell>
                   <van-cell title="作物种子"><div class="value" v-for="seed in item.seeds">{{seed.replace('x', ' × ')}}</div></van-cell>
-                  <van-cell><div class="value" style="text-align: right"><span>{{item.orderStatus === 10 ? '应付总额' : '交易总额'}}: </span><span class="iconRmb">¥</span>{{item.totalAmount}}</div></van-cell>
+                  <van-cell><div class="value" style="text-align: right"><span>{{item.orderStatus === 10 ? '应付总额' : '交易总额'}}: </span><span class="totalPrice"><span class="iconRmb">¥</span>{{item.totalAmount}}</span></div></van-cell>
                   <van-cell>
                     <div class="value" style="text-align: right">
                       <span class="orderBtn" v-if="[20, 30, 41, 50].includes(item.orderStatus)" @click="toChooseLand">再次购买</span>
                       <span class="orderBtn" v-if="item.orderStatus === 10" @click="toPay">去付款</span>
-                    </div></van-cell>
+                    </div>
+                  </van-cell>
                 </van-cell-group>
               </div>
               <div class="noDataList"><span>已经到底啦~</span></div>
@@ -57,7 +58,12 @@
                   <van-cell title="就餐人数"><div class="value">{{item.diners}}人</div></van-cell>
                   <van-cell title="联系人"><div class="value">{{item.contactName }}</div></van-cell>
                   <van-cell title="联系电话"><div class="value">{{item.telephone }}</div></van-cell>
-                  <van-cell title="预算金额"><div class="value"><span class="iconRmb">¥</span>{{item.total}}</div></van-cell>
+                  <van-cell title="预算金额"><div class="value"><span class="totalPrice"><span class="iconRmb">¥</span>{{item.total}}</span></div></van-cell>
+                  <van-cell>
+                    <div class="value" style="text-align: right">
+                      <span class="orderBtn" v-if="[20, 30, 41, 50].includes(item.orderStatus)" @click="toChooseFood">再次预约</span>
+                    </div>
+                  </van-cell>
                 </van-cell-group>
               </div>
               <div class="noDataList"><span>已经到底啦~</span></div>
@@ -90,6 +96,9 @@
       this.getOrderList();
     },
     methods: {
+      toChooseFood () {
+
+      },
       toPay () {
 
       },
@@ -132,8 +141,19 @@
 </script>
 
 <style scoped lang="less">
+  .totalPrice {
+    color: #F12020;
+    font-size: 4.5vw;
+    .iconRmb {
+      font-size: 3vw;
+    }
+  }
   .orderBtn {
-
+    border-radius: 7vw;
+    color: #38ACA5;
+    border: 1px solid #38ACA5;
+    padding: 0.5vw 3.5vw;
+    display: inline-block;
   }
   .orderItem {
     background-color: #fff;

@@ -31,8 +31,8 @@
                   <img v-lazy="item.landPics[0]">
                 </div>
               </div>
-              <div class="noDataList"><span>已经到底啦~</span></div>
             </van-list>
+            <div class="noDataList"><span>已经到底啦~</span></div>
           </van-pull-refresh>
         </van-tab>
         <van-tab title="地主">
@@ -54,8 +54,8 @@
                 </div>
                 <div class="lands">共有{{item.landCount}}块菜园</div>
               </div>
-              <div class="noDataList"><span>已经到底啦~</span></div>
             </van-list>
+            <div class="noDataList"><span>已经到底啦~</span></div>
           </van-pull-refresh>
         </van-tab>
       </van-tabs>
