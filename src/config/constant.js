@@ -41,5 +41,38 @@ export default {
     fertilizer: 18, //肥料
     orderLand: 50, //菜园订单
     oderFood: 51 //食材订单
-  }
+  },
+  orderType: {
+    unpaid: 10, // 未支付
+    paying: 11, // 支付中
+    paid: 20, // 已支付
+    cancelled: 30, // 已取消
+    refunding: 40, // 退款中
+    refunded: 41, // 退款成功
+    deleted: 50, // 已删除
+  },
+  orderStates: [
+    {
+      name: '未支付',
+      code: 10
+    },{
+      name: '支付中',
+      code: 11
+    },{
+      name: '已支付',
+      code: 20
+    },{
+      name: '已取消',
+      code: 30
+    },{
+      name: '退款中',
+      code: 40
+    },{
+      name: '退款成功',
+      code: 41
+    },{
+      name: '已删除',
+      code: 50
+    }
+  ]
 }

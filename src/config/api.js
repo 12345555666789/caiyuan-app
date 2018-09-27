@@ -41,7 +41,8 @@ const moment = {
 
 const my = {
   userInfo: myPrefix + 'info',
-  landList: myPrefix + 'land/list'
+  landList: myPrefix + 'land/list',
+  orderList: myPrefix + 'order/list'
 };
 
 const ranking = {
