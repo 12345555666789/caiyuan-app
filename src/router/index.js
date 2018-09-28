@@ -8,6 +8,7 @@ const momentDetails = r => require.ensure([], () => r(require('../page/moment/mo
 const activityDetails = r => require.ensure([], () => r(require('../page/activity/activityDetails')), 'activityDetails');
 const wikiDetails = r => require.ensure([], () => r(require('../page/wiki/wikiDetails')), 'wikiDetails');
 const landTopList = r => require.ensure([], () => r(require('../page/ranking/landTopList')), 'landTopList');
+const liveTelecast = r => require.ensure([], () => r(require('../page/live/liveTelecast')), 'liveTelecast');
 
 
 Vue.use(Router);
@@ -53,6 +54,14 @@ const router = new Router({
     {
       path: '/landTopList', // 排行榜
       component: landTopList,
+      meta: {
+        keepAlive: true,
+        index: 0
+      }
+    },
+    {
+      path: '/liveTelecast', // 直播
+      component: liveTelecast,
       meta: {
         keepAlive: true,
         index: 0
