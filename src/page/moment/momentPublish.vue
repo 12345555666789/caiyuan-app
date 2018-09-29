@@ -139,8 +139,8 @@
           }
         },
         goApp () {
-          if (window.app) {
-            window.app.go2MainPage();
+          if (window.app.goBackApp) {
+            window.app.goBackApp();
           }
         }
       }

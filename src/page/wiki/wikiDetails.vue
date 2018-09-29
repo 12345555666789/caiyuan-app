@@ -20,11 +20,6 @@
               <img v-lazy="item">
             </div>
           </div>
-          <div class="likeCount">
-            <span v-if="isLike" class="likedIcon"></span>
-            <span v-else class="likeIcon" @click="like"></span>
-            <span class="count">{{wikiInfo.likeCount}}</span>
-          </div>
         </div>
       </div>
     </van-pull-refresh>
@@ -76,7 +71,7 @@
       favor () {
         axios.post(api.common.userAction, {
           "actionType": constant.actionType.favor,
-          "objId": this.wikiInfo.wikiId,
+          "objId": this.wikiInfo.wikiId || this.wikiId,
           "objType": constant.infoType.wiki
         }).then(() => {
           this.isFavor = true
@@ -86,8 +81,8 @@
         return Function.dateFormat(date, format)
       },
       goApp () {
-        if (window.app.go2MainPage) {
-          window.app.go2MainPage();
+        if (window.app.goBackApp()) {
+          window.app.goBackApp();
         }
       },
       getwikiInfo() {

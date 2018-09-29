@@ -109,8 +109,8 @@
         this.getOwerTopList();
       },
       goApp () {
-        if (window.app.go2MainPage) {
-          window.app.go2MainPage();
+        if (window.app.goBackApp()) {
+          window.app.goBackApp();
         }
       },
       changeLandActive (active) {

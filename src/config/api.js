@@ -42,7 +42,10 @@ const moment = {
 const my = {
   userInfo: myPrefix + 'info',
   landList: myPrefix + 'land/list',
-  orderList: myPrefix + 'order/list'
+  orderList: myPrefix + 'order/list',
+  orderFoodList: myPrefix + 'order/foodlist/',
+  deleteOrder: myPrefix + 'order/delete/',
+  deleteMoment: myPrefix + 'moment/delete/'
 };
 
 const ranking = {

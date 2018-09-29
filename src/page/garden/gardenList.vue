@@ -109,8 +109,8 @@
         })
       },
       onClickLeft () {
-        if (window.app) {
-          window.app.go2MainPage();
+        if (window.goBackApp) {
+          window.app.goBackApp();
         }
       }
     }

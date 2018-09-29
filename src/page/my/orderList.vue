@@ -15,7 +15,7 @@
                       <div class="orderDate">{{createDate(item.createDate)}}</div>
                       <div class="orderState">{{orderState(item.orderStatus) && orderState(item.orderStatus).name}}
                         <span v-if="![11, 40, 50].includes(item.orderStatus)">&nbsp | &nbsp</span>
-                        <span class="deleteOrder" v-if="![11, 40, 50].includes(item.orderStatus)"></span>
+                        <span class="deleteOrder" v-if="![11, 40, 50].includes(item.orderStatus)" @click="deleteOrder(item, 1)"></span>
                       </div>
                     </div>
                   </van-cell>
@@ -49,7 +49,7 @@
                       <div class="orderDate">{{createDate(item.createDate)}}</div>
                       <div class="orderState">{{orderState(item.orderStatus) && orderState(item.orderStatus).name}}
                         <span v-if="![11, 40, 50].includes(item.orderStatus)">&nbsp | &nbsp</span>
-                        <span class="deleteOrder" v-if="![11, 40, 50].includes(item.orderStatus)"></span>
+                        <span class="deleteOrder" v-if="![11, 40, 50].includes(item.orderStatus)" @click="deleteOrder(item, 0)"></span>
                       </div>
                     </div>
                   </van-cell>
@@ -62,6 +62,7 @@
                   <van-cell>
                     <div class="value" style="text-align: right">
                       <span class="orderBtn" v-if="[20, 30, 41, 50].includes(item.orderStatus)" @click="toChooseFood">再次预约</span>
+                      <span class="orderBtn" v-if="[20, 30, 41, 50].includes(item.orderStatus)" @click="toEvaluation(item.orderId)">评价</span>
                     </div>
                   </van-cell>
                 </van-cell-group>
@@ -96,14 +97,44 @@
       this.getOrderList();
     },
     methods: {
+      toEvaluation (orderId) {
+        this.$router.push({
+          path: '/evaluationFood',
+          query: {
+            orderId
+          }
+        })
+      },
+      deleteOrder (data, type) {
+        let massage = type ? '菜园' : '美食';
+        if (data) {
+          this.$dialog.confirm({
+            title: '提示',
+            message: '确认要删除该' + massage + '订单吗'
+          }).then(() => {
+            // on confirm
+            axios.post(api.my.deleteOrder + data.orderId).then(() => {
+              this.$toast('订单已删除');
+              this.getOrderList();
+            })
+          }).catch(() => {
+            // on cancel
+          });
+        }
+      },
       toChooseFood () {
-
+        this.$router.push({
+          path: '/makeFood'
+        })
       },
       toPay () {
-
+        // TODO 付款逻辑
+        this.$toast('去付款');
       },
       toChooseLand () {
-
+        this.$router.push({
+          path: '/landRegionList'
+        })
       },
       orderState (state) {
         return constant.orderStates.find(item => item.code === state)
@@ -121,8 +152,8 @@
         this.getOrderList();
       },
       goApp () {
-        if (window.app.go2MainPage) {
-          window.app.go2MainPage();
+        if (window.app.goBackApp()) {
+          window.app.goBackApp();
         }
       },
       getOrderList () {

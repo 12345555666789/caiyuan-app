@@ -3,11 +3,21 @@ const messageList = r => require.ensure([], () => r(require('../page/my/messageL
 const invite = r => require.ensure([], () => r(require('../page/my/invite')), 'invite');
 const collection = r => require.ensure([], () => r(require('../page/my/collection')), 'collection');
 const wallet = r => require.ensure([], () => r(require('../page/my/wallet')), 'wallet');
+const toBeVip = r => require.ensure([], () => r(require('../page/my/toBeVip')), 'toBeVip');
+const evaluationFood = r => require.ensure([], () => r(require('../page/my/evaluationFood')), 'evaluationFood');
 
 const myRoutes = [
   {
     path: '/orderList', // 我的订单
     component: orderList,
+    meta: {
+      keepAlive: true,
+      index: 0
+    },
+  },
+  {
+    path: '/evaluationFood', // 评价订单
+    component: evaluationFood,
     meta: {
       keepAlive: true,
       index: 0
@@ -40,6 +50,14 @@ const myRoutes = [
   {
     path: '/wallet', // 我的钱包
     component: wallet,
+    meta: {
+      keepAlive: true,
+      index: 0
+    },
+  },
+  {
+    path: '/toBeVip', // 成为会员
+    component: toBeVip,
     meta: {
       keepAlive: true,
       index: 0

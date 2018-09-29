@@ -24,14 +24,19 @@
               <img :src="item">
             </div>
           </div>
+          <div class="likeCount">
+            <span class="deleteMoment"><van-button type="default" size="mini" @click="deleteMoment" plain>删除</van-button></span>
+            <span v-if="isLike" class="likedIcon"></span>
+            <span v-else class="likeIcon" @click="like"></span>
+            <span class="count">{{momentInfo.likeCount}}</span>
+          </div>
         </div>
         <p style="font-size: 3vw; padding: 1vw 3vw">评论 ({{momentInfo.commentCount}})</p>
         <div class="comments">
           <van-list
             v-model="loading"
             :finished="finished"
-            @load="getComments"
-          >
+            @load="getComments">
             <div class="comment" v-for="(item, index) in comments" :key="index">
               <div class="iconurl">
                 <img :src="item.iconurl" width="100%" height="100%">
@@ -54,8 +59,7 @@
           type="textarea"
           placeholder="说说你的想法吧~"
           rows="1"
-          autosize
-        >
+          autosize>
           <van-button slot="button" size="small" type="default" @click="sendComment">发送</van-button>
         </van-field>
       </van-cell-group>
@@ -67,11 +71,13 @@
   import axios from '@/config/axios.config'
   import constant from '@/config/constant'
   import Function from '@/util/function'
+  import {mapState, mapMutations} from 'vuex'
 
   export default {
     name: "momentInfo",
     data() {
       return {
+        isLike: false,
         finished: false,
         loading: false,
         message: '',
@@ -81,14 +87,63 @@
         videoShow: false,
         isLoading: false,
         momentId: this.$route.query.momentId,
+        isMy: this.$route.query.isMy,
         momentInfo: {},
         comments: []
       }
     },
+    computed: {
+      ...mapState(['userInfo', 'userAction'])
+    },
     mounted () {
       this.getmomentInfo()
     },
+    activated () {
+      this.checkAction();
+    },
     methods: {
+      ...mapMutations(['setUserAction', 'setUserInfo']),
+      deleteMoment () {
+        this.$dialog.confirm({
+          title: '提示',
+          message: '确认要删除吗'
+        }).then(() => {
+          // on confirm
+          axios.post(api.my.deleteMoment + this.momentId).then(() => {
+            this.$toast('已删除');
+            this.goApp();
+          })
+        }).catch(() => {
+          // on cancel
+        });
+      },
+      getUserInfo () {
+        axios.post(api.my.userInfo).then(res => {
+          this.setUserInfo(res.data.data);
+          this.checkAction();
+        })
+      },
+      like () {
+        axios.post(api.common.userAction, {
+          actionType: constant.actionType.like,
+          objId: this.momentInfo.momentId || this.momentId,
+          objType: constant.infoType.moment
+        }).then(() => {
+          this.isLike = true;
+          this.setUserAction({
+            actionType: constant.actionType.like,
+            objId: this.momentInfo.momentId || this.momentId,
+            objType: constant.infoType.moment,
+            userId: this.userInfo.userId
+          });
+          this.getmomentInfo();
+        })
+      },
+      checkAction () {
+        if (this.userAction[this.userInfo.userId]) {
+          !this.userAction[this.userInfo.userId][this.momentInfo.momentId || this.momentId] ? this.isLike = false : true
+        }
+      },
       share () {
         if (window.app.shareInfo) {
           window.app.shareInfo(window.location.href)
@@ -101,7 +156,7 @@
         axios.post(api.common.commentList, {
           page: this.page + 1,
           count: this.count,
-          objId: this.momentInfo.momentId,
+          objId: this.momentInfo.momentId || this.momentId,
           objType: constant.infoType.moment
         }).then((res) => {
           this.page += 1;
@@ -149,8 +204,8 @@
         this.videoShow = true;
       },
       goApp () {
-        if (window.app.go2MainPage) {
-          window.app.go2MainPage();
+        if (window.app.goBackApp) {
+          window.app.goBackApp();
         }
       },
       getmomentInfo() {
@@ -172,6 +227,34 @@
 </script>
 
 <style lang="less" scoped>
+  .likeCount {
+    text-align: right;
+    margin-top: 5vw;
+    .deleteMoment {
+      float: left;
+      margin-top: 3vw;
+    }
+    .likeIcon {
+      width: 8vw;
+      height: 8vw;
+      display: inline-block;
+      vertical-align: bottom;
+      background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAMAAAAPkIrYAAAAWlBMVEUAAAChoaGioqKenp6ioqKioqKgoKChoaGioqKioqKfn5+ioqKioqKhoaGioqKioqKhoaGgoKCioqKioqKhoaGioqKioqKhoaGjo6OhoaGioqKhoaGhoaGhoaH2U/h2AAAAHXRSTlMA6/MZg44kQ1pLBg163a1x5BNSM8plPLkropXTwXI/v/EAAAISSURBVFjD7ZfblqMgEEUjRASDYrTV3M7//+ZUdSch093epnibnIfIWi52irri7q3/RYchr+twKhOgzBmsLD/KrfrAXfVBysqJorKMf4MQpSsgs8YEot2EpyyIsadnSfapk4zVA+h44RTgRCg2pzK86hogyKI4AuOnm0wF5GLXX0pencguL2INAMIzCFaaXVmxY1kOgsj1ZEz1le4eaIyE1eLh8PICfGiJWSOxTl8BPXNABayOC+eeHDUXtyxR4e6ss+yMpnnZ74nb/7tZ3AT9a5Hj3BZF4ZxrW0tqu9UODACu+km+4Keufp0Lh+bhreixn6qXTTtoW+FbMZehUn+LYfvpkcOO6ENeNyDdvgVOF5bVtq1j2ZzLYqIY3K15/B+r6paiw8FtJ99EqRWu6JqJQ1r1ivLDwnCda5BHHoRjT37wBFWLnLkG2T3HaZGtZQ3Z78UQCOB261lzw4lbqNnIYhd3iVh9HMBiVoiNW8oq98A1ESsOATnrUMchIGaNnJJSViyVc5mGpWM5ylkK8IlYBkBIxBoAZROxLLeDRKxAWwY5K25JxKqBRidiUapWZSIW3112iVg8IRKxNLEuYlacXD4RyxHLJmL1xCp+feM5iTexLsQykxbn5QaWuQLZdGNT3mitLbP0kroxhnHiypSRPp9LAqk6TXXvGhul+plvg2wTqXKz96ne79cqtMfdW2+99QcEjUnq3oVLkQAAAABJRU5ErkJggg==") no-repeat;
+      background-size: 100% 100%;
+    }
+    .likedIcon {
+      width: 8vw;
+      height: 8vw;
+      display: inline-block;
+      vertical-align: bottom;
+      background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAMAAAAPkIrYAAAAYFBMVEUAAAD/cnL/cHD/b2//b2//b2//b2//cHD/b2//b2//cHD/b2//cHD/bm7/b2//b2//b2//b2//b2//bm7/b2//b2//b2//b2//b2//b2//b2//b2//bm7/b2//b2//b29la1TQAAAAH3RSTlMACxKDupD5XPPnsYtJGVDt3sZ2KiNwZUE7onxUM9jNvkoeMwAAAWVJREFUWMPt18tugzAQhWGwg28Yc4dASOb937KNqta0Mg14Zhf+FatPcGTJIjl7l9JrbkzfUlDdJOCzMmP4t6rhK2FSrJXDd6pHUsUdfqoLnDWW3lLI/QcBPouey4cbLDVrK8dNX62tGWVdYZ2km0ssKEuvLd1hqJuH0Gf1AusuDLO8hnUmxS7veyC+sdO/LTHEWxP8bXLjaK117naTUrpl94A9vEo8mn0TjhpeJwzbQckK9iT49pXz3ME+n2BnVRembK1LpZRhByzhglTjz/d+C3hwIRVl5QGK1RBlzQFrgThrCK0VadmAlUdaS8DK4izV0lm6o7PuBZ1VE1oXRmeZlM6aEjoro7MEJ7R6OktJOqu0hNaVztItoVXQWVVCZz0ILUNoZYRWQ2hJD6DvoTFozVFWF7RsjFVu/UZFWFkSrhGHrardsJg5aqkh2SzT4oCl7i75p3aYOefyeU3xVzWOJWdnZx/d+QBjGW086gAAAABJRU5ErkJggg==") no-repeat;
+      background-size: 100% 100%;
+    }
+    .count {
+      vertical-align: super;
+      color: #A1A1A1;
+    }
+  }
   .momentContent {
     background-color: #fff;
     padding: 5vw 3vw;
