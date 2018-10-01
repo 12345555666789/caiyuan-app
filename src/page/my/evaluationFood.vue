@@ -78,7 +78,6 @@
               evaluation.push(1)
             }
           });
-          console.log(evaluation.find(item => item === 1));
           if (evaluation.find(item => item === 1)) {
             this.$toast('每份食材至少选择一个评价哦')
           } else {
