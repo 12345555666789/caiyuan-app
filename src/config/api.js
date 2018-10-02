@@ -8,6 +8,7 @@ const foodPrefix = prefix + /food/;
 const momentPrefix = prefix + /moment/;
 const myPrefix = prefix + /my/;
 const rankingPrefix = prefix + /ranking/;
+const livePrefix = prefix + /live/;
 
 const common = {
   getInfo: commonPrefix + 'detail',
@@ -32,6 +33,11 @@ const food = {
 const order = {
   getPreAccounting: orderPrefix + 'land/pre_accounting',
   submitFoodOrder: orderPrefix + 'food/submit'
+};
+
+const live = {
+  getInteractionTopList: livePrefix + 'act/list',
+  getOnlineTopList: livePrefix + 'farm/list'
 };
 
 const moment = {
@@ -60,7 +66,8 @@ const api = {
   order,
   my,
   moment,
-  ranking
+  ranking,
+  live
 };
 
 export default api

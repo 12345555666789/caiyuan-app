@@ -109,7 +109,7 @@
         })
       },
       onClickLeft () {
-        if (window.goBackApp) {
+        if (window.app.goBackApp) {
           window.app.goBackApp();
         }
       }

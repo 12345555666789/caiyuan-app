@@ -2,8 +2,7 @@
   <van-nav-bar
     title="成为会员"
     left-arrow
-    @click-left="goApp"
-    @click-left=""></van-nav-bar>
+    @click-left="goApp"></van-nav-bar>
 </template>
 
 <script>
