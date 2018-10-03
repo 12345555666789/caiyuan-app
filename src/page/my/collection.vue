@@ -10,7 +10,7 @@
         v-model="loading"
         @load="getCollectionList"
         :finished="finished">
-        <van-cell v-for="item in favorData" @click="toWikiInfo(item.wikiId)">
+        <van-cell v-for="item in favorData" @click="toWikiInfo(item.wikiId)" :key="item.wikiId">
           <div class="wikiTitle"><span class="questionIcon"></span>{{item.title}}</div>
           <div class="wikiContent">
             <div class="wikiPic"><img v-lazy="item.wikiPics[0]"></div>

@@ -8,13 +8,13 @@
     <div style="height: 12vw"></div>
     <van-pull-refresh v-model="isLoading" @refresh="getgardenInfo">
       <van-swipe style="height: 50vw; width: 100vw">
-        <van-swipe-item v-for="(item, index) in gardenInfo.landVideos">
+        <van-swipe-item v-for="(item, index) in gardenInfo.landVideos" :key="item">
           <div class="videoShadow" style="overflow: hidden;height: 50vw; width: 100vw" @click="videoPlay(item)">
             <van-icon name="play"/>
             <video id="videoView" :src="item" height="100%" width="100%" style="z-index: -1;position: absolute"></video>
           </div>
         </van-swipe-item>
-        <van-swipe-item v-for="(item, index) in gardenInfo.landPics">
+        <van-swipe-item v-for="(item, index) in gardenInfo.landPics" :key="item">
           <img :src="item" height="100%" width="100%">
         </van-swipe-item>
       </van-swipe>

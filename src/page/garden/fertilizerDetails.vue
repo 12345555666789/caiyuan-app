@@ -8,7 +8,7 @@
     <div style="height: 12vw"></div>
     <van-pull-refresh v-model="isLoading" @refresh="getfertilizerInfo">
       <van-swipe style="height: 80vw;width: 100vw;">
-        <van-swipe-item v-for="(item, index) in fertilizerInfo.fertPics">
+        <van-swipe-item v-for="(item, index) in fertilizerInfo.fertPics" :key="item">
           <img :src="item" height="100%" width="100%">
         </van-swipe-item>
       </van-swipe>

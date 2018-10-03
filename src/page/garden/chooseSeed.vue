@@ -27,7 +27,7 @@
         @load="getSeedList"
         :offset="30"
         :finished="finished">
-        <div class="seedItem" v-for="item in seedData" @click="toSeedInfo(item.seedId)">
+        <div class="seedItem" v-for="item in seedData" @click="toSeedInfo(item.seedId)" :key="item.seedId">
           <div class="seedPic">
             <img v-lazy="item.seedPics[0]">
           </div>
@@ -59,7 +59,7 @@
     </div>
     <van-actionsheet v-model="modalShow" title="已选种子及肥料">
       <div class="goodsCar" v-if="totalNum()">
-        <div class="itemGoods" v-for="item in Object.values(carList)">
+        <div class="itemGoods" v-for="(item, index) in Object.values(carList)" :key="index">
           <div>
             <div class="itemGoodsName">{{item['seedName'] || item['fertName']}}</div>
             <div class="addSeed">

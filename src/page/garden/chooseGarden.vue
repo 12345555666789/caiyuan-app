@@ -41,6 +41,7 @@
           <div class="landsSelect">
             <div class="landsRow" v-for="(landsRow, index) in gardenData" :key="'' + landsRow.row + index">
               <div v-for="(garden, index) in landsRow.lands"
+                   :key="garden.landId"
                    :class="garden.landStatus === 0 ? 'landsItem' : garden.landStatus === 2 ? 'selectedItem' : 'disableItem'"
                    @click="handleLand(garden, landsRow.row)">{{garden.landSize}}</div>
             </div>
@@ -90,7 +91,7 @@
     </div>
     <div class="chooseGardenForm">
       <div v-if="selectedGarden.length" class="selectedBox">
-        <div class="selectedLand animated bounceIn" v-for="(item, index) in selectedGarden">
+        <div class="selectedLand animated bounceIn" v-for="(item, index) in selectedGarden" :key="'' + item.row + item.col">
           <span>{{item.row}}排{{item.col}}号{{item.landSize}}㎡</span>
           <van-icon @click="deleteItem(item)" name="clear" />
         </div>
