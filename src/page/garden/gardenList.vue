@@ -11,7 +11,6 @@
           v-if="gardenList.length"
           v-model="loading"
           @load="getGardenList"
-          :offset="30"
           :finished="finished">
             <van-cell class="gardenItem" v-for="(item, index) in gardenList" :key="index">
             <template slot="title">

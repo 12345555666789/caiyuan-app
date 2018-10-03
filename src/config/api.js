@@ -51,7 +51,8 @@ const my = {
   orderList: myPrefix + 'order/list',
   orderFoodList: myPrefix + 'order/foodlist/',
   deleteOrder: myPrefix + 'order/delete/',
-  deleteMoment: myPrefix + 'moment/delete/'
+  deleteMoment: myPrefix + 'moment/delete/',
+  getFavorList: myPrefix + 'favor/list'
 };
 
 const ranking = {

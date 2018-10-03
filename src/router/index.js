@@ -48,7 +48,7 @@ const router = new Router({
       component: wikiDetails,
       meta: {
         keepAlive: true,
-        index: 0
+        index: 1
       }
     },
     {
