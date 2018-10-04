@@ -15,8 +15,8 @@
             <van-cell class="gardenItem" v-for="(item, index) in gardenList" :key="index">
             <template slot="title">
               <div style="border-bottom: 1px solid #e5e5e5; padding: 3vw 3vw;">
-                <span class="van-cell-text">菜园编号: <span class="useCopy landId ellipse" style="color: #505050;">{{item.landId}}</span></span>
-                <div style="color:#53B2AC;float: right">长按复制</div>
+                <span class="van-cell-text">菜园编号: <span class="useCopy landId ellipse" style="color: #505050;">{{item.landId.split('-')[1]}}</span></span>
+                <!--<div style="color:#53B2AC;float: right">长按复制</div>-->
               </div>
               <div class="gardenItemInfo">
                 <div>
@@ -186,7 +186,8 @@
   }
   .landId {
     display: inline-block;
-    width: 50vw;
+    /*width: 50vw;*/
+    width: 75vw;
     vertical-align: bottom;
   }
 </style>

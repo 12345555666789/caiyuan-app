@@ -5,6 +5,7 @@ const collection = r => require.ensure([], () => r(require('../page/my/collectio
 const wallet = r => require.ensure([], () => r(require('../page/my/wallet')), 'wallet');
 const toBeVip = r => require.ensure([], () => r(require('../page/my/toBeVip')), 'toBeVip');
 const evaluationFood = r => require.ensure([], () => r(require('../page/my/evaluationFood')), 'evaluationFood');
+const messageBoard = r => require.ensure([], () => r(require('../page/my/messageBoard')), 'messageBoard');
 
 const myRoutes = [
   {
@@ -36,7 +37,7 @@ const myRoutes = [
     component: invite,
     meta: {
       keepAlive: true,
-      index: 0
+      index: 2
     },
   },
   {
@@ -61,6 +62,14 @@ const myRoutes = [
     meta: {
       keepAlive: true,
       index: 0
+    },
+  },
+  {
+    path: '/messageBoard', // 留言板
+    component: messageBoard,
+    meta: {
+      keepAlive: true,
+      index: 2
     },
   },
 ];

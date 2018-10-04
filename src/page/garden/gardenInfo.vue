@@ -4,6 +4,8 @@
       title="菜园详情"
       fixed
       left-arrow
+      right-text="客服"
+      @click-right="toMessageBoard"
       @click-left="onClickLeft"></van-nav-bar>
     <div style="height: 12vw"></div>
     <van-pull-refresh v-model="isLoading" @refresh="getgardenInfo">
@@ -98,6 +100,14 @@
       this.getgardenInfo()
     },
     methods: {
+      toMessageBoard () {
+        this.$router.push({
+          path: '/messageBoard',
+          query: {
+            landId: this.gardenId
+          }
+        })
+      },
       dateFormat (date, format) {
         return Function.dateFormat(date, format)
       },

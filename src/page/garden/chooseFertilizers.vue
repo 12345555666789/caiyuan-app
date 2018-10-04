@@ -180,7 +180,7 @@
       getFertilizerList () {
         this.isLoading = true;
         axios.post(api.garden.getFertilizerList, {
-            key: this.key,
+            keywords: this.key,
             page: this.page + 1,
             count: this.count,
             sortType: this.sortType

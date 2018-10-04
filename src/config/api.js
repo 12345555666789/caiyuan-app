@@ -9,6 +9,7 @@ const momentPrefix = prefix + /moment/;
 const myPrefix = prefix + /my/;
 const rankingPrefix = prefix + /ranking/;
 const livePrefix = prefix + /live/;
+const helpPrefix = prefix + /help/;
 
 const common = {
   getInfo: commonPrefix + 'detail',
@@ -55,6 +56,13 @@ const my = {
   getFavorList: myPrefix + 'favor/list'
 };
 
+const help = {
+  msgList: helpPrefix + 'land/msglist/',
+  list: helpPrefix + 'list',
+  msgPublish: helpPrefix + 'land/msgpublish',
+  complainPublish: 'complain/publish'
+};
+
 const ranking = {
   landRanking: rankingPrefix + 'land',
   owerRanking: rankingPrefix + 'landower'
@@ -68,7 +76,8 @@ const api = {
   my,
   moment,
   ranking,
-  live
+  live,
+  help
 };
 
 export default api

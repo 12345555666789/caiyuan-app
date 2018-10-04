@@ -181,7 +181,7 @@
       },
       getSeedList () {
         axios.post(api.garden.getSeedList, {
-            key: this.key,
+            keywords: this.key,
             page: this.page + 1,
             count: this.count,
             sortType: this.sortType

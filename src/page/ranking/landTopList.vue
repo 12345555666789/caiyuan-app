@@ -47,7 +47,7 @@
               @load="getOwerTopList"
               style="padding: 0 3vw;background-color: #fff;"
               :finished="owerFinished">
-              <div class="owerItem" v-for="item in owerData">
+              <div class="owerItem" v-for="(item, index) in owerData" :key="index">
                 <div class="avatar"><img v-lazy="item.iconurl"></div>
                 <div class="username">{{item.nickName}}
                   <span class="grade" v-if="item.grade !== 0">VIP{{item.grade}}</span>
