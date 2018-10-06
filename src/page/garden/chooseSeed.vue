@@ -186,6 +186,7 @@
             count: this.count,
             sortType: this.sortType
         }).then((res) => {
+          this.page += 1;
           this.isLoading = false;
           this.loading = false;
           if (res.data.data.length) {

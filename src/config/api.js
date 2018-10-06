@@ -10,6 +10,7 @@ const myPrefix = prefix + /my/;
 const rankingPrefix = prefix + /ranking/;
 const livePrefix = prefix + /live/;
 const helpPrefix = prefix + /help/;
+const msgPrefix = prefix + /message/;
 
 const common = {
   getInfo: commonPrefix + 'detail',
@@ -68,6 +69,10 @@ const ranking = {
   owerRanking: rankingPrefix + 'landower'
 };
 
+const msg = {
+  msgList: msgPrefix + 'list'
+};
+
 const api = {
   garden,
   food,
@@ -77,7 +82,8 @@ const api = {
   moment,
   ranking,
   live,
-  help
+  help,
+  msg
 };
 
 export default api

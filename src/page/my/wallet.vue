@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100vw; width: 100vw;background: #FCFCFA">
+  <div style="height: 100vh; width: 100vw;background: #FCFCFA">
     <van-nav-bar
       title="我的钱包"
       @click-left="goApp"

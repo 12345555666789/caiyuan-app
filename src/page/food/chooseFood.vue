@@ -140,6 +140,7 @@
           count: this.count,
           key: this.searchValue
         }).then((res) => {
+          this.page += 1;
           this.isLoading = false;
           this.loading = false;
           if (res.data.data.length) {

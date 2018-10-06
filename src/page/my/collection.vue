@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100vw; width: 100vw">
+  <div style="height: 100vh; width: 100vw">
     <van-nav-bar
       title="我的收藏"
       @click-left="goApp"
@@ -72,6 +72,7 @@
             page: this.page + 1,
             count: this.count
           }).then((res) => {
+            this.page += 1;
             this.isLoading = false;
             if (res.data.data.length) {
               this.favorData.push(...res.data.data)

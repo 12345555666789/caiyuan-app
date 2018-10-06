@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100vw; width: 100vw">
+  <div style="height: 100vh; width: 100vw">
     <van-nav-bar
       title="直播"
       @click-left="goApp"
@@ -85,8 +85,8 @@
           interactionLoading: false,
           interactionFinished: false,
           onlineFinished: false,
-          interactionIsLoading: true,
-          onlineIsLoading: true,
+          interactionIsLoading: false,
+          onlineIsLoading: false,
           active: 0,
           interactionTabActive: 0,
           onlineTabActive: 0,
@@ -131,6 +131,9 @@
             count: this.count,
             page: this.interactionPage + 1
           }).then(res => {
+            this.interactionPage += 1;
+            this.interactionLoading = false;
+            this.interactionIsLoading = false;
             if (res.data.data.length) {
               this.interactionData.push(...res.data.data)
             } else {
@@ -143,6 +146,7 @@
           count: this.count,
           page: this.onlinePage + 1
            }).then(res => {
+            this.onlinePage += 1;
             this.onlineLoading = false;
             this.onlineIsLoading = false;
             if (res.data.data.length) {

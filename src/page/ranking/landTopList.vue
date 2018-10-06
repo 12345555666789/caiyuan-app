@@ -78,10 +78,10 @@
         landIsLoading: false,
         owerIsLoading: false,
         active: 0,
-        landTabActive: 0,
-        owerTabActive: 0,
-        landSortType: 20,
-        owerSortType: 50,
+        landTabActive: '',
+        owerTabActive: '',
+        landSortType: -1,
+        owerSortType: -1,
         owerPage: 0,
         landPage: 0,
         count: 10,
@@ -167,6 +167,7 @@
           count: this.count,
           sortType: this.landSortType
         }).then((res) => {
+          this.landPage += 1;
           this.landIsLoading = false;
           this.landLoading = false;
           if (res.data.data.length) {
@@ -186,6 +187,7 @@
           count: this.count,
           sortType: this.owerSortType
         }).then((res) => {
+          this.owerPage += 1;
           this.owerIsLoading = false;
           this.owerLoading = false;
           if (res.data.data.length) {

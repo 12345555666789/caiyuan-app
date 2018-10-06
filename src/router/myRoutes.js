@@ -7,6 +7,7 @@ const toBeVip = r => require.ensure([], () => r(require('../page/my/toBeVip')), 
 const evaluationFood = r => require.ensure([], () => r(require('../page/my/evaluationFood')), 'evaluationFood');
 const messageBoard = r => require.ensure([], () => r(require('../page/my/messageBoard')), 'messageBoard');
 const help = r => require.ensure([], () => r(require('../page/my/help')), 'help');
+const messageDetails = r => require.ensure([], () => r(require('../page/my/messageDetails')), 'messageDetails');
 
 const myRoutes = [
   {
@@ -36,6 +37,14 @@ const myRoutes = [
   {
     path: '/messageList', // 消息列表
     component: messageList,
+    meta: {
+      keepAlive: true,
+      index: 0
+    },
+  },
+  {
+    path: '/messageDetails', // 消息详情
+    component: messageDetails,
     meta: {
       keepAlive: true,
       index: 0
