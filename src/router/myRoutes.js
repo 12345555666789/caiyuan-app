@@ -6,11 +6,20 @@ const wallet = r => require.ensure([], () => r(require('../page/my/wallet')), 'w
 const toBeVip = r => require.ensure([], () => r(require('../page/my/toBeVip')), 'toBeVip');
 const evaluationFood = r => require.ensure([], () => r(require('../page/my/evaluationFood')), 'evaluationFood');
 const messageBoard = r => require.ensure([], () => r(require('../page/my/messageBoard')), 'messageBoard');
+const help = r => require.ensure([], () => r(require('../page/my/help')), 'help');
 
 const myRoutes = [
   {
     path: '/orderList', // 我的订单
     component: orderList,
+    meta: {
+      keepAlive: true,
+      index: 0
+    },
+  },
+  {
+    path: '/help', // 客服与帮助
+    component: help,
     meta: {
       keepAlive: true,
       index: 0
