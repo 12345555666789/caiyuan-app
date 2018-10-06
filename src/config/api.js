@@ -34,7 +34,8 @@ const food = {
 
 const order = {
   getPreAccounting: orderPrefix + 'land/pre_accounting',
-  submitFoodOrder: orderPrefix + 'food/submit'
+  submitFoodOrder: orderPrefix + 'food/submit',
+  submitLandOrder: orderPrefix + 'land/submit'
 };
 
 const live = {

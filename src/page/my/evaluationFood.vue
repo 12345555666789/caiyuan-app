@@ -2,8 +2,10 @@
   <div style="height: 100vh; width: 100vw;">
     <van-nav-bar
       title="发表评价"
+      fixed
       left-arrow
       @click-left="goBack"></van-nav-bar>
+    <div style="height: 15vw"></div>
     <div class="foodList" v-if="foodData.length">
       <div v-for="item in foodData" class="foodItem" :key="item.foodId">
         <div class="foodContent">

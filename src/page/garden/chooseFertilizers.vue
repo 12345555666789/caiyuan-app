@@ -178,11 +178,18 @@
         this.getFertilizerList()
       },
       getFertilizerList () {
+        let seedIds = [];
         this.isLoading = true;
+        Object.values(this.gardenCar).forEach(item => {
+          if (item.seedId) {
+            seedIds.push(item.seedId)
+          }
+        });
         axios.post(api.garden.getFertilizerList, {
             keywords: this.key,
             page: this.page + 1,
             count: this.count,
+            seedIds,
             sortType: this.sortType
         }).then((res) => {
           this.page += 1;

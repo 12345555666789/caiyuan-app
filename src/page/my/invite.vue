@@ -2,8 +2,10 @@
   <div style="height: 100vh; width: 100vw;background-color: #F8F7ED;">
     <van-nav-bar
       title="邀请好友"
+      fixed
       @click-left="goApp"
       left-arrow></van-nav-bar>
+    <div style="height: 12vw"></div>
     <div style="color: #CA7600;">
       <div class="banner"></div>
       <p style="text-align: center;font-size: 4vw;font-weight: 600;margin-bottom: 4vw">我的邀请码</p>

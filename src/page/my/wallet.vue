@@ -2,8 +2,10 @@
   <div style="height: 100vh; width: 100vw;background: #FCFCFA">
     <van-nav-bar
       title="我的钱包"
+      fixed
       @click-left="goApp"
       left-arrow></van-nav-bar>
+    <div style="height: 12vw"></div>
     <div class="balanceIcon"></div>
     <div style="color: #503303;">
       <p class="balance"><span class="iconRmb">¥  </span>{{userInfo.balance}}</p>

@@ -2,8 +2,10 @@
   <div style="height: 100vh; width: 100vw; background-color: #fff">
     <van-nav-bar
       title="成为会员"
+      fixed
       left-arrow
       @click-left="goApp"></van-nav-bar>
+    <div style="height: 12vw"></div>
     <div class="vipBanner"></div>
     <p style="padding: 2vw 3vw;
     font-size: 4.5vw;

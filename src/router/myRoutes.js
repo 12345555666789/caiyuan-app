@@ -47,7 +47,7 @@ const myRoutes = [
     component: messageDetails,
     meta: {
       keepAlive: true,
-      index: 0
+      index: 1
     },
   },
   {

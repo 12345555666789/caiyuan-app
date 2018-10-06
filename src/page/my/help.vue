@@ -5,6 +5,7 @@
         fixed
         left-arrow
         @click-left="onClickLeft"></van-nav-bar>
+
     </div>
 </template>
 

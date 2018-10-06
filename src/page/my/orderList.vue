@@ -90,11 +90,17 @@
         orderIsLoading: false,
         active: 0,
         foodOrderList: [],
-        landOrderList: []
+        landOrderList: [],
+        mod: this.$route.query.mod
       }
     },
     mounted () {
       this.getOrderList();
+      if (this.mod) {
+        if (this.mod === 'food') {
+          this.active = 1
+        }
+      }
     },
     methods: {
       toEvaluation (orderId) {

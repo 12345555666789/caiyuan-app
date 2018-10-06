@@ -15,7 +15,7 @@
           <div class="value">{{gardenOrder.landInfo.startDate}}-{{gardenOrder.landInfo.endDate}}</div>
         </van-cell>
         <van-cell title="开垦模式"><div class="value">{{gardenOrder.landInfo.recMode === 0 ? '自理' : '托管'}}</div></van-cell>
-        <van-cell title="肥料套餐">
+        <van-cell title="肥料套餐" v-if="Object.values(setCar.fertilizer)">
           <div class="value" v-for="item in setCar.fertilizer"><span>{{item.fertName}}</span><span> × {{item.num}}</span></div>
         </van-cell>
         <van-cell title="作物种子">
@@ -27,7 +27,7 @@
         <van-cell title="优惠折扣">
           <div class="value discountRate" style="margin-bottom: 1vw;"><span class="discountRateName">菜园折扣</span><span class="discountRateVal">{{landDiscount.discountRate}}折</span></div>
           <div class="value discountRate" style="margin-bottom: 1vw;"><span class="discountRateName">租赁折扣</span><span class="discountRateVal">{{dateDiscount.discountRate}}折</span></div>
-          <div class="value discountRate" style="margin-bottom: 1vw;"><span class="discountRateName">会员折扣</span><span class="discountRateVal">{{vipDiscount.discountRate}}折</span></div>
+          <div class="value discountRate" style="margin-bottom: 1vw;"><span class="discountRateName">会员折扣</span><span class="discountRateVal">{{userInfo && userInfo.discountRate}}折</span></div>
           <div class="dominantHueText discountRate"><span class="discountRateName">合计折扣</span><span class="discountRateVal">{{total.discountRate}}折</span></div>
         </van-cell>
         <van-cell>
@@ -58,7 +58,7 @@
       name: "landBill",
       data() {
         return {
-          oderData: {
+          orderData: {
             lands: [],
             endDate: '',
             startDate: '',
@@ -66,7 +66,8 @@
             seeds: [],
             recMod: 1,
             sowingMode: 1,
-            careMode: 1
+            careMode: 1,
+            totalCost: 0
           },
           balance: '暂无余额',
           landDiscount: {
@@ -88,7 +89,7 @@
         }
       },
       computed: {
-        ...mapState(['gardenOrder', 'gardenCar']),
+        ...mapState(['gardenOrder', 'gardenCar', 'userInfo']),
         setlandSize () {
           let lands = {};
           this.gardenOrder.landInfo.lands.forEach(item => {
@@ -117,6 +118,7 @@
         }
       },
       mounted () {
+        this.getUserInfo();
         window['buyFinish'] = (isDone) => {
           this.buyFinish(isDone)
         };
@@ -125,35 +127,41 @@
         this.initPage()
       },
       methods: {
+        ...mapMutations(['setUserAction', 'setUserInfo']),
+        getUserInfo () {
+          axios.post(api.my.userInfo).then(res => {
+            this.setUserInfo(res.data.data);
+          })
+        },
         initPage () {
           this.gardenOrder.landInfo.lands.forEach(item => {
-            this.oderData.lands.push(item.landId + "")
+            this.orderData.lands.push(item.landId + "")
           });
-          this.oderData.startDate = this.gardenOrder.landInfo.startDate;
-          this.oderData.endDate = this.gardenOrder.landInfo.endDate;
+          this.orderData.startDate = this.gardenOrder.landInfo.startDate;
+          this.orderData.endDate = this.gardenOrder.landInfo.endDate;
           Object.values(this.setCar.fertilizer).forEach(item => {
-            this.oderData.fertilizers.push({
+            this.orderData.fertilizers.push({
               count: item.num,
               fertilizerId: item.fertId
             })
           });
           Object.values(this.setCar.seed).forEach(item => {
-            this.oderData.seeds.push({
+            this.orderData.seeds.push({
               count: item.num,
               seedId: item.seedId
             })
           });
-          this.oderData.careMode = this.gardenOrder.careMode === '托管' ? 1 : 2;
-          this.oderData.sowingMode = this.gardenOrder.sowingMode === '托管' ? 1 : 2;
+          this.orderData.careMode = this.gardenOrder.careMode === '托管' ? 1 : 2;
+          this.orderData.sowingMode = this.gardenOrder.sowingMode === '托管' ? 1 : 2;
           this.recMod = this.gardenOrder.recMod === '托管' ? 1 : 2;
 
-          this.getPreAccounting({lands: this.oderData.lands}, 'landDiscount');
+          this.getPreAccounting({lands: this.orderData.lands}, 'landDiscount');
           this.getPreAccounting({
-            startDate: this.oderData.startDate,
-            endDate: this.oderData.endDate
+            startDate: this.orderData.startDate,
+            endDate: this.orderData.endDate
           }, 'dateDiscount');
-          this.getPreAccounting({}, 'vipDiscount');
-          this.getPreAccounting(this.oderData, 'total');
+          this.getPreAccounting(this.orderData, 'total');
+          this.orderData.landName = this.gardenOrder.landInfo.landName;
         },
         ...mapActions([
           'clearLandOrder'
@@ -171,6 +179,10 @@
         },
         getPreAccounting (order, type) {
           axios.post(api.order.getPreAccounting, {...order}).then(res => {
+            console.log(type);
+            if (type === 'total') {
+              this.orderData.totalCost = res.data.data.totalCost
+            }
             this[type] = {
               discountRate: res.data.data.discountRate,
               totalCost: res.data.data.totalCost
@@ -181,11 +193,17 @@
         },
         nextStep () {
           // 提交订单
-          try {
-            window.app.buyNow(JSON.stringify(this.oderData))
-          } catch (e) {
-            this.$toast('提交失败')
-          }
+          axios.post(api.order.submitLandOrder, this.orderData).then(res => {
+            let orderData = {
+              orderId: res.data.data.orderId,
+              totalCost: this.orderData.totalCost
+            };
+            try {
+              window.app.buyNow(JSON.stringify(orderData))
+            } catch (e) {
+              this.$toast('提交失败')
+            }
+          });
         },
         goBack () {
           window.history.back()

@@ -2,8 +2,10 @@
   <div style="height: 100vh; width: 100vw">
     <van-nav-bar
       title="我的收藏"
+      fixed
       @click-left="goApp"
       left-arrow></van-nav-bar>
+    <div style="height: 15vw"></div>
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <van-list
         v-if="favorData.length"

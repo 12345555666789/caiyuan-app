@@ -20,6 +20,7 @@
           </div>
         </van-cell>
       </van-list>
+      <div class="carNoData" v-else>暂无数据</div>
     </van-pull-refresh>
   </div>
 </template>
