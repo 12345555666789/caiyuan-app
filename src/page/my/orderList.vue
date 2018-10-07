@@ -1,79 +1,139 @@
 <template>
-    <div style="height: 100vh; width: 100vw">
-      <van-nav-bar
-        title="我的订单"
-        left-arrow
-        @click-left="goApp"></van-nav-bar>
-        <van-tabs v-model="active" swipeable sticky>
-          <van-tab title="已购菜园">
-            <van-pull-refresh v-model="orderIsLoading" @refresh="onRefreshorder">
-            <div class="landOrder" v-if="landOrderList.length">
-              <div class="orderItem" v-for="item in landOrderList">
-                <van-cell-group>
-                  <van-cell>
-                    <div class="orderTitle">
-                      <div class="orderDate">{{createDate(item.createDate)}}</div>
-                      <div class="orderState">{{orderState(item.orderStatus) && orderState(item.orderStatus).name}}
-                        <span v-if="![11, 40, 50].includes(item.orderStatus)">&nbsp | &nbsp</span>
-                        <span class="deleteOrder" v-if="![11, 40, 50].includes(item.orderStatus)" @click="deleteOrder(item, 1)"></span>
-                      </div>
+  <div style="height: 100vh; width: 100vw">
+    <van-nav-bar
+      title="我的订单"
+      left-arrow
+      @click-left="goApp"></van-nav-bar>
+    <van-tabs v-model="active" swipeable sticky>
+      <van-tab title="已购菜园">
+        <van-pull-refresh v-model="orderIsLoading" @refresh="onRefreshorder">
+          <div class="landOrder" v-if="landOrderList.length">
+            <div class="orderItem" v-for="item in landOrderList">
+              <van-cell-group>
+                <van-cell>
+                  <div class="orderTitle">
+                    <div class="orderDate">{{createDate(item.createDate)}}</div>
+                    <div class="orderState">{{orderState(item.orderStatus) && orderState(item.orderStatus).name}}
+                      <span v-if="![11, 40].includes(item.orderStatus)">&nbsp | &nbsp</span>
+                      <span class="deleteOrder" v-if="![11, 40].includes(item.orderStatus)"
+                            @click="deleteOrder(item, 1)"></span>
                     </div>
-                  </van-cell>
-                  <van-cell title="菜园名称"><div class="value">{{item.landName}}</div></van-cell>
-                  <van-cell title="规格"><div class="value" v-for="size in item.landSizes">{{size.replace('x', ' × ')}}</div></van-cell>
-                  <van-cell title="租赁时间"><div class="value">{{commentDate(item.createDate)}}-{{commentDate(item.endDate)}}</div></van-cell>
-                  <van-cell title="开垦模式"><div class="value">{{item.recMode === 1 ? '托管' : '自理'}}</div></van-cell>
-                  <van-cell title="肥料套餐"><div class="value" v-for="fertilizer in item.fertilizers">{{fertilizer.replace('x', ' × ')}}</div></van-cell>
-                  <van-cell title="作物种子"><div class="value" v-for="seed in item.seeds">{{seed.replace('x', ' × ')}}</div></van-cell>
-                  <van-cell><div class="value" style="text-align: right"><span>{{item.orderStatus === 10 ? '应付总额' : '交易总额'}}: </span><span class="totalPrice"><span class="iconRmb">¥</span>{{item.totalAmount}}</span></div></van-cell>
-                  <van-cell>
-                    <div class="value" style="text-align: right">
-                      <span class="orderBtn" v-if="[20, 30, 41, 50].includes(item.orderStatus)" @click="toChooseLand">再次购买</span>
-                      <span class="orderBtn" v-if="item.orderStatus === 10" @click="toPay">去付款</span>
-                    </div>
-                  </van-cell>
-                </van-cell-group>
-              </div>
-              <div class="noDataList"><span>已经到底啦~</span></div>
+                  </div>
+                </van-cell>
+                <van-cell title="菜园名称">
+                  <div class="value">{{item.landName}}</div>
+                </van-cell>
+                <van-cell title="规格">
+                  <div class="value" v-for="size in item.landSizes">{{size.replace('x', ' × ')}}</div>
+                </van-cell>
+                <van-cell title="租赁时间">
+                  <div class="value">{{commentDate(item.createDate)}}-{{commentDate(item.endDate)}}</div>
+                </van-cell>
+                <van-cell title="开垦模式">
+                  <div class="value">{{item.recMode === 1 ? '托管' : '自理'}}</div>
+                </van-cell>
+                <van-cell title="肥料套餐">
+                  <div class="value" v-for="fertilizer in item.fertilizers">{{fertilizer.replace('x', ' × ')}}</div>
+                </van-cell>
+                <van-cell title="作物种子">
+                  <div class="value" v-for="seed in item.seeds">{{seed.replace('x', ' × ')}}</div>
+                </van-cell>
+                <van-cell>
+                  <div class="value" style="text-align: right">
+                    <span>{{item.orderStatus === 10 ? '应付总额' : '交易总额'}}: </span><span class="totalPrice"><span
+                    class="iconRmb">¥</span>{{item.totalAmount}}</span></div>
+                </van-cell>
+                <van-cell>
+                  <div class="value" style="text-align: right">
+                    <span class="orderBtn" v-if="[20, 30, 41].includes(item.orderStatus)"
+                          @click="toChooseLand">再次购买</span>
+                    <span class="orderBtn" v-if="[20].includes(item.orderStatus) && checkDate(item.createDate)" @click="showRefund(item.orderId)">退款</span>
+                    <span class="orderBtn" v-if="[10].includes(item.orderStatus)" @click="cancelOrder(item, 1)">取消</span>
+                    <span class="orderBtn" v-if="item.orderStatus === 10" @click="toPay">去付款</span>
+                  </div>
+                </van-cell>
+              </van-cell-group>
             </div>
-            <div class="carNoData" v-else>暂无数据</div>
-      </van-pull-refresh>
+            <div class="noDataList"><span>已经到底啦~</span></div>
+          </div>
+          <div class="carNoData" v-else>暂无数据</div>
+        </van-pull-refresh>
       </van-tab>
-          <van-tab title="美食预约">
-            <van-pull-refresh v-model="orderIsLoading" @refresh="onRefreshorder">
-            <div class="landOrder" v-if="foodOrderList.length">
-              <div class="orderItem" v-for="item in foodOrderList">
-                <van-cell-group>
-                  <van-cell>
-                    <div class="orderTitle">
-                      <div class="orderDate">{{createDate(item.createDate)}}</div>
-                      <div class="orderState">{{orderState(item.orderStatus) && orderState(item.orderStatus).name}}
-                        <span v-if="![11, 40, 50].includes(item.orderStatus)">&nbsp | &nbsp</span>
-                        <span class="deleteOrder" v-if="![11, 40, 50].includes(item.orderStatus)" @click="deleteOrder(item, 0)"></span>
-                      </div>
+      <van-tab title="美食预约">
+        <van-pull-refresh v-model="orderIsLoading" @refresh="onRefreshorder">
+          <div class="landOrder" v-if="foodOrderList.length">
+            <div class="orderItem" v-for="item in foodOrderList">
+              <van-cell-group>
+                <van-cell>
+                  <div class="orderTitle">
+                    <div class="orderDate">{{createDate(item.createDate)}}</div>
+                    <div class="orderState">{{orderState(item.orderStatus) && orderState(item.orderStatus).name}}
+                      <span v-if="![11, 40].includes(item.orderStatus)">&nbsp | &nbsp</span>
+                      <span class="deleteOrder" v-if="![11, 40].includes(item.orderStatus)"
+                            @click="deleteOrder(item, 0)"></span>
                     </div>
-                  </van-cell>
-                  <van-cell title="菜品"><div class="value" v-for="food in item.foods">{{food.replace('x', ' × ')}}</div></van-cell>
-                  <van-cell title="就餐时间"><div class="value">{{dinerTime(item.dinerTime)}}</div></van-cell>
-                  <van-cell title="就餐人数"><div class="value">{{item.diners}}人</div></van-cell>
-                  <van-cell title="联系人"><div class="value">{{item.contactName }}</div></van-cell>
-                  <van-cell title="联系电话"><div class="value">{{item.telephone }}</div></van-cell>
-                  <van-cell title="预算金额"><div class="value"><span class="totalPrice"><span class="iconRmb">¥</span>{{item.total}}</span></div></van-cell>
-                  <van-cell>
-                    <div class="value" style="text-align: right">
-                      <span class="orderBtn" v-if="[20, 30, 41, 50].includes(item.orderStatus)" @click="toChooseFood">再次预约</span>
-                      <span class="orderBtn" v-if="[20, 30, 41, 50].includes(item.orderStatus)" @click="toEvaluation(item.orderId)">评价</span>
-                    </div>
-                  </van-cell>
-                </van-cell-group>
-              </div>
-              <div class="noDataList"><span>已经到底啦~</span></div>
+                  </div>
+                </van-cell>
+                <van-cell title="菜品">
+                  <div class="value" v-for="food in item.foods">{{food.replace('x', ' × ')}}</div>
+                </van-cell>
+                <van-cell title="就餐时间">
+                  <div class="value">{{dinerTime(item.dinerTime)}}</div>
+                </van-cell>
+                <van-cell title="就餐人数">
+                  <div class="value">{{item.diners}}人</div>
+                </van-cell>
+                <van-cell title="联系人">
+                  <div class="value">{{item.contactName }}</div>
+                </van-cell>
+                <van-cell title="联系电话">
+                  <div class="value">{{item.telephone }}</div>
+                </van-cell>
+                <van-cell title="预算金额">
+                  <div class="value"><span class="totalPrice"><span class="iconRmb">¥</span>{{item.total}}</span></div>
+                </van-cell>
+                <van-cell>
+                  <div class="value" style="text-align: right">
+                    <span class="orderBtn" @click="toChooseFood">再次预约</span>
+                    <span class="orderBtn" v-if="[10].includes(item.orderStatus)" @click="cancelOrder(item, 0)">取消</span>
+                    <span class="orderBtn" @click="toEvaluation(item.orderId)">评价</span>
+                  </div>
+                </van-cell>
+              </van-cell-group>
             </div>
-            <div class="carNoData" v-else>暂无数据</div>
-            </van-pull-refresh>
-          </van-tab>
-        </van-tabs>
-    </div>
+            <div class="noDataList"><span>已经到底啦~</span></div>
+          </div>
+          <div class="carNoData" v-else>暂无数据</div>
+        </van-pull-refresh>
+      </van-tab>
+    </van-tabs>
+    <van-dialog
+      v-model="refundState"
+      show-cancel-button
+      :before-close="refund">
+      <van-radio-group v-model="reason">
+        <van-cell-group>
+          <van-cell title="选错了/不想买了" clickable>
+            <van-radio name="选错了/不想买了" />
+          </van-cell>
+          <van-cell title="土地已被租或商品缺货" clickable>
+            <van-radio name="土地已被租或商品缺货" />
+          </van-cell>
+          <van-cell title="其他" clickable>
+            <van-radio name="其他" />
+          </van-cell>
+          <van-field
+            v-if="reason === '其他'"
+            v-model="reason"
+            type="text"
+            label="其他"
+            placeholder="其他原因"
+          />
+        </van-cell-group>
+      </van-radio-group>
+
+    </van-dialog>
+  </div>
 </template>
 
 <script>
@@ -84,8 +144,11 @@
 
   export default {
     name: "orderList",
-    data () {
+    data() {
       return {
+        refundId: '',
+        refundState: false,
+        reason: '',
         orderLoading: false,
         orderIsLoading: false,
         active: 0,
@@ -94,7 +157,7 @@
         mod: this.$route.query.mod
       }
     },
-    mounted () {
+    mounted() {
       this.getOrderList();
       if (this.mod) {
         if (this.mod === 'food') {
@@ -103,7 +166,31 @@
       }
     },
     methods: {
-      toEvaluation (orderId) {
+      get7Days(dateTime) {
+        let date = dateTime || new Date(),
+          timestamp, newDate;
+        if (!(date instanceof Date)) {
+          date = new Date(date.replace(/-/g, '/'));
+        }
+        timestamp = date.getTime();
+        newDate = new Date(timestamp + 7 * 24 * 3600 * 1000);
+        return [
+          [
+            newDate.getFullYear(),
+            newDate.getMonth() + 1,
+            newDate.getDate()].join('/'),
+          [
+            newDate.getHours(),
+            newDate.getMinutes(),
+            newDate.getSeconds()].join(':')
+        ].join(' ');
+      },
+      checkDate(data) {
+        let orderDate = new Date(this.get7Days(new Date(data))).getTime();
+        let today = new Date().getTime();
+        return orderDate < today;
+      },
+      toEvaluation(orderId) {
         this.$router.push({
           path: '/evaluationFood',
           query: {
@@ -111,7 +198,25 @@
           }
         })
       },
-      deleteOrder (data, type) {
+      showRefund (id) {
+        this.refundState = true;
+        this.refundId = id
+      },
+      refund () {
+        if (this.reason) {
+          axios.post(api.my.refund, {
+            reason: this.reason,
+            orderId: this.refundId
+          }).then(() => {
+            this.refundState = false;
+            this.$toast('已提交退款申请');
+            this.getOrderList();
+          })
+        } else {
+          this.$toast('请选择退款原因')
+        }
+      },
+      deleteOrder(data, type) {
         let massage = type ? '菜园' : '美食';
         if (data) {
           this.$dialog.confirm({
@@ -128,41 +233,58 @@
           });
         }
       },
-      toChooseFood () {
+      cancelOrder(data, type) {
+        let massage = type ? '菜园' : '美食';
+        if (data) {
+          this.$dialog.confirm({
+            title: '提示',
+            message: '确认要取消该' + massage + '订单吗'
+          }).then(() => {
+            // on confirm
+            axios.post(api.my.cancelOrder + data.orderId).then(() => {
+              this.$toast('订单已取消');
+              this.getOrderList();
+            })
+          }).catch(() => {
+            // on cancel
+          });
+        }
+      },
+      toChooseFood() {
         this.$router.push({
           path: '/makeFood'
         })
       },
-      toPay () {
+      toPay() {
         // TODO 付款逻辑
         this.$toast('去付款');
       },
-      toChooseLand () {
+      toChooseLand() {
         this.$router.push({
           path: '/landRegionList'
         })
       },
-      orderState (state) {
+      orderState(state) {
         return constant.orderStates.find(item => item.code === state)
       },
-      createDate (date) {
+      createDate(date) {
         return Function.dateFormat(date, 'YYYY-MM-DD')
       },
-      commentDate (date) {
+      commentDate(date) {
         return Function.dateFormat(date, 'YYYY/MM/DD')
       },
-      dinerTime (date) {
+      dinerTime(date) {
         return Function.dateFormat(date, 'YYYY-MM-DD  H:M')
       },
       onRefreshorder() {
         this.getOrderList();
       },
-      goApp () {
+      goApp() {
         if (window.app.goBackApp()) {
           window.app.goBackApp();
         }
       },
-      getOrderList () {
+      getOrderList() {
         axios.post(api.my.orderList).then((res) => {
           this.orderIsLoading = false;
           this.orderLoading = false;
@@ -185,6 +307,7 @@
       font-size: 3vw;
     }
   }
+
   .orderBtn {
     border-radius: 7vw;
     color: #38ACA5;
@@ -192,6 +315,7 @@
     padding: 0.5vw 3.5vw;
     display: inline-block;
   }
+
   .orderItem {
     background-color: #fff;
     .orderTitle {
@@ -217,14 +341,17 @@
       }
     }
   }
+
   .van-tabbar-item--active {
     color: #38ACA5;
   }
+
   .van-tabbar-item.van-tabbar-item--active .van-tabbar-item__text {
     .van-icon-arrow {
       transform: rotate(90deg);
     }
   }
+
   .van-tabbar-item .van-tabbar-item__text {
     .van-icon-arrow {
       transform: rotate(-90deg);
@@ -233,6 +360,7 @@
       font-size: 2.5vw;
     }
   }
+
   .carNoData {
     height: 20vw;
     display: flex;
@@ -242,6 +370,7 @@
     font-size: 4vw;
     color: #5e5e5e;
   }
+
   #total {
     p {
       text-align: right;
@@ -267,17 +396,21 @@
       }
     }
   }
+
   .discountRateName {
     text-align: left;
   }
+
   .discountRateVal {
     text-align: right;
     display: inline-block;
     width: 16vw;
   }
+
   .value {
     color: #505050;
   }
+
   .van-goods-action {
     padding: 1.5vw 4vw;
     background: #fff;

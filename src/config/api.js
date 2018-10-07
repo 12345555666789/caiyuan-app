@@ -54,7 +54,9 @@ const my = {
   orderList: myPrefix + 'order/list',
   orderFoodList: myPrefix + 'order/foodlist/',
   deleteOrder: myPrefix + 'order/delete/',
+  cancelOrder: myPrefix + 'order/cancel/',
   deleteMoment: myPrefix + 'moment/delete/',
+  refund: msgPrefix + 'order/refund',
   getFavorList: myPrefix + 'favor/list'
 };
 

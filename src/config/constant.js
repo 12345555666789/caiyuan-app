@@ -49,7 +49,6 @@ export default {
     cancelled: 30, // 已取消
     refunding: 40, // 退款中
     refunded: 41, // 退款成功
-    deleted: 50, // 已删除
   },
   orderStates: [
     {
@@ -70,9 +69,6 @@ export default {
     },{
       name: '退款成功',
       code: 41
-    },{
-      name: '已删除',
-      code: 50
     }
   ]
 }

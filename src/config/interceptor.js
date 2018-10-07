@@ -5,7 +5,6 @@ axios.interceptors.request.use((config) => {
   try {
     config.headers['Authorization'] = window.app.getToken();
   } catch (e) {
-    Toast('获取Token失败');
     console.log(e);
   }
   return config
