@@ -1,6 +1,7 @@
 <template>
   <div style="height: 100vh; width: 100vw">
     <van-nav-bar
+      v-if="!$route.query.isShare"
       title="活动详情"
       fixed
       left-arrow
@@ -8,7 +9,7 @@
       @click-left="goApp">
       <span class="iconShare" slot="right"></span>
     </van-nav-bar>
-    <div style="height: 15vw"></div>
+    <div v-if="!$route.query.isShare" style="height: 15vw"></div>
     <van-pull-refresh v-model="isLoading" @refresh="getactivityInfo">
       <div class="activityInfo">
         <div class="activityContent">
@@ -24,7 +25,7 @@
               <video v-lazy="activityInfo.activityVideo" controls autoplay height="100%" width="100%"></video>
             </div>
           </div>
-          <div class="likeCount">
+          <div class="likeCount" v-if="!$route.query.isShare">
             <span v-if="isLike" class="likedIcon"></span>
             <span v-else class="likeIcon" @click="like"></span>
             <span class="count">{{activityInfo.likeCount}}</span>
@@ -52,7 +53,7 @@
       </div>
     </van-pull-refresh>
     <div style="height: 14vw"></div>
-    <div class="commentSend">
+    <div class="commentSend" v-if="!$route.query.isShare">
       <van-cell-group>
         <van-field
           v-model.trim="message"
@@ -133,7 +134,7 @@
       },
       share () {
         if (window.app.shareInfo) {
-          window.app.shareInfo(window.location.href)
+          window.app.shareInfo(window.location.href + '&isShare=1')
         }
       },
       dateFormat (date, format) {

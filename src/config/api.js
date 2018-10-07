@@ -62,7 +62,7 @@ const help = {
   msgList: helpPrefix + 'land/msglist/',
   list: helpPrefix + 'list',
   msgPublish: helpPrefix + 'land/msgpublish',
-  complainPublish: 'complain/publish'
+  complainPublish: helpPrefix + 'complain/publish'
 };
 
 const ranking = {

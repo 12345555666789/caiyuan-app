@@ -8,6 +8,8 @@ const evaluationFood = r => require.ensure([], () => r(require('../page/my/evalu
 const messageBoard = r => require.ensure([], () => r(require('../page/my/messageBoard')), 'messageBoard');
 const help = r => require.ensure([], () => r(require('../page/my/help')), 'help');
 const messageDetails = r => require.ensure([], () => r(require('../page/my/messageDetails')), 'messageDetails');
+const suggestion = r => require.ensure([], () => r(require('../page/my/suggestion')), 'suggestion');
+const FAQ = r => require.ensure([], () => r(require('../page/my/FAQ')), 'FAQ');
 
 const myRoutes = [
   {
@@ -24,6 +26,22 @@ const myRoutes = [
     meta: {
       keepAlive: true,
       index: 0
+    },
+  },
+  {
+    path: '/suggestion', // 投诉建议
+    component: suggestion,
+    meta: {
+      keepAlive: true,
+      index: 1
+    },
+  },
+  {
+    path: '/FAQ', // 常见问题
+    component: FAQ,
+    meta: {
+      keepAlive: true,
+      index: 1
     },
   },
   {

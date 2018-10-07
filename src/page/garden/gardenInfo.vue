@@ -163,7 +163,11 @@
         this.videoShow = true;
       },
       onClickLeft() {
-        window.history.back()
+        if (this.$route.query.from) {
+          window.app.goBackApp();
+        } else {
+          window.history.back()
+        }
       },
       getgardenInfo() {
         axios.post(api.common.getInfo, {
