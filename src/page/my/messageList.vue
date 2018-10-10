@@ -86,6 +86,15 @@
 </script>
 
 <style scoped lang="less">
+  .carNoData {
+    height: 20vw;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    font-size: 4vw;
+    color: #5e5e5e;
+  }
   .sysIcon {
     display: inline-block;
     width: 6vw;

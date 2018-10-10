@@ -12,7 +12,7 @@
           <div class="landText">
             <div class="landTitle">{{landData.farmName}}({{landData.farmGrade}}:{{landData.geologicalType === 1 ? '松软地质' : '沙石地质'}})</div>
             <div style="height: 10vw; margin-top: 4vw;">
-              <p class="landAddress">
+              <p class="landAddress" v-if="landData.address">
                 <van-icon class="dominantHueText" name="location" />
                 {{landData.address}}
               </p>
@@ -89,18 +89,20 @@
         />
       </van-cell-group>
     </div>
-    <div class="chooseGardenForm">
-      <div v-if="selectedGarden.length" class="selectedBox">
+    <div style="height: 10vw"></div>
+    <div v-if="selectedGarden.length" class="van-goods-action" style="text-align: left;bottom: 5vw">
+      <div class="chooseGardenForm">
+      <div class="selectedBox">
         <div class="selectedLand animated bounceIn" v-for="(item, index) in selectedGarden" :key="'' + item.row + item.col">
           <span>{{item.row}}排{{item.col}}号{{item.landSize}}㎡</span>
           <van-icon @click="deleteItem(item)" name="clear" />
         </div>
       </div>
-      <div v-else class="notLandRegionData" style="height: 20vw;">
-        <span style="font-size: 4vw">请选择菜园</span>
-      </div>
+      <!--<div v-else class="notLandRegionData" style="height: 20vw;">-->
+        <!--<span style="font-size: 4vw">请选择菜园</span>-->
+      <!--</div>-->
     </div>
-    <div style="height: 10vw"></div>
+    </div>
     <div class="van-goods-action">
       <div class="footerBtn entrustBtn" @click="nextStep(0)">委托开垦</div>
       <div class="footerBtn autonomyBtn" @click="nextStep(1)">自主开垦</div>
@@ -384,7 +386,8 @@
     }
   }
   .selectedBox {
-    padding: 6vw 0;
+    padding: 3vw 0;
+    width: max-content;
     .selectedLand {
       font-size: 3.5vw;
       border: 1px solid #CDCDCD;
@@ -406,6 +409,8 @@
   .chooseGardenForm {
     margin-bottom: 1.5vw;
     padding: 0 4vw;
+    width: 100vw;
+    overflow: scroll;
     background: #fff;
     .van-cell {
       padding: 4vw 0;

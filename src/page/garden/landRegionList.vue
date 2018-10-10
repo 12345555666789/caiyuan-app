@@ -25,7 +25,7 @@
               <div class="landRegionInfo">
                 <p class="landName ellipse">{{item.farmName}}({{item.farmGradeName + ':'}}{{item.geologicalTypeName}})</p>
                 <p class="landDesc">{{item.farmDesc}}</p>
-                <p class="landAddress ellipse">
+                <p class="landAddress ellipse" v-if="item.address">
                   <van-icon class="dominantHueText" name="location" />
                   {{item.address}}</p>
               </div>
@@ -53,7 +53,7 @@
       return {
         page: 0,
         count: 10,
-        isLoading: false,
+        isLoading: true,
         finished: false,
         loading: false,
         landRegionList: []
@@ -73,6 +73,7 @@
       },
       onRefresh() {
         this.page = 0;
+        this.landRegionList = [];
         this.getLandRegionList()
       },
       getLandRegionList () {

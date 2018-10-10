@@ -131,7 +131,6 @@
           />
         </van-cell-group>
       </van-radio-group>
-
     </van-dialog>
   </div>
 </template>

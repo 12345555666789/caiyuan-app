@@ -78,6 +78,7 @@
       },
       onRefresh() {
         this.page = 0;
+        this.gardenList = []
         this.getGardenList()
       },
       getGardenList () {
@@ -135,7 +136,7 @@
     display: flex;
     align-items: center;
     span {
-      font-size: 5vw;
+      font-size: 4vw;
       flex: 1;
     }
   }
