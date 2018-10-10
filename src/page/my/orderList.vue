@@ -49,7 +49,7 @@
                           @click="toChooseLand">再次购买</span>
                     <span class="orderBtn" v-if="[20].includes(item.orderStatus) && checkDate(item.createDate)" @click="showRefund(item.orderId)">退款</span>
                     <span class="orderBtn" v-if="[10].includes(item.orderStatus)" @click="cancelOrder(item, 1)">取消</span>
-                    <span class="orderBtn" v-if="item.orderStatus === 10" @click="toPay">去付款</span>
+                    <span class="orderBtn" v-if="item.orderStatus === 10" @click="toPay(item.orderId, item.totalCost)">去付款</span>
                   </div>
                 </van-cell>
               </van-cell-group>
@@ -164,6 +164,9 @@
           this.active = 1
         }
       }
+      window['buyFinish'] = (isDone) => {
+        this.buyFinish(isDone)
+      }
     },
     methods: {
       get7Days(dateTime) {
@@ -255,9 +258,30 @@
           path: '/makeFood'
         })
       },
-      toPay() {
-        // TODO 付款逻辑
-        this.$toast('去付款');
+      buyFinish (isDone) {
+        if (isDone) {
+          this.clearLandOrder({});
+          this.$router.push({
+            path: '/purchaseCompletion',
+            query: {
+              totalPrice: this.total.totalCost
+            }
+          });
+          window.location.reload()
+        } else {
+          this.$toast('提交失败')
+        }
+      },
+      toPay(orderId, totalCost) {
+        let orderData = {
+          orderId,
+          totalCost
+        };
+        try {
+          window.app.buyNow(JSON.stringify(orderData))
+        } catch (e) {
+          this.$toast('提交失败')
+        }
       },
       toChooseLand() {
         this.$router.push({

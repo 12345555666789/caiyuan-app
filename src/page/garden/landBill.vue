@@ -170,7 +170,10 @@
           if (isDone) {
             this.clearLandOrder({});
             this.$router.push({
-              path: '/gardenList',
+              path: '/purchaseCompletion',
+              query: {
+                totalPrice: this.total.totalCost
+              }
             });
             window.location.reload()
           } else {

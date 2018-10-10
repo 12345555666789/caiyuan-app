@@ -144,7 +144,7 @@
         axios.post(api.common.commentList, {
           page: this.page + 1,
           count: this.count,
-          objId: this.activityInfo.activityId,
+          objId: this.activityId,
           objType: constant.infoType.activity
         }).then((res) => {
           this.page += 1;

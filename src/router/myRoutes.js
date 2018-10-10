@@ -10,6 +10,7 @@ const help = r => require.ensure([], () => r(require('../page/my/help')), 'help'
 const messageDetails = r => require.ensure([], () => r(require('../page/my/messageDetails')), 'messageDetails');
 const suggestion = r => require.ensure([], () => r(require('../page/my/suggestion')), 'suggestion');
 const FAQ = r => require.ensure([], () => r(require('../page/my/FAQ')), 'FAQ');
+const purchaseCompletion = r => require.ensure([], () => r(require('../page/my/purchaseCompletion')), 'purchaseCompletion');
 
 const myRoutes = [
   {
@@ -18,6 +19,14 @@ const myRoutes = [
     meta: {
       keepAlive: true,
       index: 0
+    },
+  },
+  {
+    path: '/purchaseCompletion', // 购买完成
+    component: purchaseCompletion,
+    meta: {
+      keepAlive: true,
+      index: 1
     },
   },
   {
