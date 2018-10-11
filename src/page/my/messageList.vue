@@ -59,6 +59,7 @@
         },
         onRefresh () {
           this.page = 0;
+          this.msgList = [];
           this.getMsgList();
         },
         getMsgList () {

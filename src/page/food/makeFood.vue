@@ -91,7 +91,7 @@
           })
         },
         onRefresh() {
-          this.getGardenList()
+          this.getFoodTypes()
         },
         onClickLeft () {
           if (window.app.goBackApp) {

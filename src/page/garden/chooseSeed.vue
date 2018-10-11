@@ -227,6 +227,8 @@
         window.history.back()
       },
       onRefresh() {
+        this.page = 0;
+        this.seedData = [];
         this.getSeedList();
       }
     }

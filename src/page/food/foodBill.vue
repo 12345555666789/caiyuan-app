@@ -105,7 +105,7 @@
           if (new Date(value.toLocaleDateString()).getTime() < tomorrowTime) {
             this.$toast('至少选择一天后作为就餐时间')
           } else {
-            this.orderData.dinerTime = Function.dateFormat(new Date(value).getTime(), 'YYYY-MM-DD    H:M');
+            this.orderData.dinerTime = Function.dateFormat(new Date(value).getTime(), 'YYYY/MM/DD    H:M');
             this.dateShow = false;
           }
         },

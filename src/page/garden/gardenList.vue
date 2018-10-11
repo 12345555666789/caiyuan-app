@@ -78,7 +78,7 @@
       },
       onRefresh() {
         this.page = 0;
-        this.gardenList = []
+        this.gardenList = [];
         this.getGardenList()
       },
       getGardenList () {

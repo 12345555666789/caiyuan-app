@@ -121,9 +121,13 @@
           }
         },
         onRefreshInteraction() {
+          this.interactionPage = 0;
+          this.interactionData = [];
           this.getInteractionTopList();
         },
         onRefreshOnline() {
+          this.onlinePage = 0;
+          this.onlineData = [];
           this.getOnlineTopList();
         },
         getInteractionTopList () {

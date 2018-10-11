@@ -103,6 +103,8 @@
         })
       },
       onRefreshLand() {
+        this.landPage = 0;
+        this.landData = [];
         this.getLandTopList();
       },
       onRefreshOwer() {

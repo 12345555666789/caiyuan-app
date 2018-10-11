@@ -228,6 +228,7 @@
       },
       onRefresh() {
         this.page = 0;
+        this.fertData = [];
         this.getFertilizerList();
       }
     }
