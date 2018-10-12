@@ -10,7 +10,7 @@ const foodRoutes = [
     component: makeFood,
     meta: {
       keepAlive: true,
-      index: 0
+      index: 1
     },
   },
   {

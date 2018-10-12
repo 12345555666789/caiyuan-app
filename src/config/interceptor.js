@@ -3,7 +3,11 @@ import { Toast } from 'vant';
 // 拦截器逻辑
 axios.interceptors.request.use((config) => {
   try {
-    config.headers['Authorization'] = window.app.getToken();
+    if (window.app.getToken) {
+      config.headers['Authorization'] = window.app.getToken()
+    } else {
+      config.headers['Authorization'] = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJBUFAiLCJ1aWQiOiIxMDM0Mzc0MzQ3MTA4OTk1MDcyIiwiaXNzIjoiU2VydmljZSIsImV4cCI6MTUzOTkxNjgzMCwiaWF0IjoxNTM5MzEyMDMwfQ.q9L4JVoH3c6vzmkSXcoR42ERyf8u3Zt88tRGkzYJpfI';
+    }
   } catch (e) {
     console.log(e);
   }

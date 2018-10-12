@@ -58,7 +58,7 @@ const myRoutes = [
     component: evaluationFood,
     meta: {
       keepAlive: true,
-      index: 0
+      index: 2
     },
   },
   {

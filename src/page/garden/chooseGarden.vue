@@ -89,7 +89,7 @@
         />
       </van-cell-group>
     </div>
-    <div style="height: 10vw"></div>
+    <div style="height: 26vw"></div>
     <div v-if="selectedGarden.length" class="van-goods-action" style="text-align: left;bottom: 5vw">
       <div class="chooseGardenForm">
       <div class="selectedBox">

@@ -42,33 +42,48 @@ export default {
     orderLand: 50, //菜园订单
     oderFood: 51 //食材订单
   },
-  orderType: {
-    unpaid: 10, // 未支付
-    paying: 11, // 支付中
-    paid: 20, // 已支付
-    cancelled: 30, // 已取消
-    refunding: 40, // 退款中
-    refunded: 41, // 退款成功
-  },
   orderStates: [
     {
-      name: '未支付',
-      code: 10
-    },{
-      name: '支付中',
-      code: 11
-    },{
-      name: '已支付',
-      code: 20
-    },{
-      name: '已取消',
-      code: 30
-    },{
-      name: '退款中',
-      code: 40
-    },{
-      name: '退款成功',
-      code: 41
+      "code": 10,
+      "name": "待付款"
+    },
+    {
+      "code": 11,
+      "name": "付款中"
+    },
+    {
+      "code": 20,
+      "name": "已付款"
+    },
+    {
+      "code": 30,
+      "name": "已取消"
+    },
+    {
+      "code": 40,
+      "name": "已退款"
+    },
+    {
+      "code": 41,
+      "name": "退款中"
+    },
+    {
+      "code": 50,
+      "name": "已结束"
+    }
+  ],
+  foodOrderStates: [
+    {
+      "code": 10,
+      "name": "预约中"
+    },
+    {
+      "code": 20,
+      "name": "已预约"
+    },
+    {
+      "code": 30,
+      "name": "已取消"
     }
   ]
 }

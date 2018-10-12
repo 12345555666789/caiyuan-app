@@ -20,6 +20,13 @@ export const setCareMode = (state, data) => {
 export const setFoodTotalPrice = (state, data) => {
   state.foodOrder.total = data
 };
+export const clearFert = (state) => {
+  Object.values(state.gardenCar).forEach(item => {
+    if (item.fertId) {
+      delete state.gardenCar[item.fertId]
+    }
+  })
+};
 export const addToLandCar = (state, data) => {
   let car = state.gardenCar;
   if (data.seedId) {

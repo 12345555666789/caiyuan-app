@@ -33,6 +33,7 @@
       name: "makeFood",
       data () {
         return {
+          from: this.$route.query.from,
           carList: {},
           isLoading: false,
           token: null,
@@ -94,8 +95,12 @@
           this.getFoodTypes()
         },
         onClickLeft () {
-          if (window.app.goBackApp) {
+          if (this.from) {
+            window.history.back()
+          } else if (window.app.goBackApp) {
             window.app.goBackApp();
+          } else {
+            this.$toast('Native错误')
           }
         }
       }

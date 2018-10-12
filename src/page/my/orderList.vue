@@ -14,8 +14,8 @@
                   <div class="orderTitle">
                     <div class="orderDate">{{createDate(item.createDate)}}</div>
                     <div class="orderState">{{orderState(item.orderStatus) && orderState(item.orderStatus).name}}
-                      <span v-if="![11, 40].includes(item.orderStatus)">&nbsp | &nbsp</span>
-                      <span class="deleteOrder" v-if="![11, 40].includes(item.orderStatus)"
+                      <span v-if="![11, 41].includes(item.orderStatus)">&nbsp | &nbsp</span>
+                      <span class="deleteOrder" v-if="![11, 41].includes(item.orderStatus)"
                             @click="deleteOrder(item, 1)"></span>
                     </div>
                   </div>
@@ -67,7 +67,7 @@
                 <van-cell>
                   <div class="orderTitle">
                     <div class="orderDate">{{createDate(item.createDate)}}</div>
-                    <div class="orderState">{{orderState(item.orderStatus) && orderState(item.orderStatus).name}}
+                    <div class="orderState">{{foodOrderState(item.orderStatus) && foodOrderState(item.orderStatus).name}}
                       <span v-if="![11, 40].includes(item.orderStatus)">&nbsp | &nbsp</span>
                       <span class="deleteOrder" v-if="![11, 40].includes(item.orderStatus)"
                             @click="deleteOrder(item, 0)"></span>
@@ -96,7 +96,7 @@
                   <div class="value" style="text-align: right">
                     <span class="orderBtn" @click="toChooseFood">再次预约</span>
                     <span class="orderBtn" v-if="[10].includes(item.orderStatus)" @click="cancelOrder(item, 0)">取消</span>
-                    <span class="orderBtn" @click="toEvaluation(item.orderId)">评价</span>
+                    <span class="orderBtn" v-if="[20].includes(item.orderStatus)" @click="toEvaluation(item.orderId)">评价</span>
                   </div>
                 </van-cell>
               </van-cell-group>
@@ -109,26 +109,19 @@
     </van-tabs>
     <van-dialog
       v-model="refundState"
-      show-cancel-button
-      :before-close="refund">
+      @confirm="refund"
+      show-cancel-button>
       <van-radio-group v-model="reason">
         <van-cell-group>
-          <van-cell title="选错了/不想买了" clickable>
+          <van-cell title="选错了/不想买了" clickable @click="reason = '选错了/不想买了'">
             <van-radio name="选错了/不想买了" />
           </van-cell>
-          <van-cell title="土地已被租或商品缺货" clickable>
+          <van-cell title="土地已被租或商品缺货" clickable @click="reason = '土地已被租或商品缺货'">
             <van-radio name="土地已被租或商品缺货" />
           </van-cell>
-          <van-cell title="其他" clickable>
-            <van-radio name="其他" />
+          <van-cell title="其他" clickable @click="reason = '其他'">
+            <van-radio name="其他"/>
           </van-cell>
-          <van-field
-            v-if="reason === '其他'"
-            v-model="reason"
-            type="text"
-            label="其他"
-            placeholder="其他原因"
-          />
         </van-cell-group>
       </van-radio-group>
     </van-dialog>
@@ -148,8 +141,8 @@
         refundId: '',
         refundState: false,
         reason: '',
-        orderLoading: false,
-        orderIsLoading: false,
+        orderLoading: true,
+        orderIsLoading: true,
         active: 0,
         foodOrderList: [],
         landOrderList: [],
@@ -215,6 +208,7 @@
             this.getOrderList();
           })
         } else {
+          this.refundState = true;
           this.$toast('请选择退款原因')
         }
       },
@@ -254,7 +248,10 @@
       },
       toChooseFood() {
         this.$router.push({
-          path: '/makeFood'
+          path: '/makeFood',
+          query: {
+            from: 'orderList'
+          }
         })
       },
       buyFinish (isDone) {
@@ -289,6 +286,9 @@
       },
       orderState(state) {
         return constant.orderStates.find(item => item.code === state)
+      },
+      foodOrderState(state) {
+        return constant.foodOrderStates.find(item => item.code === state)
       },
       createDate(date) {
         return Function.dateFormat(date, 'YYYY-MM-DD')
@@ -337,6 +337,7 @@
     border: 1px solid #38ACA5;
     padding: 0.5vw 3.5vw;
     display: inline-block;
+    margin-left: 2vw;
   }
 
   .orderItem {

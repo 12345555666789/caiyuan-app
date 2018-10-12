@@ -21,21 +21,25 @@
         <van-cell title="作物种子">
           <div class="value" v-for="item in setCar.seed"><span>{{item.seedName}}</span><span> × {{item.num}}</span></div>
         </van-cell>
+        <van-cell title="增值服务">
+          <div class="value"><span>播种方式</span><span> : {{gardenOrder.sowingMode}}</span></div>
+          <div class="value"><span>养护方式</span><span> : {{gardenOrder.careMode}}</span></div>
+        </van-cell>
         <van-cell title="余额">
-          <div class="value">{{balance}}</div>
+          <div class="value"><span class="iconRmb">¥</span>{{userInfo && userInfo.balance || '暂无可用'}}</div>
         </van-cell>
         <van-cell title="优惠折扣">
-          <div class="value discountRate" style="margin-bottom: 1vw;"><span class="discountRateName">菜园折扣</span><span class="discountRateVal">{{landDiscount.discountRate}}折</span></div>
-          <div class="value discountRate" style="margin-bottom: 1vw;"><span class="discountRateName">租赁折扣</span><span class="discountRateVal">{{dateDiscount.discountRate}}折</span></div>
-          <div class="value discountRate" style="margin-bottom: 1vw;"><span class="discountRateName">会员折扣</span><span class="discountRateVal">{{userInfo && userInfo.discountRate}}折</span></div>
-          <div class="dominantHueText discountRate"><span class="discountRateName">合计折扣</span><span class="discountRateVal">{{total.discountRate}}折</span></div>
+          <div class="value discountRate" style="margin-bottom: 1vw;"><span class="discountRateName">菜园折扣</span><span class="discountRateVal">{{(landDiscount.discountRate * 10).toFixed(1)}}折</span></div>
+          <div class="value discountRate" style="margin-bottom: 1vw;"><span class="discountRateName">租赁折扣</span><span class="discountRateVal">{{(dateDiscount.discountRate * 10).toFixed(1)}}折</span></div>
+          <div class="value discountRate" style="margin-bottom: 1vw;"><span class="discountRateName">会员折扣</span><span class="discountRateVal">{{userInfo && userInfo.discountRate.toFixed(1)}}折</span></div>
+          <div class="dominantHueText discountRate"><span class="discountRateName">合计折扣</span><span class="discountRateVal">{{(total.discountRate * 10).toFixed(1)}}折</span></div>
         </van-cell>
         <van-cell>
           <div id="total">
             <p>
               <span class="totalLabel">应付金额: </span>
               <span class="totalPrice"><span class="iconRmb">¥</span>{{total.totalCost}}</span>
-              <span class="originalCost"><span class="iconRmb">¥</span>{{((Number(total.totalCost)*10)/Number(total.discountRate)).toFixed(2)}}</span>
+              <span class="originalCost"><span class="iconRmb">¥</span>{{Number(((Number(total.totalCost))/Number(total.discountRate)).toFixed(2)) + Number(userInfo && userInfo.balance)}}</span>
             </p>
           </div>
         </van-cell>
@@ -69,7 +73,6 @@
             careMode: 1,
             totalCost: 0
           },
-          balance: '暂无余额',
           landDiscount: {
             discountRate: 0,
             totalCost: 0
@@ -182,7 +185,6 @@
         },
         getPreAccounting (order, type) {
           axios.post(api.order.getPreAccounting, {...order}).then(res => {
-            console.log(type);
             if (type === 'total') {
               this.orderData.totalCost = res.data.data.totalCost
             }
@@ -196,17 +198,21 @@
         },
         nextStep () {
           // 提交订单
-          axios.post(api.order.submitLandOrder, this.orderData).then(res => {
-            let orderData = {
-              orderId: res.data.data.orderId,
-              totalCost: this.orderData.totalCost
-            };
-            try {
-              window.app.buyNow(JSON.stringify(orderData))
-            } catch (e) {
-              this.$toast('提交失败')
-            }
-          });
+          if (window.app.buyNow) {
+            axios.post(api.order.submitLandOrder, this.orderData).then(res => {
+              let orderData = {
+                orderId: res.data.data.orderId,
+                totalCost: this.orderData.totalCost
+              };
+              try {
+                window.app.buyNow(JSON.stringify(orderData))
+              } catch (e) {
+                this.$toast('提交失败')
+              }
+            });
+          } else {
+            this.$toast('Native错误')
+          }
         },
         goBack () {
           window.history.back()

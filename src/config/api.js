@@ -16,7 +16,8 @@ const common = {
   getInfo: commonPrefix + 'detail',
   commentList: commonPrefix + 'comment/list',
   userAction: commonPrefix + 'user/action',
-  uploadFile: commonPrefix + 'file/upload'
+  uploadFile: commonPrefix + 'file/upload',
+  dimList: commonPrefix + 'dim/list'
 };
 
 const garden = {
@@ -56,7 +57,7 @@ const my = {
   deleteOrder: myPrefix + 'order/delete/',
   cancelOrder: myPrefix + 'order/cancel/',
   deleteMoment: myPrefix + 'moment/delete/',
-  refund: msgPrefix + 'order/refund',
+  refund: myPrefix + 'order/refund',
   getFavorList: myPrefix + 'favor/list'
 };
 

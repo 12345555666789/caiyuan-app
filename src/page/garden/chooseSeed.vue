@@ -123,7 +123,7 @@
     },
     methods: {
       ...mapMutations([
-        'addToLandCar', 'reduceLandToCar'
+        'addToLandCar', 'reduceLandToCar', 'clearFert'
       ]),
       totalNum () {
         let totalNum = 0;
@@ -204,6 +204,8 @@
       nextStep () {
         if (this.carList && (Object.values(this.carList).find(item => item.seedId))) {
           if (Number(this.recMod) === 1) {
+            this.clearFert();
+            this.carList = this.gardenCar;
             this.$router.push({
               path: '/chooseFertilizers'
             })

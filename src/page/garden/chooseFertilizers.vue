@@ -123,7 +123,7 @@
     },
     methods: {
       ...mapMutations([
-        'addToLandCar', 'reduceLandToCar'
+        'addToLandCar', 'reduceLandToCar', 'clearFert'
       ]),
       totalNum () {
         let totalNum = 0;
@@ -224,6 +224,7 @@
         console.log(val);
       },
       goBack () {
+        this.clearFert();
         window.history.back()
       },
       onRefresh() {
