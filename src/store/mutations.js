@@ -21,11 +21,13 @@ export const setFoodTotalPrice = (state, data) => {
   state.foodOrder.total = data
 };
 export const clearFert = (state) => {
-  Object.values(state.gardenCar).forEach(item => {
+  let food = state.gardenCar;
+  Object.values(food).forEach(item => {
     if (item.fertId) {
-      delete state.gardenCar[item.fertId]
+      delete food[item.fertId]
     }
-  })
+  });
+  state.gardenCar = {...food}
 };
 export const addToLandCar = (state, data) => {
   let car = state.gardenCar;
