@@ -21,16 +21,24 @@
   </template>
 
 <script>
-    export default {
-      name: "toBeVip",
-      methods: {
-        goApp () {
-          if (window.app.goBackApp) {
-            window.app.goBackApp();
-          }
-        },
-      }
+  import constant from '@/config/constant'
+  export default {
+    name: "toBeVip",
+    methods: {
+      toBeVip () {
+        if (window.app.toBeVip) {
+          window.app.toBeVip(constant.toVIPPrice)
+        } else {
+          this.$toast('Native错误')
+        }
+      },
+      goApp () {
+        if (window.app.goBackApp) {
+          window.app.goBackApp();
+        }
+      },
     }
+  }
 </script>
 
 <style scoped lang="less">

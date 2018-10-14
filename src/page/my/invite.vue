@@ -25,23 +25,23 @@
   import {mapState, mapMutations} from 'vuex'
   import { Toast } from 'vant';
   export default {
-      name: "invite",
-      mounted () {
-        this.getUserInfo();
-        this.$refs.copyBtn.addEventListener('click', function() {
-          if(!document.execCommand) {
-            Toast('您的浏览器不支持此复制操作，请手动长按复制');
-            return;
-          }
-          codeTxt.select();
-          let result = document.execCommand('copy');
-          if(result) {
-            Toast('复制成功')
-          } else {
-            Toast('您的浏览器不支持此复制操作，请手动长按复制')
-          }
-        }).bind(this);
-      },
+    name: "invite",
+    mounted () {
+      this.getUserInfo();
+      this.$refs.copyBtn.addEventListener('click', function() {
+        if(!document.execCommand) {
+          Toast('您的浏览器不支持此复制操作，请手动长按复制');
+          return;
+        }
+        codeTxt.select();
+        let result = document.execCommand('copy');
+        if(result) {
+          Toast('复制成功')
+        } else {
+          Toast('您的浏览器不支持此复制操作，请手动长按复制')
+        }
+      }).bind(this);
+    },
     computed: {
       ...mapState(['userInfo'])
     },

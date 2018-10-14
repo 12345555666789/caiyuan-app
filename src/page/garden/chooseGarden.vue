@@ -10,7 +10,7 @@
       <div class="landInfo">
         <div style="display: flex">
           <div class="landText">
-            <div class="landTitle">{{landData.farmName}}({{landData.farmGrade}}:{{landData.geologicalType === 1 ? '松软地质' : '沙石地质'}})</div>
+            <div class="landTitle">{{landData.farmName}}({{landData.farmGradeName}}:{{landData.geologicalTypeName}})</div>
             <div style="height: 10vw; margin-top: 4vw;">
               <p class="landAddress" v-if="landData.address">
                 <van-icon class="dominantHueText" name="location" />
@@ -42,7 +42,7 @@
             <div class="landsRow" v-for="(landsRow, index) in gardenData" :key="'' + landsRow.row + index">
               <div v-for="(garden, index) in landsRow.lands"
                    :key="garden.landId"
-                   :class="garden.landStatus === 0 ? 'landsItem' : garden.landStatus === 2 ? 'selectedItem' : 'disableItem'"
+                   :class="garden.landStatus === 1 ? 'landsItem' : garden.landStatus === 4 ? 'selectedItem' : 'disableItem'"
                    @click="handleLand(garden, landsRow.row)">{{garden.landSize}}</div>
             </div>
           </div>
@@ -122,6 +122,7 @@
 
 <script>
   import api from '@/config/api';
+  import constant from '@/config/constant'
   import axios from '@/config/axios.config'
   import {mapActions, mapGetters} from 'vuex'
   import Function from '@/util/function'
@@ -164,8 +165,8 @@
     methods: {
       setLandData () {
         // TODO 从Vuex中读取以选择菜园信息
-        this.gardenForm.startDate = this.gardenOrder.landInfo.startDate || '';
-        this.gardenForm.endDate = this.gardenOrder.landInfo.endDate || '';
+        // this.gardenForm.startDate = this.gardenOrder.landInfo.startDate || '';
+        // this.gardenForm.endDate = this.gardenOrder.landInfo.endDate || '';
         this.gardenForm.landName = this.gardenOrder.landInfo.landName || '';
         this.recMode = this.gardenOrder.landInfo.recMode || 0;
       },
@@ -211,19 +212,23 @@
         this.selectedGarden.splice(this.selectedGarden.findIndex(item => item.landId === land.landId), 1);
         this.gardenData.forEach(item => {
           item.lands.forEach(item => {
-            item.landId === land.landId ? item.landStatus = 0 : null
+            item.landId === land.landId ? item.landStatus = 1 : null
           })
         })
       },
       handleLand (land, row) {
-        if (land.landStatus === 0) {
-          land.landStatus = 2;
-          this.selectedGarden.unshift({
-            ...land,
-            row
-          });
-        } else if (land.landStatus === 2) {
-          land.landStatus = 0;
+        if (land.landStatus === 1) {
+          if (this.selectedGarden.length < constant.orderLandMax) {
+            land.landStatus = 4;
+            this.selectedGarden.unshift({
+              ...land,
+              row
+            });
+          } else {
+            this.$toast('最多选择五块菜园哦')
+          }
+        } else if (land.landStatus === 4) {
+          land.landStatus = 1;
           if (this.selectedGarden.findIndex(item => item.landId === land.landId) !== -1) {
             this.selectedGarden.splice(this.selectedGarden.findIndex(item => item.landId === land.landId), 1)
           }
@@ -244,14 +249,17 @@
         if (this.gardenForm.startDate && this.gardenForm.endDate) {
           let startDate = new Date(this.gardenForm.startDate).getTime();
           let endDate = new Date(this.gardenForm.endDate).getTime();
-          let startFullYear = new Date(startDate).setFullYear(new Date(startDate).getFullYear() + 1);
+          let startFullYear = new Date(startDate).setFullYear(new Date(startDate).getFullYear() + constant.landYearsMin);
+          let startMaxYear = new Date(startDate).setFullYear(new Date(startDate).getFullYear() + constant.landYearsMax);
           if (this.dateState === 'startDate') {
             if (new Date(value.toLocaleDateString()).getTime() < toDay) {
               Toast('开始时间不得小于今天')
             } else if (new Date(value.toLocaleDateString()).getTime() > endDate) {
               Toast('开始时间不得大于到期时间')
-            } else if (endDate < new Date(value).setFullYear(new Date(value).getFullYear() + 1)) {
-              Toast('至少选择一年时间')
+            } else if (endDate < new Date(value).setFullYear(new Date(value).getFullYear() + constant.landYearsMin)) {
+              Toast('至少选择' + constant.landYearsMin + '年时间')
+            } else if (endDate > new Date(value).setFullYear(new Date(value).getFullYear() + constant.landYearsMax)) {
+              Toast('最多选择' + constant.landYearsMax + '年时间')
             } else {
               setDate();
               this.dateShow = false;
@@ -262,7 +270,9 @@
             } else if (new Date(value.toLocaleDateString()).getTime() < startDate) {
               Toast('到期时间不得小于开始时间')
             } else if (new Date(value.toLocaleDateString()).getTime() < startFullYear) {
-              Toast('至少选择一年时间')
+              Toast('至少选择' + constant.landYearsMin + '年时间')
+            } else if (new Date(value.toLocaleDateString()).getTime() > startMaxYear) {
+              Toast('最多选择' + constant.landYearsMax + '年时间')
             } else {
               setDate();
               this.dateShow = false;
@@ -276,8 +286,10 @@
               let endDate = new Date(this.gardenForm.endDate).getTime();
               if (new Date(value.toLocaleDateString()).getTime() > endDate) {
                 Toast('开始时间不得大于到期时间')
-              } else if (endDate < new Date(value).setFullYear(new Date(value).getFullYear() + 1)) {
-                Toast('至少选择一年时间')
+              } else if (endDate < new Date(value).setFullYear(new Date(value).getFullYear() + constant.landYearsMin)) {
+                Toast('至少选择' + constant.landYearsMin + '年时间')
+              } else if (endDate > new Date(value).setFullYear(new Date(value).getFullYear() + constant.landYearsMax)) {
+                Toast('最多选择' + constant.landYearsMax + '年时间')
               } else {
                 setDate();
                 this.dateShow = false;
@@ -293,8 +305,10 @@
               let startDate = new Date(this.gardenForm.startDate).getTime();
               if (new Date(value.toLocaleDateString()).getTime() < startDate) {
                 Toast('到期时间不得小于开始时间')
-              } else if (new Date(value.toLocaleDateString()).getTime() < new Date(startDate).setFullYear(new Date(startDate).getFullYear() + 1)) {
-                Toast('至少选择一年时间')
+              } else if (new Date(value.toLocaleDateString()).getTime() < new Date(startDate).setFullYear(new Date(startDate).getFullYear() + constant.landYearsMin)) {
+                Toast('至少选择' + constant.landYearsMin + '年时间')
+              } else if (new Date(value.toLocaleDateString()).getTime() > new Date(startDate).setFullYear(new Date(startDate).getFullYear() + constant.landYearsMax)) {
+                Toast('最多选择' + constant.landYearsMax + '年时间')
               } else {
                 setDate();
                 this.dateShow = false;

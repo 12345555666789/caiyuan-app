@@ -1,6 +1,10 @@
 // 定义常量
 
 export default {
+  landYearsMin: 1, // 订单最小年限
+  landYearsMax: 5, // 订单最大年限
+  orderLandMax: 5, // 订购土地上限
+  toVIPPrice: 50, // 注册VIP金额
   sortType: {
     overall: -1, // 综合
     stockUp: 10, // 库存升序
