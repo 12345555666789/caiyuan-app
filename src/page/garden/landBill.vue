@@ -5,7 +5,7 @@
         fixed
         left-arrow
         @click-left="goBack"></van-nav-bar>
-      <div style="height: 12vw"></div>
+      <div style="height: 11vw"></div>
       <van-cell-group>
         <van-cell title="菜园名称"><div class="value">{{gardenOrder.landInfo.landName}}</div></van-cell>
         <van-cell title="菜园规格">
@@ -26,7 +26,8 @@
           <div class="value"><span>养护方式</span><span> : {{gardenOrder.careMode}}</span></div>
         </van-cell>
         <van-cell title="余额">
-          <div class="value"><span class="iconRmb">¥</span>{{userInfo && userInfo.balance || '暂无可用'}}</div>
+          <div v-if="userInfo && userInfo.balance" class="value"><span class="iconRmb">¥</span>{{userInfo && userInfo.balance}}</div>
+          <div class="value" v-else><span>暂无可用</span></div>
         </van-cell>
         <van-cell title="优惠折扣">
           <div class="value discountRate" style="margin-bottom: 1vw;"><span class="discountRateName">菜园折扣</span><span class="discountRateVal">{{(landDiscount.discountRate * 10).toFixed(1)}}折</span></div>
@@ -39,7 +40,8 @@
             <p>
               <span class="totalLabel">应付金额: </span>
               <span class="totalPrice"><span class="iconRmb">¥</span>{{total.totalCost}}</span>
-              <span class="originalCost"><span class="iconRmb">¥</span>{{Number(((Number(total.totalCost))/Number(total.discountRate)).toFixed(2)) + Number(userInfo && userInfo.balance)}}</span>
+              <span v-if="userInfo && userInfo.balance" class="originalCost"><span class="iconRmb">¥</span>{{Number(((Number(total.totalCost))/Number(total.discountRate)).toFixed(2)) + Number(userInfo && userInfo.balance)}}</span>
+              <span v-else class="originalCost"><span class="iconRmb">¥</span>{{Number(((Number(total.totalCost))/Number(total.discountRate)).toFixed(2))}}</span>
             </p>
           </div>
         </van-cell>
