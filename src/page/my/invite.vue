@@ -10,7 +10,7 @@
       <div class="banner"></div>
       <p style="text-align: center;font-size: 4vw;font-weight: 600;margin-bottom: 4vw">我的邀请码</p>
       <div class="codeBox">
-        <input id="codeTxt" value="adafadsfas" readonly/>
+        <input id="codeTxt" :value="userInfo && userInfo.inviteCode" readonly/>
       </div>
       <div class="copyBtn" ref="copyBtn"><span style="color: #fff">复制邀请码给好友</span></div>
       <p class="readName"><span class="dot"></span><span>邀请码说明</span></p>
@@ -20,10 +20,14 @@
 </template>
 
 <script>
+  import api from '@/config/api';
+  import axios from '@/config/axios.config'
+  import {mapState, mapMutations} from 'vuex'
   import { Toast } from 'vant';
   export default {
       name: "invite",
       mounted () {
+        this.getUserInfo();
         this.$refs.copyBtn.addEventListener('click', function() {
           if(!document.execCommand) {
             Toast('您的浏览器不支持此复制操作，请手动长按复制');
@@ -38,7 +42,16 @@
           }
         }).bind(this);
       },
+    computed: {
+      ...mapState(['userInfo'])
+    },
       methods: {
+        ...mapMutations(['setUserInfo']),
+        getUserInfo () {
+          axios.post(api.my.userInfo).then(res => {
+            this.setUserInfo(res.data.data);
+          })
+        },
         goApp () {
           if (window.app.goBackApp) {
             window.app.goBackApp();

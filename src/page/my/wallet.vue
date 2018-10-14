@@ -30,13 +30,13 @@
     export default {
       name: "wallet",
       computed: {
-        ...mapState(['userInfo', 'userAction'])
+        ...mapState(['userInfo'])
       },
       mounted () {
         this.getUserInfo();
       },
       methods: {
-        ...mapMutations(['setUserAction', 'setUserInfo']),
+        ...mapMutations(['setUserInfo']),
         getUserInfo () {
           axios.post(api.my.userInfo).then(res => {
             this.setUserInfo(res.data.data);
