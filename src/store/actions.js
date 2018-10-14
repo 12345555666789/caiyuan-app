@@ -3,3 +3,4 @@ export const setSelectedLands = ({commit}, data) => commit('setSelectedLands', d
 export const clearLandOrder = ({commit}, data) => commit('clearLandOrder', data);
 export const setUserAction = ({commit}, data) => commit('setUserAction', data);
 export const setUserInfo = ({commit}, data) => commit('setUserInfo', data);
+export const setLoadingState = ({commit}, data) => commit('setLoadingState', data);

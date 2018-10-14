@@ -126,3 +126,7 @@ export const setUserAction = (state, data) => {
 export const setUserInfo = (state, data) => {
   state.userInfo = data
 };
+export const setLoadingState = (state, data) => {
+  console.log(state, data);
+  state.windowLoading = data
+};

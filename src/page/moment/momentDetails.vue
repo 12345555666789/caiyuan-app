@@ -147,7 +147,13 @@
       },
       share () {
         if (window.app.shareInfo) {
-          window.app.shareInfo(window.location.href + '&isShare=1')
+          let shareContent = {
+            context: this.momentInfo.momentDesc,
+            shareUrl: window.location.href + '&isShare=1',
+            title: this.momentInfo.title,
+            imageurl: this.momentInfo.momentPics[0]
+          };
+          window.app.shareInfo(JSON.stringify(shareContent))
         }
       },
       dateFormat (date, format) {

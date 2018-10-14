@@ -16,7 +16,8 @@ const state = {
   gardenCar: {},
   foodCar: {},
   userAction: {},
-  userInfo: {}
+  userInfo: {},
+  windowLoading: false
 };
 
 const store = new Vuex.Store({
