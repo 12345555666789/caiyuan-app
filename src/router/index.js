@@ -9,6 +9,7 @@ const activityDetails = r => require.ensure([], () => r(require('../page/activit
 const wikiDetails = r => require.ensure([], () => r(require('../page/wiki/wikiDetails')), 'wikiDetails');
 const landTopList = r => require.ensure([], () => r(require('../page/ranking/landTopList')), 'landTopList');
 const liveTelecast = r => require.ensure([], () => r(require('../page/live/liveTelecast')), 'liveTelecast');
+const liveRoom = r => require.ensure([], () => r(require('../page/live/liveRoom')), 'liveRoom');
 
 
 Vue.use(Router);
@@ -65,6 +66,14 @@ const router = new Router({
       meta: {
         keepAlive: true,
         index: 0
+      }
+    },
+    {
+      path: '/liveRoom', // 直播间
+      component: liveRoom,
+      meta: {
+        keepAlive: true,
+        index: 1
       }
     },
   ],

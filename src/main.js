@@ -7,11 +7,13 @@ import {
   Vant,
   util,
   store,
-  Lazyload
+  Lazyload,
+  VueVideoPlayer
 } from '@/imports'
 
-Vue.use(Lazyload);
+Vue.use(VueVideoPlayer);
 Vue.use(Vant);
+Vue.use(Lazyload);
 Vue.use(util);
 
 Vue.config.productionTip = false;

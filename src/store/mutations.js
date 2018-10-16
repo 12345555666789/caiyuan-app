@@ -129,3 +129,6 @@ export const setUserInfo = (state, data) => {
 export const setLoadingState = (state, data) => {
   state.windowLoading = data
 };
+export const setLiveRoomData = (state, data) => {
+  state.liveRoomData = data
+};

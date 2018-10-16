@@ -61,7 +61,6 @@ export default {
 }
 body {
   background-color: #f8f8f8;
-  overflow:hidden;
 }
 
 .van-cell__title .van-icon {

@@ -9,7 +9,18 @@
       <van-list>
         <div class="msgItem" v-for="item in messageList" :key="item.msgId">
           <p class="createDate"><span>{{commentDate(item.createDate)}}</span></p>
-          <div class="systemContent" v-if="item.owner === 1">
+          <div class="userContent" v-if="item.owner === 1">
+            <div class="userMsg">
+              <div class="msgContent">
+                <!--<p style="color: #53B2AC; font-size: 3.5vw; margin-bottom: 1vw;padding-bottom: 1vw;border-bottom: 1px solid #D5D5D5">{{item.msgType === 1 ? "要求更新菜园视频或图片" : item.msgType === 2 ? "预约采摘" : '其他'}}-->
+                <!--</p>-->
+                {{item.content}}
+              </div>
+              <span class="rightArrow"><span></span></span>
+            </div>
+            <div class="userPic"><img :src="userInfo && userInfo.iconurl"></div>
+          </div>
+          <div class="systemContent" v-else>
             <div class="systemPic"></div>
             <div class="systemMsg">
               <span class="leftArrow"><span></span></span>
@@ -18,17 +29,6 @@
                 {{item.content}}
               </div>
             </div>
-          </div>
-          <div class="userContent" v-else>
-            <div class="userMsg">
-              <div class="msgContent">
-                <p style="color: #53B2AC; font-size: 3.5vw; margin-bottom: 1vw;padding-bottom: 1vw;border-bottom: 1px solid #D5D5D5">{{item.msgType === 1 ? "要求更新菜园视频或图片" : item.msgType === 2 ? "预约采摘" : '其他'}}
-                </p>
-                {{item.content}}
-              </div>
-              <span class="rightArrow"><span></span></span>
-            </div>
-            <div class="userPic"><img :src="userInfo.iconurl"></div>
           </div>
         </div>
       </van-list>

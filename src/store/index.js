@@ -17,7 +17,8 @@ const state = {
   foodCar: {},
   userAction: {},
   userInfo: {},
-  windowLoading: false
+  windowLoading: false,
+  liveRoomData: {}
 };
 
 const store = new Vuex.Store({

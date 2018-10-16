@@ -18,7 +18,7 @@
                 <div class="liveContent">
                   <div class="liveTitle" v-show="!item.liveUrl"><span>{{dateFormat(item.startDate)}}开播</span></div>
                   <div class="liveVideo" v-if="!!item.liveUrl">
-                    <div class="videoShadow" style="overflow: hidden;height: 50vw;" @click="videoPlay(item.liveUrl)">
+                    <div class="videoShadow" style="overflow: hidden;height: 50vw;" @click="toLiveRoom(item.liveUrl, item.activityId)">
                       <div class="videoTitle">{{item.liveName}}</div>
                       <van-icon name="play"/>
                       <video class="videoView" v-lazy="item.liveUrl" height="100%" width="100%" style="z-index: -1;position: absolute"></video>
@@ -65,20 +65,38 @@
       </van-tab>
     </van-tabs>
     <van-popup v-model="videoShow" :overlay="true" @click-overlay="cancelDate">
-      <video ref="video" :src="videoSrc" controls autoplay height="100%" width="100%"></video>
+      <video-player ref="videoPlayer"
+                    @ready="playerReadied"
+                    :playsinline="true"
+                    :options="videoOptions">
+      </video-player>
     </van-popup>
   </div>
 </template>
 
 <script>
   import api from '@/config/api';
-  import axios from '@/config/axios.config'
-  import constant from '@/config/constant'
-  import Function from '@/util/function'
-    export default {
+  import axios from '@/config/axios.config';
+  import Function from '@/util/function';
+  import {mapMutations} from 'vuex'
+
+  export default {
       name: "liveTelecast",
       data () {
         return {
+          videoOptions: {
+            source: {
+              type: "rtmp/mp4",
+              src: '',
+              withCredentials: false
+            },
+            language: 'zh-CN',
+            live: true,
+            notSupportedMessage: '此视频暂无法播放，请稍后再试',
+            autoplay: true,
+            errorDisplay : false,
+            width: 'auto'
+          },
           videoShow: false,
           videoSrc: '',
           onlineLoading: false,
@@ -103,13 +121,32 @@
         this.getInteractionTopList();
         this.getOnlineTopList();
       },
+      computed: {
+        player() {
+          return this.$refs.videoPlayer.player
+        }
+      },
       methods: {
+        ...mapMutations(['setLiveRoomData']),
+        toLiveRoom (liveUrl, activityId) {
+          this.setLiveRoomData({
+            liveUrl,
+            activityId
+          });
+          this.$router.push({
+            path: '/liveRoom'
+          })
+        },
+        playerReadied(player) {
+          player.src(this.videoSrc)
+        },
         cancelDate () {
-          this.$refs.video.pause();
+          this.player.pause();
           this.videoSrc = '';
+          this.player.src('');
         },
         videoPlay(src) {
-          this.videoSrc = src;
+          this.videoSrc = 'rtmp://39.104.26.183:1935/rtmplive';
           this.videoShow = true;
         },
         dateFormat (date) {
