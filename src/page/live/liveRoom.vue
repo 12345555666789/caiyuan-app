@@ -9,11 +9,7 @@
     <van-pull-refresh v-model="isLoading" @refresh="getComments">
       <van-cell>
         <div class="videoBox">
-          <video-player ref="videoPlayer"
-                        @ready="playerReadied"
-                        :playsinline="true"
-                        :options="videoOptions">
-          </video-player>
+          <video-player ref="videoPlayer" :options="videoOptions"></video-player>
         </div>
       </van-cell>
       <div class="gardenInfo">
@@ -59,21 +55,21 @@
   import constant from '@/config/constant'
   import Function from '@/util/function'
   import {mapState} from 'vuex'
+  import 'videojs-flash'
   export default {
     name: "liveRoom",
     data() {
       return {
         videoOptions: {
-          source: {
+          width: '360',
+          sources: [{
             type: "rtmp/mp4",
-            src: '',
-            withCredentials: false
-          },
-          language: 'zh-CN',
-          live: true,
-          notSupportedMessage: '此视频暂无法播放，请稍后再试',
-          autoplay: true,
-          width: '350'
+            src: "http://221.228.226.5/15/t/s/h/v/tshvhsxwkbjlipfohhamjkraxuknsc/sh.yinyuetai.com/88DC015DB03C829C2126EEBBB5A887CB.mp4"
+          }],
+          techOrder: ['flash'],
+          autoplay: false,
+          controls: true,
+          poster: "https://surmon-china.github.io/vue-quill-editor/static/images/surmon-9.jpg"
         },
         finished: false,
         loading: false,
@@ -94,7 +90,8 @@
     },
     methods: {
       playerReadied(player) {
-        player.src(this.videoSrc)
+        player.src("http://221.228.226.23/11/t/j/v/b/tjvbwspwhqdmgouolposcsfafpedmb/sh.yinyuetai.com/691201536EE4912BF7E4F1E2C67B8119.mp4"); //重新初始化视频地址
+        player.load("http://221.228.226.23/11/t/j/v/b/tjvbwspwhqdmgouolposcsfafpedmb/sh.yinyuetai.com/691201536EE4912BF7E4F1E2C67B8119.mp4"); //重新加载
       },
       dateFormat (date, format) {
         return Function.dateFormat(date, format)
@@ -108,6 +105,7 @@
         }).then((res) => {
           this.page += 1;
           this.loading = false;
+          this.isLoading = false;
           if (res.data.data.comments.length) {
             this.comments.push(...res.data.data.comments);
           } else {
@@ -116,6 +114,7 @@
         }).catch(() => {
           this.finished = true;
           this.loading = false;
+          this.isLoading = false;
         })
       },
       sendComment () {
