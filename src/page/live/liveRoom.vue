@@ -8,9 +8,7 @@
     <div style="height: 12vw"></div>
     <van-pull-refresh v-model="isLoading" @refresh="getComments">
       <van-cell>
-        <div class="videoBox">
-          <video-player ref="videoPlayer" :options="videoOptions"></video-player>
-        </div>
+        <div id="liveVideo" style="width:100%; height:auto;"></div>
       </van-cell>
       <div class="gardenInfo">
         <p style="font-size: 3vw; padding: 1vw 3vw">评论 ({{comments.length}})</p>
@@ -51,25 +49,20 @@
 </template>
 <script>
   import api from '@/config/api';
-  import axios from '@/config/axios.config'
-  import constant from '@/config/constant'
-  import Function from '@/util/function'
-  import {mapState} from 'vuex'
-  import 'videojs-flash'
+  import axios from '@/config/axios.config';
+  import constant from '@/config/constant';
+  import Function from '@/util/function';
+  import {mapState} from 'vuex';
   export default {
     name: "liveRoom",
     data() {
       return {
-        videoOptions: {
-          width: '360',
-          sources: [{
-            type: "rtmp/mp4",
-            src: "http://221.228.226.5/15/t/s/h/v/tshvhsxwkbjlipfohhamjkraxuknsc/sh.yinyuetai.com/88DC015DB03C829C2126EEBBB5A887CB.mp4"
-          }],
-          techOrder: ['flash'],
-          autoplay: false,
-          controls: true,
-          poster: "https://surmon-china.github.io/vue-quill-editor/static/images/surmon-9.jpg"
+        tcPlayer: null,
+        tcPlayerOption: {
+          "m3u8": "http://39.104.26.183:7070/live/test/index.m3u8",
+          "autoplay" : true,
+          "width" :  '100%',
+          "height" : 'auto'
         },
         finished: false,
         loading: false,
@@ -86,13 +79,10 @@
       ...mapState(['liveRoomData'])
     },
     mounted () {
-      this.getComments()
+      this.getComments();
+      new TcPlayer('liveVideo', this.tcPlayerOption)
     },
     methods: {
-      playerReadied(player) {
-        player.src("http://221.228.226.23/11/t/j/v/b/tjvbwspwhqdmgouolposcsfafpedmb/sh.yinyuetai.com/691201536EE4912BF7E4F1E2C67B8119.mp4"); //重新初始化视频地址
-        player.load("http://221.228.226.23/11/t/j/v/b/tjvbwspwhqdmgouolposcsfafpedmb/sh.yinyuetai.com/691201536EE4912BF7E4F1E2C67B8119.mp4"); //重新加载
-      },
       dateFormat (date, format) {
         return Function.dateFormat(date, format)
       },

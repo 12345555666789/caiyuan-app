@@ -7,11 +7,9 @@ import {
   Vant,
   util,
   store,
-  Lazyload,
-  VueVideoPlayer
+  Lazyload
 } from '@/imports'
 
-Vue.use(VueVideoPlayer);
 Vue.use(Vant);
 Vue.use(Lazyload);
 Vue.use(util);

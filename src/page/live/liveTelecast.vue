@@ -65,11 +65,11 @@
       </van-tab>
     </van-tabs>
     <van-popup v-model="videoShow" :overlay="true" @click-overlay="cancelDate">
-      <video-player ref="videoPlayer"
-                    @ready="playerReadied"
-                    :playsinline="true"
-                    :options="videoOptions">
-      </video-player>
+      <!--<video-player ref="videoPlayer"-->
+                    <!--@ready="playerReadied"-->
+                    <!--:playsinline="true"-->
+                    <!--:options="videoOptions">-->
+      <!--</video-player>-->
     </van-popup>
   </div>
 </template>
@@ -120,11 +120,6 @@
       mounted () {
         this.getInteractionTopList();
         this.getOnlineTopList();
-      },
-      computed: {
-        player() {
-          return this.$refs.videoPlayer.player
-        }
       },
       methods: {
         ...mapMutations(['setLiveRoomData']),
