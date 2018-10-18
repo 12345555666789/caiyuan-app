@@ -10,7 +10,7 @@
       <van-cell>
         <div id="liveVideo" style="width:100%; height:auto;"></div>
       </van-cell>
-      <div class="gardenInfo">
+      <div class="liveInfo" v-if="liveRoomData && liveRoomData.activityId">
         <p style="font-size: 3vw; padding: 1vw 3vw">评论 ({{comments.length}})</p>
         <div class="comments">
           <div class="commentSend">
@@ -60,9 +60,10 @@
         tcPlayer: null,
         tcPlayerOption: {
           "m3u8": "http://39.104.26.183:7070/live/test/index.m3u8",
-          "autoplay" : true,
-          "width" :  '100%',
-          "height" : 'auto'
+          "live": true,
+          "width": '100%',
+          "height": 'auto',
+          "systemFullscreen": true
         },
         finished: false,
         loading: false,
@@ -71,7 +72,7 @@
         count: 10,
         videoSrc: '',
         isLoading: false,
-        gardenInfo: {},
+        liveInfo: {},
         comments: []
       }
     },
@@ -79,10 +80,19 @@
       ...mapState(['liveRoomData'])
     },
     mounted () {
-      this.getComments();
-      new TcPlayer('liveVideo', this.tcPlayerOption)
+      if (this.liveRoomData.activityId) {
+        this.getComments();
+      }
+      this.setLive();
     },
     methods: {
+      setLive() {
+        console.log(this.liveRoomData.liveUrl, this.liveRoomData.activityId);
+        if (this.liveRoomData.liveUrl) {
+          this.tcPlayerOption.m3u8 = 'http://39.104.26.183:7070/live/test/index.m3u8';
+        }
+        new TcPlayer('liveVideo', this.tcPlayerOption)
+      },
       dateFormat (date, format) {
         return Function.dateFormat(date, format)
       },

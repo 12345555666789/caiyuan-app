@@ -31,6 +31,7 @@
             </div>
           </div>
         </div>
+        <div id="scrollInToView" style="height: 30vh"></div>
       </van-list>
       <div style="height: 30vw"></div>
       <div class="commentSend">
@@ -71,6 +72,13 @@
       },
       computed: {
         ...mapState(['userInfo', 'userAction'])
+      },
+      watch: {
+        'messageList.length' () {
+          setTimeout(() => {
+            document.getElementById('scrollInToView').scrollIntoView()
+          })
+        }
       },
       mounted () {
         this.getUserInfo();
@@ -126,7 +134,7 @@
         getMessageList () {
           axios.post(api.help.msgList + this.landId).then(res => {
             if (res.data.data.length) {
-              this.messageList = res.data.data
+              this.messageList = res.data.data;
             }
           })
         },

@@ -50,7 +50,7 @@
               <van-cell>
                 <div class="liveContent">
                   <div class="liveVideo">
-                    <div class="videoShadow" style="overflow: hidden;height: 50vw;" @click="videoPlay(item.liveUrl)">
+                    <div class="videoShadow" style="overflow: hidden;height: 50vw;" @click="toLiveRoom(item.liveUrl)">
                       <div class="videoTitle">{{item.farmName}}</div>
                       <van-icon name="play"/>
                       <video class="videoView" v-lazy="item.liveUrl" height="100%" width="100%" style="z-index: -1;position: absolute"></video>
@@ -64,13 +64,6 @@
         </van-pull-refresh>
       </van-tab>
     </van-tabs>
-    <van-popup v-model="videoShow" :overlay="true" @click-overlay="cancelDate">
-      <!--<video-player ref="videoPlayer"-->
-                    <!--@ready="playerReadied"-->
-                    <!--:playsinline="true"-->
-                    <!--:options="videoOptions">-->
-      <!--</video-player>-->
-    </van-popup>
   </div>
 </template>
 
@@ -97,7 +90,6 @@
             errorDisplay : false,
             width: 'auto'
           },
-          videoShow: false,
           videoSrc: '',
           onlineLoading: false,
           interactionLoading: false,
@@ -131,18 +123,6 @@
           this.$router.push({
             path: '/liveRoom'
           })
-        },
-        playerReadied(player) {
-          player.src(this.videoSrc)
-        },
-        cancelDate () {
-          this.player.pause();
-          this.videoSrc = '';
-          this.player.src('');
-        },
-        videoPlay(src) {
-          this.videoSrc = 'rtmp://39.104.26.183:1935/rtmplive';
-          this.videoShow = true;
         },
         dateFormat (date) {
           return Function.dateFormat(date, 'YYYY年MM月DD日 H:M')

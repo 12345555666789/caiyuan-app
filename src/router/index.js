@@ -72,7 +72,7 @@ const router = new Router({
       path: '/liveRoom', // 直播间
       component: liveRoom,
       meta: {
-        keepAlive: true,
+        keepAlive: false,
         index: 1
       }
     },
