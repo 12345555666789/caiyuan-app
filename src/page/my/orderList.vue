@@ -303,8 +303,12 @@
         this.getOrderList();
       },
       goApp() {
-        if (window.app.goBackApp()) {
-          window.app.goBackApp();
+        if (this.$route.query.fromH5) {
+          window.history.back()
+        } else {
+          if (window.app.goBackApp()) {
+            window.app.goBackApp();
+          }
         }
       },
       getOrderList() {

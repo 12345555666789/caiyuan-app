@@ -168,7 +168,8 @@
               this.$router.push({
                 path: '/orderList',
                 query: {
-                  mod: 'food'
+                  mod: 'food',
+                  fromH5: true
                 }
               })
             }).catch(() => {
