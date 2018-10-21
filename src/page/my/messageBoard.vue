@@ -298,6 +298,7 @@
     }
     .van-cell {
       padding: 10px 0;
+      height: 15vw;
     }
     [class*=van-hairline]::after {
       border-top: 0 #fff;

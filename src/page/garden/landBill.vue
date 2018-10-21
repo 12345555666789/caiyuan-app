@@ -182,9 +182,12 @@
                 totalPrice: this.total.totalCost
               }
             });
-            window.location.reload()
           } else {
-            this.$toast('提交失败')
+            this.clearLandOrder({});
+            this.$router.push({
+              path: '/orderList'
+            });
+            this.$toast('未完成付款')
           }
         },
         getPreAccounting (order, type) {

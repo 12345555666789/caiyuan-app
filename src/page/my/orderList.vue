@@ -265,7 +265,7 @@
           });
           window.location.reload()
         } else {
-          this.$toast('提交失败')
+          this.$toast('未完成付款')
         }
       },
       toPay(orderId, totalCost) {
