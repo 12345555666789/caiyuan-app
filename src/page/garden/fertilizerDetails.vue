@@ -17,8 +17,9 @@
           <span>¥</span><b>{{fertilizerInfo.price}}</b>
         </p>
         <p class="fertName"><b>{{fertilizerInfo.fertName}}</b>
-          <span>{{fertilizerInfo.season}}</span>
+          <span v-if="fertilizerInfo.season">{{fertilizerInfo.season}}</span>
         </p>
+        <div class="fertStock">库存: {{fertilizerInfo.stock}}件</div>
         <p class="fertDesc">说明:
           {{fertilizerInfo.fertDesc}}
         </p>
@@ -75,7 +76,6 @@
         videoSrc: '',
         videoShow: false,
         isLoading: false,
-        fertId: this.$route.query.fertId,
         fertilizerInfo: {}
       }
     },
@@ -87,6 +87,8 @@
       this.gardenCar ? this.carList = this.gardenCar : null;
     },
     activated () {
+      this.fertilizerInfo = {};
+      this.getfertilizerInfo();
       this.gardenCar ? this.carList = this.gardenCar : null;
     },
     methods: {
@@ -116,7 +118,7 @@
       getfertilizerInfo() {
         axios.post(api.common.getInfo, {
           objType: constant.infoType.fertilizer,
-          objId: this.fertId
+          objId: this.$route.query.fertId,
         }).then((res) => {
           this.fertilizerInfo = res.data.data;
           this.page = 0;

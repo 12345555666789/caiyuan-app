@@ -130,25 +130,36 @@
           this.loading = false;
         })
       },
+      toLogin () {
+        if (window.app.toLogin) {
+          window.app.toLogin()
+        } else {
+          this.$toast('Native错误');
+        }
+      },
       sendComment () {
         this.message = this.message.replace(/\s/g, "");
-        if (this.message) {
-          axios.post(api.common.userAction, {
-            objId: this.gardenId,
-            actionType: constant.actionType.comment,
-            objType: constant.infoType.land,
-            content: this.message
-          }).then(() => {
-            this.message = '';
-            this.$toast('发送成功');
-            this.getgardenInfo();
-          }).catch(err => {
-            console.log(err);
-            this.$toast('发送失败');
-          });
+        if (window.app.getToken && window.app.getToken()) {
+          if (this.message) {
+            axios.post(api.common.userAction, {
+              objId: this.gardenId,
+              actionType: constant.actionType.comment,
+              objType: constant.infoType.land,
+              content: this.message
+            }).then(() => {
+              this.message = '';
+              this.$toast('发送成功');
+              this.getgardenInfo();
+            }).catch(err => {
+              console.log(err);
+              this.$toast('发送失败');
+            });
+          } else {
+            this.$toast('不能发送空内容哦');
+            this.message = ''
+          }
         } else {
-          this.$toast('不能发送空内容哦');
-          this.message = ''
+          this.toLogin()
         }
       },
       commentDate (date) {

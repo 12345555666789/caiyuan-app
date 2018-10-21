@@ -124,21 +124,32 @@
           this.checkAction();
         })
       },
+      toLogin () {
+        if (window.app.toLogin) {
+          window.app.toLogin()
+        } else {
+          this.$toast('Native错误');
+        }
+      },
       like () {
-        axios.post(api.common.userAction, {
-          actionType: constant.actionType.like,
-          objId: this.momentInfo.momentId || this.momentId,
-          objType: constant.infoType.moment
-        }).then(() => {
-          this.isLike = true;
-          this.setUserAction({
+        if (window.app.getToken && window.app.getToken()) {
+          axios.post(api.common.userAction, {
             actionType: constant.actionType.like,
             objId: this.momentInfo.momentId || this.momentId,
-            objType: constant.infoType.moment,
-            userId: this.userInfo.userId
-          });
-          this.getmomentInfo();
-        })
+            objType: constant.infoType.moment
+          }).then(() => {
+            this.isLike = true;
+            this.setUserAction({
+              actionType: constant.actionType.like,
+              objId: this.momentInfo.momentId || this.momentId,
+              objType: constant.infoType.moment,
+              userId: this.userInfo.userId
+            });
+            this.getmomentInfo();
+          })
+        } else {
+         this.toLogin()
+        }
       },
       checkAction () {
         if (this.userAction[this.userInfo.userId]) {

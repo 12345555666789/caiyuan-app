@@ -9,7 +9,7 @@ axios.interceptors.request.use((config) => {
     if (window.app.getToken) {
       config.headers['Authorization'] = window.app.getToken()
     } else {
-      config.headers['Authorization'] = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJBUFAiLCJ1aWQiOiIxMDM0Mzc0MzQ3MTA4OTk1MDcyIiwiaXNzIjoiU2VydmljZSIsImV4cCI6MTUzOTkxNjgzMCwiaWF0IjoxNTM5MzEyMDMwfQ.q9L4JVoH3c6vzmkSXcoR42ERyf8u3Zt88tRGkzYJpfI';
+      config.headers['Authorization'] = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJBUFAiLCJ1aWQiOiIxMDAwMDAwMDI0IiwiaXNzIjoiU2VydmljZSIsImV4cCI6MTU0MDcwMTgyMCwiaWF0IjoxNTQwMDk3MDIwfQ.-_24JEmRy0enOAWPVyHH1cqhchaRd8S2kb15xaSklSY';
     }
   } catch (e) {
     store.dispatch('setLoadingState', false);

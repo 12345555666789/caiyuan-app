@@ -34,6 +34,7 @@
           <div class="fertInfo">
             <div class="fertName">{{item.fertName}}</div>
             <div class="fertSpec">{{item.fertSpec}}</div>
+            <div class="fertStock">库存: {{item.fertStock}}件</div>
             <div class="fertPrice"><span>¥</span>{{item.price}}</div>
             <div class="fertSeason">{{item.season}}</div>
             <div class="addfert" v-if="carList && carList[item.fertId]">
@@ -121,6 +122,15 @@
     activated () {
       this.gardenCar ? this.carList = this.gardenCar : null
     },
+    watch: {
+      key (newVal, oldVal) {
+        if (oldVal && !newVal) {
+          this.page = 0;
+          this.seedData = [];
+          this.getFertilizerList();
+        }
+      }
+    },
     methods: {
       ...mapMutations([
         'addToLandCar', 'reduceLandToCar', 'clearFert'
@@ -175,6 +185,7 @@
           this.$refs.stockSort.$children[0].$el.style.transform = 'rotate(-90deg)';
         }
         this.page = 0;
+        this.fertData = [];
         this.getFertilizerList()
       },
       getFertilizerList () {
@@ -218,10 +229,13 @@
       },
       onSearch () {
         this.page = 0;
+        this.fertData = [];
         this.getFertilizerList();
       },
       onCancel (val) {
-        console.log(val);
+        this.page = 0;
+        this.fertData = [];
+        this.getFertilizerList();
       },
       goBack () {
         this.clearFert();
@@ -358,7 +372,10 @@
         font-weight: 700;
       }
       .fertSpec {
-        margin-bottom: 4vw;
+        font-size: 2.5vw;
+        color: #959595;
+      }
+      .fertStock {
         font-size: 2.5vw;
         color: #959595;
       }

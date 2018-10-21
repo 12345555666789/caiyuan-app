@@ -68,14 +68,23 @@
           this.checkAction();
         })
       },
+      toLogin () {
+        if (window.app.toLogin) {
+          window.app.toLogin()
+        } else {
+          this.$toast('Native错误');
+        }
+      },
       favor () {
-        axios.post(api.common.userAction, {
-          "actionType": constant.actionType.favor,
-          "objId": this.wikiInfo.wikiId || this.wikiId,
-          "objType": constant.infoType.wiki
-        }).then(() => {
-          this.isFavor = true
-        })
+        if (window.app.getToken && window.app.getToken()) {
+          axios.post(api.common.userAction, {
+            "actionType": constant.actionType.favor,
+            "objId": this.wikiInfo.wikiId || this.wikiId,
+            "objType": constant.infoType.wiki
+          }).then(() => {
+            this.isFavor = true
+          })
+        }
       },
       dateFormat (date, format) {
         return Function.dateFormat(date, format)

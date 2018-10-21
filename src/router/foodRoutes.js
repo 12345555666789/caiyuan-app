@@ -18,7 +18,7 @@ const foodRoutes = [
     component: chooseFood,
     meta: {
       keepAlive: true,
-      index: 1
+      index: 2
     },
   },
   {
@@ -26,7 +26,7 @@ const foodRoutes = [
     component: foodCar,
     meta: {
       keepAlive: true,
-      index: 3
+      index: 4
     },
   },
   {
@@ -34,7 +34,7 @@ const foodRoutes = [
     component: foodBill,
     meta: {
       keepAlive: true,
-      index: 4
+      index: 5
     },
   },
   {
@@ -42,7 +42,7 @@ const foodRoutes = [
     component: foodDetails,
     meta: {
       keepAlive: true,
-      index: 2
+      index: 3
     },
   }
 ];

@@ -95,8 +95,24 @@
       this.getFoodList();
       this.foodCar ? this.carList = this.foodCar : null
     },
-    activated () {
-      this.foodCar ? this.carList = this.foodCar : null
+    watch: {
+      key (newVal, oldVal) {
+        if (oldVal && !newVal) {
+          this.page = 0;
+          this.foodData = [];
+          this.getFoodList();
+        }
+      },
+      $route (to, from) {
+        console.log(to, from);
+        if (from.path === '/makeFood') {
+          this.foodData = [];
+          this.key = '';
+          this.page = 0;
+          this.getFoodList();
+          this.foodCar ? this.carList = this.foodCar : null
+        }
+      }
     },
     methods: {
       ...mapMutations([
@@ -140,10 +156,10 @@
           count: this.count,
           key: this.searchValue
         }).then((res) => {
-          this.page += 1;
           this.isLoading = false;
           this.loading = false;
           if (res.data.data.length) {
+            this.page += 1;
             this.foodData.push(...res.data.data)
           } else {
             this.finished = true;
@@ -166,6 +182,7 @@
       },
       onSearch () {
         this.page = 0;
+        this.foodData = [];
         this.getFoodList();
       },
       onCancel (val) {

@@ -8,6 +8,10 @@ export const clearLandOrder = (state, data) => {
   state.gardenCar = data;
   state.landData = data;
 };
+export const clearFoodCar = (state) => {
+  state.foodOrder = {};
+  state.foodCar = {};
+};
 export const setSelectedLands = (state, data) => {
   state.gardenOrder.landInfo = data;
 };

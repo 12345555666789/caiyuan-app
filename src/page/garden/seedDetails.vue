@@ -19,6 +19,7 @@
         <p class="seedName"><b>{{seedInfo.seedName}}</b>
           <span>{{seedInfo.season}}</span>
         </p>
+        <div class="seedDesc">库存: {{seedInfo.stock}}件</div>
         <p class="seedDesc">说明:
           {{seedInfo.seedDesc}}
         </p>
@@ -73,7 +74,6 @@
         videoSrc: '',
         videoShow: false,
         isLoading: false,
-        seedId: this.$route.query.seedId,
         seedInfo: {}
       }
     },
@@ -81,10 +81,13 @@
       ...mapState(['gardenCar']),
     },
     mounted () {
+      this.seedInfo = {};
       this.getSeedInfo();
       this.gardenCar ? this.carList = this.gardenCar : null;
     },
     activated () {
+      this.seedInfo = {};
+      this.getSeedInfo();
       this.gardenCar ? this.carList = this.gardenCar : null;
     },
     methods: {
@@ -114,7 +117,7 @@
       getSeedInfo() {
         axios.post(api.common.getInfo, {
           objType: constant.infoType.seed,
-          objId: this.seedId
+          objId: this.$route.query.seedId
         }).then((res) => {
           this.seedInfo = res.data.data;
           this.isLoading = false

@@ -91,7 +91,9 @@
         this.initPage()
       },
       methods: {
+        ...mapMutations(['clearFoodCar']),
         initPage () {
+          this.orderData.foodList = [];
           this.orderData.total = this.foodOrder.total;
           Object.values(this.foodCar).forEach(item => {
             this.orderData.foodList.push({
@@ -101,11 +103,10 @@
           })
         },
         handleDate (value) {
-          let tomorrowTime = new Date().setDate(new Date().getDate()+1);
-          if (new Date(value.toLocaleDateString()).getTime() < tomorrowTime) {
+          if (new Date(value.toLocaleDateString()).getDate() < new Date().getDate() + 1) {
             this.$toast('至少选择一天后作为就餐时间')
           } else {
-            this.orderData.dinerTime = Function.dateFormat(new Date(value).getTime(), 'YYYY/MM/DD    H:M');
+            this.orderData.dinerTime = Function.dateFormat(new Date(value).getTime(), 'YYYY/MM/DD H:M');
             this.dateShow = false;
           }
         },
@@ -136,6 +137,9 @@
           if (!this.orderData.diners || !dinersReg.test(this.orderData.diners)) {
             this.$toast('请输入就餐人数');
             return false
+          } else if (this.orderData.diners > 100) {
+            this.$toast('就餐人数最多100人');
+            return false
           } else if (!this.orderData.dinerTime) {
             this.$toast('请选择就餐时间');
             return false
@@ -159,6 +163,7 @@
           // 提交订单
           if (this.checkForm()) {
             axios.post(api.order.submitFoodOrder, this.orderData).then(res => {
+              this.clearFoodCar();
               this.$toast('提交成功');
               this.$router.push({
                 path: '/orderList',

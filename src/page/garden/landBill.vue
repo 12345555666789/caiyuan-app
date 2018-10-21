@@ -9,7 +9,7 @@
       <van-cell-group>
         <van-cell title="菜园名称"><div class="value">{{gardenOrder.landInfo.landName}}</div></van-cell>
         <van-cell title="菜园规格">
-          <div class="value" v-for="item in setlandSize"><span>{{item.landSize}}</span><span> × {{item.count}}</span></div>
+          <div class="value" v-for="item in setlandSize"><span>{{item.landSize}}平米</span><span> × {{item.count}}</span></div>
         </van-cell>
         <van-cell title="租赁时间">
           <div class="value">{{gardenOrder.landInfo.startDate}}-{{gardenOrder.landInfo.endDate}}</div>
@@ -40,8 +40,10 @@
             <p>
               <span class="totalLabel">应付金额: </span>
               <span class="totalPrice"><span class="iconRmb">¥</span>{{total.totalCost}}</span>
-              <span v-if="userInfo && userInfo.balance" class="originalCost"><span class="iconRmb">¥</span>{{Number(((Number(total.totalCost))/Number(total.discountRate)).toFixed(2)) + Number(userInfo && userInfo.balance)}}</span>
+              <span v-if="total.discountRate">
+                <span v-if="userInfo && userInfo.balance" class="originalCost"><span class="iconRmb">¥</span>{{Number(((Number(total.totalCost))/Number(total.discountRate)).toFixed(2)) + Number(userInfo && userInfo.balance)}}</span>
               <span v-else class="originalCost"><span class="iconRmb">¥</span>{{Number(((Number(total.totalCost))/Number(total.discountRate)).toFixed(2))}}</span>
+              </span>
             </p>
           </div>
         </van-cell>

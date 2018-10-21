@@ -90,6 +90,8 @@
       this.foodCar ? this.carList = this.foodCar : null;
     },
     activated () {
+      this.foodInfo = {};
+      this.getfoodInfo();
       this.foodCar ? this.carList = this.foodCar : null;
     },
     methods: {

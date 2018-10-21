@@ -34,6 +34,7 @@
           <div class="seedInfo">
             <div class="seedName">{{item.seedName}}</div>
             <div class="seedSpec">{{item.seedSpec}}</div>
+            <div class="seedStock">库存: {{item.stock}}件</div>
             <div class="seedPrice"><span>¥</span>{{item.price}}</div>
             <div class="seedSeason">{{item.season}}</div>
             <div class="addSeed" v-if="carList && carList[item.seedId]">
@@ -120,6 +121,15 @@
     },
     activated () {
       this.gardenCar ? this.carList = this.gardenCar : null
+    },
+    watch: {
+      key (newVal, oldVal) {
+        if (oldVal && !newVal) {
+          this.page = 0;
+          this.seedData = [];
+          this.getSeedList();
+        }
+      }
     },
     methods: {
       ...mapMutations([
@@ -220,10 +230,13 @@
       },
       onSearch () {
         this.page = 0;
+        this.seedData = [];
         this.getSeedList();
       },
       onCancel (val) {
-        console.log(val);
+        this.page = 0;
+        this.seedData = [];
+        this.getSeedList();
       },
       goBack () {
         window.history.back()
@@ -343,6 +356,7 @@
       width: 28vw;
       height: 28vw;
       margin-right: 4vw;
+      overflow: hidden;
       img {
         width: 100%;
         /*height: 100%;*/
@@ -359,7 +373,10 @@
         font-weight: 700;
       }
       .seedSpec {
-        margin-bottom: 4vw;
+        font-size: 2.5vw;
+        color: #959595;
+      }
+      .seedStock {
         font-size: 2.5vw;
         color: #959595;
       }
