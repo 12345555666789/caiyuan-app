@@ -49,7 +49,7 @@
                           @click="toChooseLand">再次购买</span>
                     <span class="orderBtn" v-if="[20].includes(item.orderStatus) && checkDate(item.createDate)" @click="showRefund(item.orderId)">退款</span>
                     <span class="orderBtn" v-if="[10].includes(item.orderStatus)" @click="cancelOrder(item, 1)">取消</span>
-                    <span class="orderBtn" v-if="item.orderStatus === 10" @click="toPay(item.orderId, item.totalCost)">去付款</span>
+                    <span class="orderBtn" v-if="item.orderStatus === 10" @click="toPay(item.orderId, item.totalAmount)">去付款</span>
                   </div>
                 </van-cell>
               </van-cell-group>
@@ -306,7 +306,7 @@
         if (this.$route.query.fromH5) {
           window.history.back()
         } else {
-          if (window.app.goBackApp()) {
+          if (window.app.goBackApp) {
             window.app.goBackApp();
           }
         }

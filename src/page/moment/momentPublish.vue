@@ -21,7 +21,7 @@
           <p style="color: #6c6c6c;margin-bottom: 3vw;">({{momentPics.length}}/9)</p>
           <div class="momentPics">
             <div class="momentPic bounceIn" v-for="item in momentPics">
-              <img :src="item.fileUrl">
+              <img :src="item.momentPicUrl">
               <van-icon class="deleteItem" name="clear" @click="deleteItem(item.fileId)"/>
             </div>
             <van-uploader :after-read="onRead" v-if="!(momentPics.length === 9) && !uploadState" accept="image/gif, image/jpeg" multiple :disabled="uploadState">
