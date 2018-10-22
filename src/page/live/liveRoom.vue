@@ -8,7 +8,7 @@
     <div style="height: 12vw"></div>
     <van-pull-refresh v-model="isLoading" @refresh="getComments">
       <van-cell>
-        <div id="liveVideo" style="width:100%; height:auto;"></div>
+        <div ref="liveVideo" id="liveVideo" style="width:100%; height:auto;"></div>
         <h4><b>{{liveRoomData.liveDesc}}</b></h4>
       </van-cell>
       <div class="liveInfo" v-if="liveRoomData && liveRoomData.activityId">
@@ -81,7 +81,7 @@
     computed: {
       ...mapState(['liveRoomData'])
     },
-    mounted () {
+    activated () {
       if (this.liveRoomData.activityId) {
         this.getComments();
       }
@@ -89,10 +89,11 @@
     },
     methods: {
       setLive() {
+        this.$refs.liveVideo.innerHTML = '';
         if (this.liveRoomData.liveUrl) {
           this.tcPlayerOption.m3u8 = this.liveRoomData.liveUrl;
         }
-        new TcPlayer('liveVideo', this.tcPlayerOption)
+        new TcPlayer('liveVideo', this.tcPlayerOption);
       },
       dateFormat (date, format) {
         return Function.dateFormat(date, format)

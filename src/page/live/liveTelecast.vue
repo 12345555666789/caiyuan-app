@@ -27,10 +27,12 @@
                       <div class="videoDesc">{{item.liveDesc}}</div>
                     </div>
                   </div>
-                  <div class="livePic" v-else>
+                  <div class="liveVideo" v-else>
                     <div class="videoShadow" style="overflow: hidden;height: 50vw;">
-                      <div class="videoTitle">{{item.liveName}}</div>
-                      <p>即将开播</p>
+                      <div class="videoShadow" style="width: 100%;height: 100%;position: absolute;"></div>
+                      <div class="videoTitle">{{item.liveDesc}}</div>
+                      <div class="liveLabel">{{item.title}}</div>
+                      <p class="videoDesc">即将开播</p>
                       <img width="100%" v-lazy="item.activityPics[0]">
                     </div>
                   </div>
