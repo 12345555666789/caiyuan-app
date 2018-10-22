@@ -18,17 +18,20 @@
                 <div class="liveContent">
                   <div class="liveTitle" v-show="!item.liveUrl"><span>{{dateFormat(item.startDate)}}开播</span></div>
                   <div class="liveVideo" v-if="!!item.liveUrl">
-                    <div class="videoShadow" style="overflow: hidden;height: 50vw;" @click="toLiveRoom(item.liveUrl, item.activityId)">
+                    <div class="videoShadow" style="overflow: hidden;height: 50vw;" @click="toLiveRoom(item.liveDesc, item.liveUrl, item.activityId)">
+                      <div class="videoShadow" style="width: 100%;height: 100%;position: absolute;"></div>
                       <div class="videoTitle">{{item.liveName}}</div>
-                      <van-icon name="play"/>
-                      <video class="videoView" v-lazy="item.liveUrl" height="100%" width="100%" style="z-index: -1;position: absolute"></video>
+                      <van-icon name="play" style="position: absolute"/>
+                      <img width="100%" v-lazy="item.activityPics[0]">
+                      <div class="liveLabel">{{item.title}}</div>
+                      <div class="videoDesc">{{item.liveDesc}}</div>
                     </div>
                   </div>
                   <div class="livePic" v-else>
                     <div class="videoShadow" style="overflow: hidden;height: 50vw;">
                       <div class="videoTitle">{{item.liveName}}</div>
                       <p>即将开播</p>
-                      <img height="100%" width="100%" v-lazy="item.activityPics[0]">
+                      <img width="100%" v-lazy="item.activityPics[0]">
                     </div>
                   </div>
                 </div>
@@ -50,10 +53,13 @@
               <van-cell>
                 <div class="liveContent">
                   <div class="liveVideo">
-                    <div class="videoShadow" style="overflow: hidden;height: 50vw;" @click="toLiveRoom(item.liveUrl)">
-                      <div class="videoTitle">{{item.farmName}}</div>
-                      <van-icon name="play"/>
-                      <video class="videoView" v-lazy="item.liveUrl" height="100%" width="100%" style="z-index: -1;position: absolute"></video>
+                    <div class="videoShadow" style="overflow: hidden;height: 50vw;" @click="toLiveRoom(item.farmDesc, item.liveUrl)">
+                      <div class="videoShadow" style="width: 100%;height: 100%;position: absolute;"></div>
+                      <div class="farmTitle">{{item.farmName}}</div>
+                      <van-icon name="play" style="position: absolute"/>
+                      <img width="100%" v-lazy="item.farmPics[0]">
+                      <div class="liveLabel">{{item.liveDesc}}</div>
+                      <div class="videoDesc">{{item.farmDesc}}</div>
                     </div>
                   </div>
                 </div>
@@ -115,8 +121,9 @@
       },
       methods: {
         ...mapMutations(['setLiveRoomData']),
-        toLiveRoom (liveUrl, activityId) {
+        toLiveRoom (liveDesc, liveUrl, activityId) {
           this.setLiveRoomData({
+            liveDesc,
             liveUrl,
             activityId
           });
@@ -188,11 +195,51 @@
     padding: 1vw 3vw;
     font-size: 3.5vw;
     color: #fff;
-    max-width: 70vw;
+    width: 100%;
+    box-shadow: 0 12px 20px #333 inset;
+    white-space: nowrap;
     text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  .liveLabel {
+    position: absolute;
+    bottom: 6vw;
+    left: 0;
+    margin: 2vw 2vw;
+    padding: 0vw 1vw;
+    font-size: 2.5vw;
+    color: #fff;
+    background: #41c7d9;
+    border-radius: 4px;
+  }
+  .videoDesc {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 1vw 3vw;
+    font-size: 3.5vw;
+    color: #fff;
+    width: 100%;
+    box-shadow: 0 -12px 20px #333 inset;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  .farmTitle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 2vw 2vw;
+    padding: 0vw 2vw;
+    font-size: 3.5vw;
+    color: #333;
+    background: #ffffff87;
+    border-radius: 4px;
   }
   .videoShadow {
-    background: rgba(0, 0, 0, 0.54);
+    background: rgba(0, 0, 0, 0.3);
     position: relative;
     display: flex;
     align-items: center;

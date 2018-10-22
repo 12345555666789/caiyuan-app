@@ -9,6 +9,7 @@
     <van-pull-refresh v-model="isLoading" @refresh="getComments">
       <van-cell>
         <div id="liveVideo" style="width:100%; height:auto;"></div>
+        <h4><b>{{liveRoomData.liveDesc}}</b></h4>
       </van-cell>
       <div class="liveInfo" v-if="liveRoomData && liveRoomData.activityId">
         <p style="font-size: 3vw; padding: 1vw 3vw">评论 ({{comments.length}})</p>
@@ -44,6 +45,7 @@
           </van-list>
         </div>
       </div>
+      <div class="live" v-else></div>
     </van-pull-refresh>
   </div>
 </template>
@@ -59,7 +61,7 @@
       return {
         tcPlayer: null,
         tcPlayerOption: {
-          "m3u8": "http://39.104.26.183:7070/live/test/index.m3u8",
+          "m3u8": '',
           "live": true,
           "width": '100%',
           "height": 'auto',
@@ -87,9 +89,8 @@
     },
     methods: {
       setLive() {
-        console.log(this.liveRoomData.liveUrl, this.liveRoomData.activityId);
         if (this.liveRoomData.liveUrl) {
-          this.tcPlayerOption.m3u8 = 'http://39.104.26.183:7070/live/test/index.m3u8';
+          this.tcPlayerOption.m3u8 = this.liveRoomData.liveUrl;
         }
         new TcPlayer('liveVideo', this.tcPlayerOption)
       },
