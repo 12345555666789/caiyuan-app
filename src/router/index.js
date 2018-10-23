@@ -1,4 +1,7 @@
 import Vue from 'vue'
+import store from '@/store/index';
+import api from '@/config/api';
+import axios from '@/config/axios.config';
 import Router from "vue-router";
 import landRoutes from '@/router/landRoutes';
 import foodRoutes from '@/router/foodRoutes';
@@ -92,8 +95,14 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   // TODO 路由拦截逻辑
-  // ...
-  next()
+  if (!Object.values(store.state.config).length) {
+    axios.post(api.common.dimList).then(res => {
+      store.commit('setConfig', res.data.data);
+      next()
+    })
+  } else {
+    next()
+  }
 });
 
 export default router

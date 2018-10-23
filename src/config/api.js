@@ -17,7 +17,7 @@ const common = {
   commentList: commonPrefix + 'comment/list',
   userAction: commonPrefix + 'user/action',
   uploadFile: commonPrefix + 'file/upload',
-  dimList: commonPrefix + 'dim/list'
+  dimList: commonPrefix + 'dim/list' // 数据字典/维表
 };
 
 const garden = {

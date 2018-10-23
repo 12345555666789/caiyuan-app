@@ -18,7 +18,8 @@ const state = {
   userAction: {},
   userInfo: {},
   windowLoading: false,
-  liveRoomData: {}
+  liveRoomData: {},
+  config: {}
 };
 
 const store = new Vuex.Store({

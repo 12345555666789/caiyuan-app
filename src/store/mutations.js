@@ -1,5 +1,9 @@
 import Function from '@/util/function'
 
+export const setConfig = (state, data) => {
+  state.config = data
+};
+
 export const setLandData = (state, data) => {
   state.landData = data
 };

@@ -222,7 +222,7 @@
               row
             });
           } else {
-            this.$toast('最多选择五块菜园哦')
+            this.$toast('最多选择'+ constant.orderLandMax +'块菜园哦')
           }
         } else if (land.landStatus === 4) {
           land.landStatus = 1;
