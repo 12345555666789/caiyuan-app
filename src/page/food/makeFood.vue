@@ -33,7 +33,6 @@
       name: "makeFood",
       data () {
         return {
-          from: this.$route.query.from,
           carList: {},
           isLoading: false,
           token: null,
@@ -95,7 +94,7 @@
           this.getFoodTypes()
         },
         onClickLeft () {
-          if (this.from) {
+          if (this.$route.query.from) {
             window.history.back()
           } else if (window.app.goBackApp) {
             window.app.goBackApp();
@@ -176,6 +175,7 @@
       width: 93%;
       height: 74%;
       margin-top: 20%;
+      border-radius: 5px;
     }
   }
 }

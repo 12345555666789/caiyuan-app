@@ -64,12 +64,10 @@
           this.mode = mod
         },
         onConfirm(value) {
+          this[this.mode] = value;
           if (this.mode === 'sowingMode') {
-            this.sowingMode = value;
             this.$store.commit('setSowingMode', value)
-
           } else {
-            this.careMode = value;
             this.$store.commit('setCareMode', value)
           }
           this.show = false;

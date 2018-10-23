@@ -104,8 +104,8 @@
     </div>
     </div>
     <div class="van-goods-action">
-      <div class="footerBtn entrustBtn" @click="nextStep(0)">委托开垦</div>
-      <div class="footerBtn autonomyBtn" @click="nextStep(1)">自主开垦</div>
+      <div class="footerBtn entrustBtn" @click="nextStep(1)">托管开垦</div>
+      <div class="footerBtn autonomyBtn" @click="nextStep(2)">自理开垦</div>
     </div>
     <van-popup v-model="dateShow" position="bottom" :overlay="true" click-overlay="cancelDate">
       <van-datetime-picker
@@ -150,17 +150,14 @@
     computed: {
       ...mapGetters(['landData', 'gardenOrder'])
     },
-    mounted () {
-      // TODO 从Vuex中读取以选择菜园信息
-      this.gardenOrder && this.gardenOrder.landInfo ? this.setLandData() : null;
-      this.getGardenData();
-      this.$refs.lands.addEventListener('scroll', () => {
-        this.$refs.row.scrollTop = this.$refs.lands.scrollTop
-      })
-    },
     activated () {
       this.gardenOrder && this.gardenOrder.landInfo ? this.setLandData() : null;
       this.getGardenData();
+      setTimeout(() => {
+        this.$refs.lands.addEventListener('scroll', () => {
+          this.$refs.row.scrollTop = this.$refs.lands.scrollTop
+        })
+      }, 500)
     },
     methods: {
       setLandData () {
@@ -200,8 +197,8 @@
       },
       nextStep (recMod) {
         if (this.checkForm()) {
-          this.setLands();
           this.recMod = recMod;
+          this.setLands();
           this.$router.push({
             path: '/chooseSeed',
             query: {recMod}

@@ -78,7 +78,6 @@
         videoSrc: '',
         videoShow: false,
         isLoading: false,
-        foodId: this.$route.query.foodId,
         foodInfo: {}
       }
     },
@@ -105,7 +104,7 @@
           page: this.page + 1,
           count: this.count,
           objType: constant.infoType.food,
-          objId: this.foodId
+          objId: this.$route.query.foodId
         }).then((res) => {
           this.page += 1;
           this.loading = false;
@@ -166,7 +165,7 @@
       getfoodInfo() {
         axios.post(api.common.getInfo, {
           objType: constant.infoType.food,
-          objId: this.foodId
+          objId: this.$route.query.foodId
         }).then((res) => {
           this.foodInfo = res.data.data;
           this.page = 0;

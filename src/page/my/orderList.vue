@@ -32,8 +32,11 @@
                 <van-cell title="开垦模式">
                   <div class="value">{{item.recMode === 1 ? '托管' : '自理'}}</div>
                 </van-cell>
-                <van-cell title="肥料套餐">
+                <van-cell title="肥料套餐" v-if="item.fertilizers.length">
                   <div class="value" v-for="fertilizer in item.fertilizers">{{fertilizer.replace('x', ' × ')}}</div>
+                </van-cell>
+                <van-cell title="肥料套餐" v-else>
+                  <div class="value">托管</div>
                 </van-cell>
                 <van-cell title="作物种子">
                   <div class="value" v-for="seed in item.seeds">{{seed.replace('x', ' × ')}}</div>
@@ -303,12 +306,10 @@
         this.getOrderList();
       },
       goApp() {
-        if (this.$route.query.fromH5) {
-          window.history.back()
+        if (window.app.goBackApp) {
+          window.app.goBackApp();
         } else {
-          if (window.app.goBackApp) {
-            window.app.goBackApp();
-          }
+          this.$toast('Native错误')
         }
       },
       getOrderList() {

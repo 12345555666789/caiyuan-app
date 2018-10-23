@@ -38,8 +38,8 @@
         <van-cell-group>
           <van-cell class="msgTypes">
             <span style="font-size: 3.5vw;color: #686868;margin-right: 3vw;">我想</span>
-            <span class="msgType" ref="update" @click="handleMsgType(1)">要求更新菜园视频或图片</span>
-            <span class="msgType" ref="pick" @click="handleMsgType(2)">预约采摘</span>
+            <span class="msgType" ref="update" @click="handleMsgType(1, '更新菜园视频或图片')">要求更新菜园视频或图片</span>
+            <span class="msgType" ref="pick" @click="handleMsgType(2, '预约采摘')">预约采摘</span>
             <span class="msgType" ref="other" @click="handleMsgType(3)">其他</span>
           </van-cell>
           <van-field
@@ -86,7 +86,8 @@
       },
       methods: {
         ...mapMutations(['setUserAction', 'setUserInfo']),
-        handleMsgType (type) {
+        handleMsgType (type, msg) {
+          this.message = msg || '';
           if (this.msgType !== type) {
             this.msgType = type;
             if (type === 1) {

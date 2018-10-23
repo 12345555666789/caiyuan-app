@@ -1,7 +1,7 @@
 <template>
   <div style="width: 100vw; height: 100vh">
     <van-nav-bar
-      :title="Number(recMod) === 0 ? '委托开垦选苗' : Number(recMod) === 1 ? '自主开垦选苗' : '开垦选苗'"
+      :title="Number(recMod) === 1 ? '托管开垦选苗' : Number(recMod) === 2 ? '自理开垦选苗' : '开垦选苗'"
       fixed
       left-arrow
       @click-left="goBack"></van-nav-bar>
@@ -213,13 +213,13 @@
       ...mapActions(['setSelectedLands']),
       nextStep () {
         if (this.carList && (Object.values(this.carList).find(item => item.seedId))) {
-          if (Number(this.recMod) === 1) {
+          if (Number(this.recMod) === 2) {
             this.clearFert();
             this.carList = this.gardenCar;
             this.$router.push({
               path: '/chooseFertilizers'
             })
-          } else if (Number(this.recMod) === 0) {
+          } else if (Number(this.recMod) === 1) {
             this.$router.push({
               path: '/landBill'
             })

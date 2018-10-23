@@ -7,6 +7,9 @@
         @click-left="goBack"></van-nav-bar>
       <div style="height: 11vw"></div>
       <van-cell-group>
+        <van-cell title="已选食材">
+          <div class="value" v-for="item in Object.values(this.foodCar)"><span>{{item.foodName}}</span><span> × {{item.num}}</span></div>
+        </van-cell>
         <van-field
           v-model="orderData.diners"
           type="number"
@@ -168,8 +171,7 @@
               this.$router.push({
                 path: '/orderList',
                 query: {
-                  mod: 'food',
-                  fromH5: true
+                  mod: 'food'
                 }
               })
             }).catch(() => {

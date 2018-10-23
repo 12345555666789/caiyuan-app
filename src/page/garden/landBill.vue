@@ -14,16 +14,23 @@
         <van-cell title="租赁时间">
           <div class="value">{{gardenOrder.landInfo.startDate}}-{{gardenOrder.landInfo.endDate}}</div>
         </van-cell>
-        <van-cell title="开垦模式"><div class="value">{{gardenOrder.landInfo.recMode === 0 ? '自理' : '托管'}}</div></van-cell>
-        <van-cell title="肥料套餐" v-if="Object.values(setCar.fertilizer)">
-          <div class="value" v-for="item in setCar.fertilizer"><span>{{item.fertName}}</span><span> × {{item.num}}</span></div>
-        </van-cell>
+        <van-cell title="开垦模式"><div class="value">{{gardenOrder.landInfo.recMode === 1 ? '托管' : '自理'}}</div></van-cell>
         <van-cell title="作物种子">
           <div class="value" v-for="item in setCar.seed"><span>{{item.seedName}}</span><span> × {{item.num}}</span></div>
         </van-cell>
-        <van-cell title="增值服务">
+        <van-cell title="肥料套餐" v-if="Object.values(setCar.fertilizer).length">
+          <div class="value" v-for="item in setCar.fertilizer"><span>{{item.fertName}}</span><span> × {{item.num}}</span></div>
+        </van-cell>
+        <van-cell title="肥料套餐" v-else>
+          <div class="value">托管</div>
+        </van-cell>
+        <van-cell title="增值服务" v-if="gardenOrder.landInfo.recMode === 2">
           <div class="value"><span>播种方式</span><span> : {{gardenOrder.sowingMode}}</span></div>
           <div class="value"><span>养护方式</span><span> : {{gardenOrder.careMode}}</span></div>
+        </van-cell>
+        <van-cell title="增值服务" v-else>
+          <div class="value"><span>播种方式</span><span> : 托管</span></div>
+          <div class="value"><span>养护方式</span><span> : 托管</span></div>
         </van-cell>
         <van-cell title="余额">
           <div v-if="userInfo && userInfo.balance" class="value"><span class="iconRmb">¥</span>{{userInfo && userInfo.balance}}</div>
@@ -141,6 +148,9 @@
           })
         },
         initPage () {
+          this.orderData.lands = [];
+          this.orderData.fertilizers = [];
+          this.orderData.seeds = [];
           this.gardenOrder.landInfo.lands.forEach(item => {
             this.orderData.lands.push(item.landId + "")
           });

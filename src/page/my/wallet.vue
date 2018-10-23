@@ -9,7 +9,7 @@
     <div class="balanceIcon"></div>
     <div style="color: #503303;">
       <p class="balance"><span class="iconRmb">¥  </span>{{userInfo.balance}}</p>
-      <p style="margin: 3vw auto;text-align: center;font-size: 4vw;font-weight: 600;margin-bottom: 15vw;">我的余额</p>
+      <p style="margin: 3vw auto;text-align: center;font-size: 4vw;font-weight: 600;margin-bottom: 13vw;">我的余额</p>
       <p style="font-size: 4vw;
     font-weight: 600;
     padding: 0 4vw;
@@ -63,6 +63,9 @@
     font-size: 4vw;
     border-radius: 9vw;
     margin-top: 6vw;
+    position: fixed;
+    bottom: 5vw;
+    left: 5vw;
   }
   .balance {
     text-align: center;
