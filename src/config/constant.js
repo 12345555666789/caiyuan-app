@@ -2,7 +2,6 @@
 import store from '@/store/index';
 let config = store.state.config;
 let dim = 'dim_common_config';
-console.log(config);
 export default {
   landYearsMin: Number(config[dim].find(item => item.code === "land_years_min").name) || 1, // 订单最小年限
   landYearsMax: Number(config[dim].find(item => item.code === "land_years_max").name) || 5, // 订单最大年限
