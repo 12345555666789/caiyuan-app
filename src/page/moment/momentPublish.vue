@@ -29,7 +29,7 @@
                 <span class="icon-plus">＋</span>
               </div>
             </van-uploader>
-            <div class="uploading" v-else>
+            <div class="uploading" style="display: inline-block" v-else>
             </div>
             <div class="uploadingItem" v-for="item in uploading">
               <div class="uploadingMask"><span>正在上传</span></div>
@@ -168,14 +168,15 @@
     }
     .momentPic, .uploadingItem {
       display: inline-block;
+      vertical-align: middle;
       position: relative;
       width: 25vw;
       height: 25vw;
-      margin-right: 5vw;
+      margin-right: 4vw;
       margin-bottom: 3vw;
       img {
         width: 100%;
-        /*height: 100%;*/
+        height: 100%;
         border-radius: 3px;
       }
       .uploadingMask {

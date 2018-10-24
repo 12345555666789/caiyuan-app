@@ -26,7 +26,7 @@
             </div>
           </div>
           <div class="likeCount" v-if="!$route.query.isShare">
-            <span class="deleteMoment"><van-button type="default" size="mini" @click="deleteMoment" plain>删除</van-button></span>
+            <span class="deleteMoment" v-if="userInfo.userId === momentInfo.userId"><van-button type="default" @click="deleteMoment" plain>删除</van-button></span>
             <span v-if="isLike" class="likedIcon"></span>
             <span v-else class="likeIcon" @click="like"></span>
             <span class="count">{{momentInfo.likeCount}}</span>
@@ -78,6 +78,7 @@
     name: "momentInfo",
     data() {
       return {
+        isMe: false,
         isLike: false,
         finished: false,
         loading: false,
@@ -88,7 +89,6 @@
         videoShow: false,
         isLoading: false,
         momentId: this.$route.query.momentId,
-        isMy: this.$route.query.isMy,
         momentInfo: {},
         comments: []
       }
@@ -97,7 +97,8 @@
       ...mapState(['userInfo', 'userAction'])
     },
     mounted () {
-      this.getmomentInfo()
+      this.getUserInfo();
+      this.getmomentInfo();
     },
     activated () {
       this.checkAction();

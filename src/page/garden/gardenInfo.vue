@@ -101,12 +101,16 @@
     },
     methods: {
       toMessageBoard () {
-        this.$router.push({
-          path: '/messageBoard',
-          query: {
-            landId: this.gardenId
-          }
-        })
+        if (window.app.getToken && window.app.getToken()) {
+          this.$router.push({
+            path: '/messageBoard',
+            query: {
+              landId: this.gardenId
+            }
+          })
+        } else {
+          this.toLogin()
+        }
       },
       dateFormat (date, format) {
         return Function.dateFormat(date, format)
