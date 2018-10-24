@@ -35,7 +35,6 @@
 <script>
   import api from '@/config/api';
   import axios from '@/config/axios.config'
-  import Function from '@/util/function'
     export default {
       name: "collection",
       data () {

@@ -46,7 +46,7 @@
 <script>
   import api from '@/config/api';
   import axios from '@/config/axios.config'
-  import {mapActions, mapGetters} from 'vuex'
+  import {mapActions} from 'vuex'
   export default {
     name: "landRegionList",
     data () {

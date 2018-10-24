@@ -60,7 +60,6 @@
   import axios from '@/config/axios.config'
   import constant from '@/config/constant'
   import {mapMutations, mapState} from 'vuex'
-  import Function from '@/util/function'
 
   export default {
     name: "seedDetails",

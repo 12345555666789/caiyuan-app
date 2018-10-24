@@ -62,12 +62,9 @@
 </template>
 
 <script>
-  import {mapActions, mapGetters, mapMutations, mapState } from 'vuex';
-  import Function from '@/util/function'
-
+  import {mapActions, mapMutations, mapState } from 'vuex';
   import api from '@/config/api';
   import axios from '@/config/axios.config';
-  import { Toast } from 'vant';
 
   export default {
       name: "landBill",

@@ -27,7 +27,7 @@
 <script>
   import api from '@/config/api';
   import axios from '@/config/axios.config'
-  import {mapActions, mapGetters, mapMutations, mapState } from 'vuex'
+  import {mapState } from 'vuex'
 
   export default {
       name: "makeFood",

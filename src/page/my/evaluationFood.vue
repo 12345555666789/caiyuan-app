@@ -52,7 +52,6 @@
   import api from '@/config/api';
   import axios from '@/config/axios.config';
   import constant from '@/config/constant';
-  import Function from '@/util/function';
     export default {
       name: "evaluationFood",
       data () {

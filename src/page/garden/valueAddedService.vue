@@ -25,7 +25,7 @@
 </template>
 
 <script>
-  import {mapActions, mapGetters, mapMutations, mapState } from 'vuex'
+  import {mapState } from 'vuex'
   export default {
       name: "valueAddedService",
       data() {

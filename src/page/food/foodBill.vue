@@ -62,7 +62,7 @@
 </template>
 
 <script>
-  import {mapActions, mapGetters, mapMutations, mapState } from 'vuex';
+  import {mapMutations, mapState } from 'vuex';
   import api from '@/config/api';
   import axios from '@/config/axios.config';
   import Function from '@/util/function'

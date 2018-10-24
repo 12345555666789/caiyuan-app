@@ -59,8 +59,7 @@
   import api from '@/config/api';
   import axios from '@/config/axios.config'
   import constant from '@/config/constant'
-  import {mapActions, mapGetters, mapMutations, mapState} from 'vuex'
-  import Function from '@/util/function'
+  import {mapMutations, mapState} from 'vuex'
 
   export default {
     name: "fertilizerDetails",

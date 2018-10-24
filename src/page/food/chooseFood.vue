@@ -61,9 +61,7 @@
 <script>
   import api from '@/config/api';
   import axios from '@/config/axios.config'
-  import {mapActions, mapGetters, mapMutations, mapState } from 'vuex'
-  import Function from '@/util/function'
-  import constant from '@/config/constant'
+  import {mapActions, mapMutations, mapState } from 'vuex'
   import { Toast } from 'vant';
 
   export default {
