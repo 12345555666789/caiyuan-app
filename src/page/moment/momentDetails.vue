@@ -26,7 +26,7 @@
             </div>
           </div>
           <div class="likeCount" v-if="!$route.query.isShare">
-            <span class="deleteMoment" v-if="userInfo.userId === momentInfo.userId"><van-button type="default" @click="deleteMoment" plain>删除</van-button></span>
+            <span class="deleteMoment" v-if="userInfo.userId === momentInfo.userid"><van-button plain type="danger" size="small" @click="deleteMoment" plain>删除</van-button></span>
             <span v-if="isLike" class="likedIcon"></span>
             <span v-else class="likeIcon" @click="like"></span>
             <span class="count">{{momentInfo.likeCount}}</span>
@@ -251,7 +251,6 @@
     margin-top: 5vw;
     .deleteMoment {
       float: left;
-      margin-top: 3vw;
     }
     .likeIcon {
       width: 8vw;
