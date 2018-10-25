@@ -16,7 +16,6 @@
             <van-cell-group v-for="item in interactionData" :key="item.activityId">
               <van-cell>
                 <div class="liveContent">
-                  <div class="liveTitle" v-show="!item.liveUrl"><span>{{dateFormat(item.startDate)}}开播</span></div>
                   <div class="liveVideo" v-if="!!item.liveUrl">
                     <div class="videoShadow" style="overflow: hidden;height: 50vw;" @click="toLiveRoom(item.liveDesc, item.liveUrl, item.activityId)">
                       <div class="videoShadow" style="width: 100%;height: 100%;position: absolute;"></div>
@@ -34,6 +33,7 @@
                       <div class="liveLabel">{{item.title}}</div>
                       <p class="noUrl">即将开播</p>
                       <img width="100%" v-lazy="item.activityPics[0]">
+                      <div class="videoDesc"><span>{{dateFormat(item.startDate)}}开播</span></div>
                     </div>
                   </div>
                 </div>
