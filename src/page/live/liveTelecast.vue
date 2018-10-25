@@ -30,9 +30,9 @@
                   <div class="liveVideo" v-else>
                     <div class="videoShadow" style="overflow: hidden;height: 50vw;">
                       <div class="videoShadow" style="width: 100%;height: 100%;position: absolute;"></div>
-                      <div class="videoTitle">{{item.liveDesc}}</div>
+                      <div class="videoTitle" v-if="item.liveDesc">{{item.liveDesc}}</div>
                       <div class="liveLabel">{{item.title}}</div>
-                      <p class="videoDesc">即将开播</p>
+                      <p class="noUrl">即将开播</p>
                       <img width="100%" v-lazy="item.activityPics[0]">
                     </div>
                   </div>
@@ -55,13 +55,12 @@
               <van-cell>
                 <div class="liveContent">
                   <div class="liveVideo">
-                    <div class="videoShadow" style="overflow: hidden;height: 50vw;" @click="toLiveRoom(item.farmDesc || item.liveDesc, item.liveUrl)">
+                    <div class="videoShadow" style="overflow: hidden;height: 50vw;" @click="toLiveRoom(item.liveDesc, item.liveUrl)">
                       <div class="videoShadow" style="width: 100%;height: 100%;position: absolute;"></div>
                       <div class="farmTitle">{{item.farmName}}</div>
                       <van-icon name="play" style="position: absolute"/>
                       <img width="100%" v-lazy="item.farmPics[0]">
-                      <div class="liveLabel">{{item.liveDesc}}</div>
-                      <div class="videoDesc" v-if="item.farmDesc">{{item.farmDesc}}</div>
+                      <div class="videoDesc" v-if="item.liveDesc">{{item.liveDesc}}</div>
                     </div>
                   </div>
                 </div>
@@ -186,6 +185,28 @@
 </script>
 
 <style scoped lang="less">
+  .noUrl {
+    top: 0;
+    left: 0;
+    text-align: center;
+    position: absolute;
+    padding: 1vw 3vw;
+    font-size: 3.5vw;
+    color: #fff;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+  }
+  .liveTitle {
+    color: #646464;
+  }
   .liveVideo {
     border-radius: 2vw;
     overflow: hidden;

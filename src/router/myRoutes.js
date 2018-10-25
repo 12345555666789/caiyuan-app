@@ -11,6 +11,7 @@ const messageDetails = r => require.ensure([], () => r(require('../page/my/messa
 const suggestion = r => require.ensure([], () => r(require('../page/my/suggestion')), 'suggestion');
 const FAQ = r => require.ensure([], () => r(require('../page/my/FAQ')), 'FAQ');
 const purchaseCompletion = r => require.ensure([], () => r(require('../page/my/purchaseCompletion')), 'purchaseCompletion');
+const info = r => require.ensure([], () => r(require('../page/my/info')), 'info');
 
 const myRoutes = [
   {
@@ -104,6 +105,14 @@ const myRoutes = [
   {
     path: '/toBeVip', // 成为会员
     component: toBeVip,
+    meta: {
+      keepAlive: true,
+      index: 0
+    },
+  },
+  {
+    path: '/info', // 关于软件
+    component: info,
     meta: {
       keepAlive: true,
       index: 0
