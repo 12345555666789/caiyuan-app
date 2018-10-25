@@ -55,13 +55,13 @@
               <van-cell>
                 <div class="liveContent">
                   <div class="liveVideo">
-                    <div class="videoShadow" style="overflow: hidden;height: 50vw;" @click="toLiveRoom(item.farmDesc, item.liveUrl)">
+                    <div class="videoShadow" style="overflow: hidden;height: 50vw;" @click="toLiveRoom(item.farmDesc || item.liveDesc, item.liveUrl)">
                       <div class="videoShadow" style="width: 100%;height: 100%;position: absolute;"></div>
                       <div class="farmTitle">{{item.farmName}}</div>
                       <van-icon name="play" style="position: absolute"/>
                       <img width="100%" v-lazy="item.farmPics[0]">
                       <div class="liveLabel">{{item.liveDesc}}</div>
-                      <div class="videoDesc">{{item.farmDesc}}</div>
+                      <div class="videoDesc" v-if="item.farmDesc">{{item.farmDesc}}</div>
                     </div>
                   </div>
                 </div>

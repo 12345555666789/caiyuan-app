@@ -93,7 +93,7 @@
         if (this.liveRoomData.liveUrl) {
           this.tcPlayerOption.m3u8 = this.liveRoomData.liveUrl;
         }
-        new TcPlayer('liveVideo', this.tcPlayerOption);
+        this.tcPlayer = new TcPlayer('liveVideo', this.tcPlayerOption);
       },
       dateFormat (date, format) {
         return Function.dateFormat(date, format)
@@ -159,6 +159,7 @@
         this.videoSrc = '';
       },
       onClickLeft() {
+        this.tcPlayer.destroy();
         if (this.$route.query.from) {
           window.app.goBackApp();
         } else {
