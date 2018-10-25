@@ -181,7 +181,7 @@
           'clearLandOrder'
         ]),
         buyFinish (isDone) {
-          if (isDone) {
+          if (isDone === 'success') {
             this.clearLandOrder({});
             this.$router.push({
               path: '/purchaseCompletion',
@@ -189,7 +189,7 @@
                 totalPrice: this.total.totalCost
               }
             });
-          } else {
+          } else if (isDone === 'cancel') {
             this.clearLandOrder({});
             this.$router.push({
               path: '/orderList'

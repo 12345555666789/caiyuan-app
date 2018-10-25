@@ -191,7 +191,8 @@
     text-align: center;
     position: absolute;
     padding: 1vw 3vw;
-    font-size: 3.5vw;
+    font-size: 4.5vw;
+    font-weight: 600;
     color: #fff;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -199,9 +200,15 @@
     overflow: hidden;
     height: 100%;
     width: 100%;
+    display: -webkit-box;
+    display: -webkit-flex;
     display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
     justify-content: center;
     justify-items: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
     align-items: center;
   }
   .liveTitle {

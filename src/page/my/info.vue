@@ -12,10 +12,10 @@
         </div>
         <div class="softInfo">
           <div class="softName">
-            <h1 style="text-align: center;margin-bottom: 5vw">我家菜园</h1>
+            <h1 style="text-align: center;margin-bottom: 5vw">菜菜家</h1>
           </div>
           <p class="softVersion">
-            For iPhone V1.0.1 build107365
+            V1.0.1 build107365
           </p>
         </div>
       </div>
@@ -41,7 +41,7 @@
           </div>
         </van-cell>
       </van-cell-group>
-      <div class="copyright">Copyright &copy; 2018.Company 鹏汉科技penghansoft.com  备案号: 黑ICP备16005961号-1</div>
+      <div class="copyright">Copyright &copy; 2018.Company 鹏汉科技jinfengguo.com  备案号: 黑ICP备16005961号-1</div>
     </div>
 </template>
 
