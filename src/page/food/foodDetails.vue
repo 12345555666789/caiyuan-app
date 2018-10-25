@@ -160,7 +160,13 @@
         this.carList = this.foodCar;
       },
       onClickLeft() {
-        window.history.back()
+        if (!this.$route.query.from) {
+          window.history.back()
+        } else if (window.app.goBackApp) {
+          window.app.goBackApp();
+        } else {
+          this.$toast('Native错误')
+        }
       },
       getfoodInfo() {
         axios.post(api.common.getInfo, {
