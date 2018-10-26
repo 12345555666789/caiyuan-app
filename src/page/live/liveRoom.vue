@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100vw; height: 100vh">
+  <div style="width: 100vw; height: 100vh;background-color: #fff">
     <van-nav-bar
       title="直播间"
       fixed
@@ -9,10 +9,16 @@
     <van-pull-refresh v-model="isLoading" @refresh="getComments">
       <van-cell>
         <div ref="liveVideo" id="liveVideo" style="width:100%; height:auto;"></div>
-        <h4><b>{{liveRoomData.liveDesc}}</b></h4>
+        <h4><b>{{activityInfo.activityName}}</b></h4>
       </van-cell>
       <div class="liveInfo" v-if="liveRoomData && liveRoomData.activityId">
-        <p style="font-size: 3vw; padding: 1vw 3vw">评论 ({{comments.length}})</p>
+        <van-cell style="min-height: 35vw">
+          <h4><b>活动简介</b></h4>
+          <div class="farmName">{{activityInfo.activityName}}</div>
+          <div class="farmDesc">{{activityInfo.activityDesc}}</div>
+          <div class="activityPic" style="position: "><img :src="activityInfo.activityPic[0]"></div>
+        </van-cell>
+        <p style="font-size: 3vw; padding: 1vw 3vw">评论 ({{activityInfo.length}})</p>
         <div class="comments">
           <div class="commentSend">
             <van-cell-group>
@@ -45,7 +51,16 @@
           </van-list>
         </div>
       </div>
-      <div class="live" v-else></div>
+      <div class="farmInfo" v-else>
+        <van-cell v-if="Object.values(farmInfo).length">
+          <h4><b>农场简介</b></h4>
+          <div class="farmName">{{farmInfo.farmName}}</div>
+          <div class="farmGradeName">{{farmInfo.farmGradeName}}<span class="geologicalTypeName">:{{farmInfo.geologicalTypeName}}</span></div>
+          <div class="farmAddress"><van-icon class="dominantHueText" name="location" />{{farmInfo.address}}</div>
+          <div class="farmDesc">{{farmInfo.farmDesc}}</div>
+          <div class="farmPic"><img :src="farmInfo.farmPics[0]"></div>
+        </van-cell>
+      </div>
     </van-pull-refresh>
   </div>
 </template>
@@ -74,7 +89,8 @@
         count: 10,
         videoSrc: '',
         isLoading: false,
-        liveInfo: {},
+        farmInfo: {},
+        activityInfo: {},
         comments: []
       }
     },
@@ -83,11 +99,30 @@
     },
     activated () {
       if (this.liveRoomData.activityId) {
+        this.getActivityInfo();
         this.getComments();
+      } else if (this.liveRoomData.farmId) {
+        this.getFarmInfo()
       }
       this.setLive();
     },
     methods: {
+      getActivityInfo () {
+        axios.post(api.common.getInfo, {
+          objId: this.liveRoomData.activityId,
+          objType: constant.infoType.activity
+        }).then(res => {
+          this.activityInfo = res.data.data
+        })
+      },
+      getFarmInfo() {
+        axios.post(api.common.getInfo, {
+          objId: this.liveRoomData.farmId,
+          objType: constant.infoType.farm
+        }).then(res => {
+          this.farmInfo = res.data.data
+        })
+      },
       setLive() {
         this.$refs.liveVideo.innerHTML = '';
         if (this.liveRoomData.liveUrl) {
@@ -171,7 +206,25 @@
 </script>
 
 <style lang="less" scoped>
-
+  .farmPic {
+    width: 40vw;
+    height: 24vw;
+    overflow: hidden;
+    border-radius: 4px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    img {
+      width: 100%;
+    }
+  }
+  .activityPic {
+    overflow: hidden;
+    border-radius: 4px;
+    img {
+      width: 100%;
+    }
+  }
   .comments {
     background: #fff;
     .commentSend {

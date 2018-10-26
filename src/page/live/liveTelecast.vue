@@ -43,7 +43,7 @@
           <div class="noDataList"><span>已经到底啦~</span></div>
         </van-pull-refresh>
       </van-tab>
-      <van-tab title="在线直播">
+      <van-tab title="在线监控">
         <van-pull-refresh v-model="onlineIsLoading" @refresh="onRefreshOnline">
           <van-list
             v-if="onlineData.length"
@@ -55,7 +55,7 @@
               <van-cell>
                 <div class="liveContent">
                   <div class="liveVideo">
-                    <div class="videoShadow" style="overflow: hidden;height: 50vw;" @click="toLiveRoom(item.liveDesc, item.liveUrl)">
+                    <div class="videoShadow" style="overflow: hidden;height: 50vw;" @click="toLiveRoom(item.liveDesc, item.liveUrl, null, item.farmId)">
                       <div class="videoShadow" style="width: 100%;height: 100%;position: absolute;"></div>
                       <div class="farmTitle">{{item.farmName}}</div>
                       <van-icon name="play" style="position: absolute"/>
@@ -122,11 +122,12 @@
       },
       methods: {
         ...mapMutations(['setLiveRoomData']),
-        toLiveRoom (liveDesc, liveUrl, activityId) {
+        toLiveRoom (liveDesc, liveUrl, activityId, farmId) {
           this.setLiveRoomData({
             liveDesc,
             liveUrl,
-            activityId
+            activityId,
+            farmId
           });
           this.$router.push({
             path: '/liveRoom'
