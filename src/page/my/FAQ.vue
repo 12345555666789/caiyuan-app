@@ -13,8 +13,8 @@
           :finished="finished">
           <van-cell v-for="(item, index) in list" :key="item.msgId + index">
             <div class="title">{{item.title}}</div>
-            <p><span class="createDate">{{dateFormat(item.createDate, 'YYYY-MM-DD')}}</span></p>
-            <div :class="!item.state ? 'content ellipse' : 'content'">{{item.content}}
+            <p><span class="createDate">{{dateFormat(item.createDate, 'YYYY-MM-DD H:M')}}</span></p>
+            <div v-if="item.content" :class="!item.state ? 'content ellipse' : 'content'">{{item.content}}
               <p @click="handleArrow(item)" style="text-align: center;font-size: 3vw;color:#BFBFBF;">{{!item.state ? '展开' : '收起'}}<span :class="!item.state ? 'arrow-down' : 'arrow-up'"></span></p>
             </div>
           </van-cell>
@@ -72,6 +72,7 @@
         },
         onRefresh () {
           this.page = 0;
+          this.list = [];
           this.getQuestion()
         },
         onClickLeft () {

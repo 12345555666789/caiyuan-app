@@ -137,7 +137,7 @@
         }
       },
       commentDate (date) {
-        return Function.dateFormat(date, 'YYYY-MM-DD')
+        return Function.dateFormat(date, 'YYYY-MM-DD H:M')
       },
       ...mapMutations([
         'addToFoodCar', 'reduceFoodToCar'

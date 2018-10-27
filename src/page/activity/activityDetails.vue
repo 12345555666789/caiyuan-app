@@ -14,17 +14,19 @@
       <div class="activityInfo">
         <div class="activityContent">
           <p class="activityTitle">{{activityInfo.activityName}}</p>
+          <span class="createDate">{{commentDate(activityInfo.createDate)}}</span>
           <p class="activityDesc">{{activityInfo.activityDesc}}</p>
-          <div class="activityPics">
-            <div class="activityPic" v-for="item in activityInfo.activityPic">
-              <img v-lazy="item">
-            </div>
-          </div>
           <div class="activityVideos" v-if="activityInfo.activityVideo">
             <div class="activityVideo">
               <video :src="activityInfo.activityVideo" controls autoplay height="100%" width="100%"></video>
             </div>
           </div>
+          <div class="activityPics">
+            <div class="activityPic" v-for="item in activityInfo.activityPic">
+              <img v-lazy="item">
+            </div>
+          </div>
+          <p class="endDate">活动截止时间:{{commentDate(activityInfo.endDate)}}</p>
           <div class="likeCount" v-if="!$route.query.isShare">
             <span v-if="isLike" class="likedIcon"></span>
             <span v-else class="likeIcon" @click="like"></span>
@@ -278,6 +280,14 @@
         margin-top: 2vw;
         color: #a1a1a1;
       }
+    }
+    .createDate {
+      color: #a1a1a1;
+    }
+    .endDate {
+      color: #a1a1a1;
+      text-align: right;
+      margin-top: 2vw;
     }
     .activityDesc {
       color: #505050;

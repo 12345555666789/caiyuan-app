@@ -49,7 +49,11 @@
     export default {
       name: "info",
       methods: {
-
+        onClickLeft () {
+          if (window.app.goBackApp) {
+            window.app.goBackApp();
+          }
+        }
       }
     }
 </script>

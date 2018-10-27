@@ -27,7 +27,7 @@
                   <div class="value" v-for="size in item.landSizes">{{size.replace('x', ' × ')}}</div>
                 </van-cell>
                 <van-cell title="租赁时间">
-                  <div class="value">{{commentDate(item.createDate)}}-{{commentDate(item.endDate)}}</div>
+                  <div class="value">{{commentDate(item.startDate)}}-{{commentDate(item.endDate)}}</div>
                 </van-cell>
                 <van-cell title="开垦模式">
                   <div class="value">{{item.recMode === 1 ? '托管' : '自理'}}</div>
@@ -258,7 +258,7 @@
         })
       },
       buyFinish (isDone) {
-        if (isDone) {
+        if (Number(isDone) === 1) {
           this.clearLandOrder({});
           this.$router.push({
             path: '/purchaseCompletion',
@@ -266,7 +266,6 @@
               totalPrice: this.total.totalCost
             }
           });
-          window.location.reload()
         } else {
           this.$toast('未完成付款')
         }
@@ -294,7 +293,7 @@
         return constant.foodOrderStates.find(item => item.code === state)
       },
       createDate(date) {
-        return Function.dateFormat(date, 'YYYY-MM-DD')
+        return Function.dateFormat(date, 'YYYY-MM-DD H:M')
       },
       commentDate(date) {
         return Function.dateFormat(date, 'YYYY/MM/DD')

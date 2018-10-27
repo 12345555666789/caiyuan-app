@@ -8,7 +8,7 @@
     <div style="height: 14vw"></div>
     <van-cell>
       <h3 class="msgTitle">{{msgInfo.title}}</h3>
-      <p class="msgDate">{{dateFormat(msgInfo.createDate, 'YYYY-MM-DD')}}</p>
+      <p class="msgDate">{{dateFormat(msgInfo.createDate, 'YYYY-MM-DD H:M')}}</p>
       <p class="msgTxt">{{msgInfo.content}}</p>
     </van-cell>
   </div>

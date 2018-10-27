@@ -24,7 +24,7 @@
         <van-cell-group>
           <van-cell title="菜园名称"><span class='valueColor'>{{gardenInfo.landName}}</span></van-cell>
           <van-cell title="菜园编号"><span class='useCopy valueColor'>{{gardenInfo.landId.split('-')[1]}}</span></van-cell>
-          <van-cell title="菜园规格"><span class='valueColor'>{{gardenInfo.landSize + '平米'}}</span></van-cell>
+          <van-cell title="菜园规格"><span class='valueColor'>{{gardenInfo.landSize}}</span></van-cell>
           <van-cell title="开垦模式"><span class='valueColor'>{{gardenInfo.recMod ? '托管' : '自理'}}</span></van-cell>
           <van-cell title="租赁期限"><span class='valueColor'>{{dateFormat(gardenInfo.startDate, 'YYYY/MM/DD')}}-{{dateFormat(gardenInfo.endDate, 'YYYY/MM/DD')}}</span>
           </van-cell>
@@ -96,16 +96,27 @@
         comments: []
       }
     },
-    mounted () {
-      this.getgardenInfo()
+    activated () {
+      this.page = 0;
+      this.gardenInfo = {};
+      this.comments = [];
+      this.getgardenInfo();
+      this.readLand()
     },
     methods: {
+      readLand () {
+        axios.post(api.common.userAction, {
+          actionType: constant.actionType.read,
+          objType: constant.infoType.land,
+          objId: this.$route.query.gardenId
+        })
+      },
       toMessageBoard () {
         if (window.app.getToken && window.app.getToken()) {
           this.$router.push({
             path: '/messageBoard',
             query: {
-              landId: this.gardenId
+              landId: this.$route.query.gardenId
             }
           })
         } else {
@@ -119,7 +130,7 @@
         axios.post(api.common.commentList, {
             page: this.page + 1,
             count: this.count,
-            objId: this.gardenId,
+            objId: this.$route.query.gardenId,
             objType: constant.infoType.land
         }).then((res) => {
           this.page += 1;
@@ -146,7 +157,7 @@
         if (window.app.getToken && window.app.getToken()) {
           if (this.message) {
             axios.post(api.common.userAction, {
-              objId: this.gardenId,
+              objId: this.$route.query.gardenId,
               actionType: constant.actionType.comment,
               objType: constant.infoType.land,
               content: this.message
@@ -186,7 +197,7 @@
       },
       getgardenInfo() {
         axios.post(api.common.getInfo, {
-            objId: this.gardenId,
+            objId: this.$route.query.gardenId,
             objType: constant.infoType.land
         }).then((res) => {
           this.gardenInfo = res.data.data;

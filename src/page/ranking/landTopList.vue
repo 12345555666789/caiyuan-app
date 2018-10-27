@@ -78,8 +78,8 @@
         landIsLoading: false,
         owerIsLoading: false,
         active: 0,
-        landTabActive: '',
-        owerTabActive: '',
+        landTabActive: null,
+        owerTabActive: null,
         landSortType: -1,
         owerSortType: -1,
         owerPage: 0,
@@ -119,22 +119,24 @@
         if (active === 0) {
           if (this.landSortType === constant.sortType.viewUp) {
             this.landSortType = constant.sortType.viewDown; // 浏览量
-            this.$refs.overallSort.$children[1].$el.style.transform = 'rotate(-90deg)';
+            console.log(this.$refs.overallSort.$children);
+            this.$refs.overallSort.$children[0].$el.style.transform = 'rotate(-90deg)';
           } else {
             this.landSortType = constant.sortType.viewUp; // 浏览量
-            this.$refs.overallSort.$children[1].$el.style.transform = 'rotate(90deg)';
+            this.$refs.overallSort.$children[0].$el.style.transform = 'rotate(90deg)';
           }
-          this.$refs.stockSort.$children[1].$el.style.transform = 'rotate(-90deg)';
+          this.$refs.stockSort.$children[0].$el.style.transform = 'rotate(-90deg)';
         } else if (active === 1) {
           if (this.landSortType === constant.sortType.commentsUp) {
             this.landSortType = constant.sortType.commentsDown; // 价格
-            this.$refs.stockSort.$children[1].$el.style.transform = 'rotate(-90deg)';
+            this.$refs.stockSort.$children[0].$el.style.transform = 'rotate(-90deg)';
           } else {
             this.landSortType = constant.sortType.commentsUp; // 价格
-            this.$refs.stockSort.$children[1].$el.style.transform = 'rotate(90deg)';
+            this.$refs.stockSort.$children[0].$el.style.transform = 'rotate(90deg)';
           }
-          this.$refs.overallSort.$children[1].$el.style.transform = 'rotate(-90deg)';
+          this.$refs.overallSort.$children[0].$el.style.transform = 'rotate(-90deg)';
         }
+        console.log(active);
         this.landPage = 0;
         this.landData = [];
         this.getLandTopList()
@@ -143,21 +145,21 @@
         if (active === 0) {
           if (this.owerSortType === constant.sortType.scaleUp) {
             this.owerSortType = constant.sortType.scaleDown; // 规模
-            this.$refs.landCountSort.$children[1].$el.style.transform = 'rotate(-90deg)';
+            this.$refs.landCountSort.$children[0].$el.style.transform = 'rotate(-90deg)';
           } else {
             this.owerSortType = constant.sortType.scaleUp; // 规模
-            this.$refs.landCountSort.$children[1].$el.style.transform = 'rotate(90deg)';
+            this.$refs.landCountSort.$children[0].$el.style.transform = 'rotate(90deg)';
           }
-          this.$refs.priceSort.$children[1].$el.style.transform = 'rotate(-90deg)';
+          this.$refs.priceSort.$children[0].$el.style.transform = 'rotate(-90deg)';
         } else if (active === 1) {
           if (this.owerSortType === constant.sortType.consumeUp) {
             this.owerSortType = constant.sortType.consumeDown; // 费用
-            this.$refs.priceSort.$children[1].$el.style.transform = 'rotate(-90deg)';
+            this.$refs.priceSort.$children[0].$el.style.transform = 'rotate(-90deg)';
           } else {
             this.owerSortType = constant.sortType.consumeUp; // 费用
-            this.$refs.priceSort.$children[1].$el.style.transform = 'rotate(90deg)';
+            this.$refs.priceSort.$children[0].$el.style.transform = 'rotate(90deg)';
           }
-          this.$refs.landCountSort.$children[1].$el.style.transform = 'rotate(-90deg)';
+          this.$refs.landCountSort.$children[0].$el.style.transform = 'rotate(-90deg)';
         }
         this.owerPage = 0;
         this.owerData = [];

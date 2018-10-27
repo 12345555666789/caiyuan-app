@@ -55,6 +55,7 @@
           </div>
         </van-cell>
       </van-cell-group>
+      <div style="height: 11vw"></div>
       <div class="van-goods-action">
         <div class="footerBtn entrustBtn" @click="nextStep">提交订单</div>
       </div>
@@ -181,7 +182,7 @@
           'clearLandOrder'
         ]),
         buyFinish (isDone) {
-          if (isDone === 'success') {
+          if (Number(isDone) === 1) {
             this.clearLandOrder({});
             this.$router.push({
               path: '/purchaseCompletion',
@@ -189,7 +190,7 @@
                 totalPrice: this.total.totalCost
               }
             });
-          } else if (isDone === 'cancel') {
+          } else {
             this.clearLandOrder({});
             this.$router.push({
               path: '/orderList'
