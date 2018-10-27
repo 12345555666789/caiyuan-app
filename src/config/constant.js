@@ -5,7 +5,7 @@ let dim = 'dim_common_config';
 export default {
   landYearsMin: Number(config[dim].find(item => item.code === "land_years_min").name) || 1, // 订单最小年限
   landYearsMax: Number(config[dim].find(item => item.code === "land_years_max").name) || 5, // 订单最大年限
-  orderLandMax: Number(config[dim].find(item => item.code === "land_size_limit").name) || 5, // 订购土地上限
+  orderLandMax: Number(config[dim].find(item => item.code === "land_size_limit").name) || 5, // 订购菜园上限
   toVIPPrice: Number(config[dim].find(item => item.code === "vip_register_fee").name) || 50, // 注册VIP金额
   sortType: {
     overall: -1, // 综合

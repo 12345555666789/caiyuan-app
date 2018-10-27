@@ -16,7 +16,7 @@
           <h4><b>活动简介</b></h4>
           <div class="farmName">{{activityInfo.activityName}}</div>
           <div class="farmDesc">{{activityInfo.activityDesc}}</div>
-          <div class="activityPic"><img :src="activityInfo.activityPic[0]"></div>
+          <div class="activityPic"><img :src="activityInfo.activityPic && activityInfo.activityPic[0]"></div>
         </van-cell>
         <p style="font-size: 3vw; padding: 1vw 3vw">评论 ({{activityInfo.commentCount}})</p>
         <div class="comments">
@@ -36,6 +36,7 @@
           <van-list
             v-model="loading"
             :finished="finished"
+            :offset="30"
             @load="getComments"
           >
             <div class="comment" v-for="(item, index) in comments" :key="index">
@@ -62,6 +63,7 @@
         </van-cell>
       </div>
     </van-pull-refresh>
+    <div style="height: 10vw"></div>
   </div>
 </template>
 <script>
@@ -98,16 +100,18 @@
       ...mapState(['liveRoomData'])
     },
     activated () {
+      this.page = 0;
       this.comments = [];
       this.farmInfo = {};
       this.activityInfo = {};
-      if (this.liveRoomData.activityId) {
+      if (!!this.liveRoomData.activityId) {
         this.getActivityInfo();
-        this.getComments();
-      } else if (this.liveRoomData.farmId) {
+      } else if (!!this.liveRoomData.farmId) {
         this.getFarmInfo()
       }
-      this.setLive();
+      if (window.TcPlayer) {
+        this.setLive();
+      }
     },
     methods: {
       getActivityInfo () {
@@ -115,7 +119,8 @@
           objId: this.liveRoomData.activityId,
           objType: constant.infoType.activity
         }).then(res => {
-          this.activityInfo = res.data.data
+          this.activityInfo = res.data.data;
+          this.getComments();
         })
       },
       getFarmInfo() {
@@ -127,7 +132,6 @@
         })
       },
       setLive() {
-        this.$refs.liveVideo.innerHTML = '';
         if (this.liveRoomData.liveUrl) {
           this.tcPlayerOption.m3u8 = this.liveRoomData.liveUrl;
         }
@@ -147,7 +151,17 @@
           this.isLoading = false;
           if (res.data.data.comments.length) {
             this.page += 1;
-            this.comments.push(...res.data.data.comments);
+            if (this.comments.length) {
+              this.comments.forEach(item => {
+                res.data.data.comments.forEach(item1 => {
+                  if (item.commentId !== item1.commentId) {
+                    this.comments.push(item1);
+                  }
+                })
+              });
+            } else {
+              this.comments.push(...res.data.data.comments);
+            }
           } else {
             this.finished = true;
           }
@@ -171,7 +185,7 @@
             axios.post(api.common.userAction, {
               objId: this.liveRoomData.activityId,
               actionType: constant.actionType.comment,
-              objType: constant.infoType.land,
+              objType: constant.infoType.activity,
               content: this.message
             }).then(() => {
               this.message = '';
@@ -197,7 +211,7 @@
         this.videoSrc = '';
       },
       onClickLeft() {
-        this.tcPlayer.destroy();
+        this.tcPlayer ? this.tcPlayer.destroy() : null;
         if (this.$route.query.from) {
           window.app.goBackApp();
         } else {

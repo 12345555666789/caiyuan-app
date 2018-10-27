@@ -89,7 +89,7 @@
         owerData: []
       }
     },
-    mounted () {
+    activated () {
       this.getLandTopList();
       this.getOwerTopList();
     },
@@ -98,7 +98,8 @@
         this.$router.push({
           path:'/gardenInfo',
           query: {
-            gardenId
+            gardenId,
+            from: 'landTopList'
           }
         })
       },
@@ -119,7 +120,6 @@
         if (active === 0) {
           if (this.landSortType === constant.sortType.viewUp) {
             this.landSortType = constant.sortType.viewDown; // 浏览量
-            console.log(this.$refs.overallSort.$children);
             this.$refs.overallSort.$children[0].$el.style.transform = 'rotate(-90deg)';
           } else {
             this.landSortType = constant.sortType.viewUp; // 浏览量
@@ -136,7 +136,6 @@
           }
           this.$refs.overallSort.$children[0].$el.style.transform = 'rotate(-90deg)';
         }
-        console.log(active);
         this.landPage = 0;
         this.landData = [];
         this.getLandTopList()

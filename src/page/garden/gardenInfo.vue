@@ -4,8 +4,8 @@
       title="菜园详情"
       fixed
       left-arrow
-      right-text="客服"
-      @click-right="toMessageBoard"
+      :right-text="!$route.query.from ? '客服' : null"
+      @click-right="!$route.query.from ? toMessageBoard : null"
       @click-left="onClickLeft"></van-nav-bar>
     <div style="height: 12vw"></div>
     <van-pull-refresh v-model="isLoading" @refresh="getgardenInfo">
@@ -23,13 +23,13 @@
       <div class="gardenInfo">
         <van-cell-group>
           <van-cell title="菜园名称"><span class='valueColor'>{{gardenInfo.landName}}</span></van-cell>
-          <van-cell title="菜园编号"><span class='useCopy valueColor'>{{gardenInfo.landId.split('-')[1]}}</span></van-cell>
+          <van-cell title="菜园编号"><span class='useCopy valueColor'>{{gardenInfo.landId && gardenInfo.landId.split('-')[1]}}</span></van-cell>
           <van-cell title="菜园规格"><span class='valueColor'>{{gardenInfo.landSize}}</span></van-cell>
           <van-cell title="开垦模式"><span class='valueColor'>{{gardenInfo.recMod ? '托管' : '自理'}}</span></van-cell>
           <van-cell title="租赁期限"><span class='valueColor'>{{dateFormat(gardenInfo.startDate, 'YYYY/MM/DD')}}-{{dateFormat(gardenInfo.endDate, 'YYYY/MM/DD')}}</span>
           </van-cell>
         </van-cell-group>
-        <p style="font-size: 3vw; padding: 1vw 3vw">评论 ({{comments.length}})</p>
+        <p style="font-size: 3vw; padding: 1vw 3vw">评论 ({{gardenInfo.commentCount}})</p>
         <div class="comments">
           <div class="commentSend">
             <van-cell-group>
@@ -47,6 +47,7 @@
           <van-list
             v-model="loading"
             :finished="finished"
+            :offset="1000"
             @load="getComments"
           >
             <div class="comment" v-for="(item, index) in comments" :key="index">
@@ -63,8 +64,8 @@
         </div>
       </div>
     </van-pull-refresh>
-    <div style="height: 14vw"></div>
-    <van-goods-action>
+    <div v-if="!$route.query.from" style="height: 14vw"></div>
+    <van-goods-action v-if="!$route.query.from">
       <van-goods-action-big-btn @click="landRegion"><span class="icon-plus">＋</span><span
         class="footerBtnText">订购菜园</span></van-goods-action-big-btn>
     </van-goods-action>
@@ -106,7 +107,7 @@
     methods: {
       readLand () {
         axios.post(api.common.userAction, {
-          actionType: constant.actionType.read,
+          actionType: constant.actionType.view,
           objType: constant.infoType.land,
           objId: this.$route.query.gardenId
         })
@@ -133,10 +134,20 @@
             objId: this.$route.query.gardenId,
             objType: constant.infoType.land
         }).then((res) => {
-          this.page += 1;
           this.loading = false;
           if (res.data.data.comments.length) {
-            this.comments.push(...res.data.data.comments);
+            this.page += 1;
+            if (this.comments.length) {
+              this.comments.forEach(item => {
+                res.data.data.comments.forEach(item1 => {
+                  if (item.commentId !== item1.commentId) {
+                    this.comments.push(item1);
+                  }
+                })
+              });
+            } else {
+              this.comments.push(...res.data.data.comments);
+            }
           } else {
             this.finished = true;
           }
@@ -201,10 +212,10 @@
             objType: constant.infoType.land
         }).then((res) => {
           this.gardenInfo = res.data.data;
+          this.isLoading = false;
           this.page = 0;
           this.comments = [];
           this.getComments();
-          this.isLoading = false
         }).catch((err) => {
           this.isLoading = false
         })

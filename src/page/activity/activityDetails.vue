@@ -38,6 +38,7 @@
           <van-list
             v-model="loading"
             :finished="finished"
+            :offset="1000"
             @load="getComments"
           >
             <div class="comment" v-for="(item, index) in comments" :key="index">
@@ -98,7 +99,10 @@
     computed: {
       ...mapState(['userInfo', 'userAction'])
     },
-    mounted () {
+    activated () {
+      this.activityInfo = {};
+      this.page = 0;
+      this.comments = [];
       this.getactivityInfo();
       if (window.app.getToken && window.app.getToken()) {
         this.getUserInfo();
@@ -154,10 +158,20 @@
           objId: this.activityId,
           objType: constant.infoType.activity
         }).then((res) => {
-          this.page += 1;
           this.loading = false;
           if (res.data.data.comments.length) {
-            this.comments.push(...res.data.data.comments);
+            this.page += 1;
+            if (this.comments.length) {
+              res.data.data.comments.forEach(item => {
+                this.comments.forEach(item1 => {
+                  if (item.commentId !== item1.commentId) {
+                    this.comments.push(item1);
+                  }
+                })
+              });
+            } else {
+              this.comments.push(...res.data.data.comments);
+            }
           } else {
             this.finished = true;
           }

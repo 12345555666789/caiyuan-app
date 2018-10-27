@@ -119,8 +119,8 @@
           <van-cell title="选错了/不想买了" clickable @click="reason = '选错了/不想买了'">
             <van-radio name="选错了/不想买了" />
           </van-cell>
-          <van-cell title="土地已被租或商品缺货" clickable @click="reason = '土地已被租或商品缺货'">
-            <van-radio name="土地已被租或商品缺货" />
+          <van-cell title="菜园已被租或商品缺货" clickable @click="reason = '菜园已被租或商品缺货'">
+            <van-radio name="菜园已被租或商品缺货" />
           </van-cell>
           <van-cell title="其他" clickable @click="reason = '其他'">
             <van-radio name="其他"/>
