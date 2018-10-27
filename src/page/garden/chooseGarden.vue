@@ -151,6 +151,7 @@
       ...mapGetters(['landData', 'gardenOrder'])
     },
     activated () {
+      this.gardenData = [];
       this.gardenOrder && this.gardenOrder.landInfo ? this.setLandData() : null;
       this.getGardenData();
       setTimeout(() => {
@@ -353,7 +354,7 @@
         }
       },
       getGardenData () {
-        axios.post(api.garden.getLandDetails + this.landId).then((res) => {
+        axios.post(api.garden.getLandDetails + this.$route.query.landId).then((res) => {
           this.gardenData = res.data.data;
           this.handleLands();
           this.isLoading = false;

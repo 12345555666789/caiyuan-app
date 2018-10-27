@@ -48,12 +48,11 @@
     computed: {
       ...mapState(['userInfo', 'userAction'])
     },
-    mounted () {
-      this.getwikiInfo();
-      this.getUserInfo();
-    },
     activated () {
-      this.checkAction();
+      this.getwikiInfo();
+      if (window.app.getToken && window.app.getToken()) {
+        this.checkAction();
+      }
     },
     methods: {
       ...mapMutations(['setUserAction', 'setUserInfo']),

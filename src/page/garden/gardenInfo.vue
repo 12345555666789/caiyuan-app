@@ -5,7 +5,7 @@
       fixed
       left-arrow
       :right-text="!$route.query.from ? '客服' : null"
-      @click-right="!$route.query.from ? toMessageBoard : null"
+      @click-right="toMessageBoard"
       @click-left="onClickLeft"></van-nav-bar>
     <div style="height: 12vw"></div>
     <van-pull-refresh v-model="isLoading" @refresh="getgardenInfo">
