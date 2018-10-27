@@ -71,7 +71,11 @@
               evaluation.push({
                 actionType: constant.actionType.comment,
                 grade: item.favourable,
-                content: item.evaluation,
+                content: item.evaluation ? item.evaluation
+                  : item.favourable === "0" ? '好评'
+                    : item.favourable === "1" ? '中评'
+                      : item.favourable === "2" ? '差评'
+                        : '系统默认好评',
                 objId: item.foodId,
                 objType: constant.infoType.food
               })

@@ -63,8 +63,8 @@
           </van-list>
         </div>
       </div>
+      <div v-if="!$route.query.from" style="height: 14vw"></div>
     </van-pull-refresh>
-    <div v-if="!$route.query.from" style="height: 14vw"></div>
     <van-goods-action v-if="!$route.query.from">
       <van-goods-action-big-btn @click="landRegion"><span class="icon-plus">＋</span><span
         class="footerBtnText">订购菜园</span></van-goods-action-big-btn>

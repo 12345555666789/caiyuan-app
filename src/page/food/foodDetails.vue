@@ -32,6 +32,7 @@
         <div class="comments">
           <van-list
             v-model="loading"
+            v-if="comments.length"
             :finished="finished"
             @load="getComments"
           >
@@ -45,10 +46,13 @@
                 <div class="commentText">{{item.content}}</div>
               </div>
             </div>
+            <div class="noDataList"><span>已经到底啦~</span></div>
           </van-list>
+          <div class="carNoData" v-else>暂无评论</div>
         </div>
       </div>
     </van-pull-refresh>
+    <div style="height: 12vw"></div>
     <div class="van-goods-action">
       <div class="carBtn" @click="openCar">
         <span class="iconCar"><span class="totalNum" v-show="totalNum()">{{totalNum()}}</span></span></div>
@@ -84,11 +88,8 @@
     computed: {
       ...mapState(['foodCar']),
     },
-    mounted () {
-      this.getfoodInfo();
-      this.foodCar ? this.carList = this.foodCar : null;
-    },
     activated () {
+      this.comments = [];
       this.foodInfo = {};
       this.getfoodInfo();
       this.foodCar ? this.carList = this.foodCar : null;

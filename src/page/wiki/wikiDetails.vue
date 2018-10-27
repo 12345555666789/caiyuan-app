@@ -6,7 +6,7 @@
       left-arrow
       @click-right="favor"
       @click-left="goApp">
-      <span v-if="isFavor" class="iconFavored" slot="right"></span>
+      <span v-if="wikiInfo.userFavor" class="iconFavored" slot="right"></span>
       <span v-else class="iconFavor" slot="right"></span>
     </van-nav-bar>
     <div style="height: 15vw"></div>
@@ -41,7 +41,6 @@
         loading: false,
         message: '',
         isLoading: false,
-        wikiId: this.$route.query.wikiId,
         wikiInfo: {},
       }
     },
@@ -49,24 +48,11 @@
       ...mapState(['userInfo', 'userAction'])
     },
     activated () {
+      this.wikiInfo = {};
       this.getwikiInfo();
-      if (window.app.getToken && window.app.getToken()) {
-        this.checkAction();
-      }
     },
     methods: {
       ...mapMutations(['setUserAction', 'setUserInfo']),
-      checkAction () {
-        if (this.userAction[this.userInfo.userId]) {
-          !this.userAction[this.userInfo.userId][this.wikiInfo.wikiId || this.wikiId] ? this.isFavor = false : true
-        }
-      },
-      getUserInfo () {
-        axios.post(api.my.userInfo).then(res => {
-          this.setUserInfo(res.data.data);
-          this.checkAction();
-        })
-      },
       toLogin () {
         if (window.app.toLogin) {
           window.app.toLogin()
@@ -78,10 +64,10 @@
         if (window.app.getToken && window.app.getToken()) {
           axios.post(api.common.userAction, {
             "actionType": constant.actionType.favor,
-            "objId": this.wikiInfo.wikiId || this.wikiId,
+            "objId": this.$route.query.wikiId,
             "objType": constant.infoType.wiki
           }).then(() => {
-            this.isFavor = true
+            this.getwikiInfo();
           })
         }
       },
@@ -95,7 +81,7 @@
       },
       getwikiInfo() {
         axios.post(api.common.getInfo, {
-          objId: this.wikiId,
+          objId: this.$route.query.wikiId,
           objType: constant.infoType.wiki
         }).then((res) => {
           this.wikiInfo = res.data.data;
