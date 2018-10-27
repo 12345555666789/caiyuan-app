@@ -97,11 +97,10 @@
       ...mapState(['userInfo', 'userAction'])
     },
     mounted () {
-      this.getUserInfo();
       this.getmomentInfo();
-    },
-    activated () {
-      this.checkAction();
+      if (window.app.getToken && window.app.getToken()) {
+        this.getUserInfo();
+      }
     },
     methods: {
       ...mapMutations(['setUserAction', 'setUserInfo']),
@@ -320,7 +319,7 @@
     }
   }
   .iconShare {
-    background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8BAMAAADI0sRBAAAAKlBMVEUAAAAAqPJCQkJCQkI6Ojo/Pz87OzsAqPM/Pz89PT0AqPNAQEA/Pz8AqPPIV01cAAAADXRSTlMA+hcOCRwS9yQp9E41xmi9awAAAXpJREFUOMut1UFKw0AUBuCXGltdBFIQBGGguBcCgruAgtuAFygUXBd6gUIv4hGEHsEjNK2Jbt5dzB9fmnTezGz0X5RMPubNvExCyZU4o1De+CXEzBzQuOGKBnlG+qE58TUjg4IRRqkMcpbsjp40I9neOWumO4wXuCqOnJ70xlziAjBFru3muG63UZLKmWFkS8mgqOrlgKVtjARRPVe1c+570ZwIYXVS/PSLN2N0qvgShltzTFZsoFdEI0xWnENXhMm4b/EImkpvH4rXeBSyRkU2T9pdyeSZ4nl3iktMtjluS0vtTDFOvrs6kOJGP+U8OVOM/TxSF8UFTsjLqL3xM2qTnxNd+15Yep3ZL8a2Z13byLsmS9eKK3C/tM17cHccqwBjaT/HzF8BnmBpL2PjqZ+x8UWA35kpwCbMzGWYd3/iNMQFfn2M/D/XeLt9jC8uYd8/wxjNRsx7Ny/bZvHJTx0xDcg370nV8IWfNxSa/i39ObF/Hg+3jrxCfgDP98q+07po5wAAAABJRU5ErkJggg==") no-repeat;
+    background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAMAAAC7IEhfAAAAjVBMVEUAAABBQUE/Pz9AQEA/Pz9AQEA+Pj5AQEBAQEA7OztAQEBAQEA/Pz8/Pz8/Pz8+Pj5AQEA/Pz8/Pz8/Pz9DQ0NAQEBAQEA/Pz8/Pz9AQEA/Pz8+Pj5AQEA7OztAQEA/Pz9AQEBAQEBAQEBCQkI+Pj4/Pz8/Pz9AQEBAQEBAQEBAQEBAQEBBQUFBQUFAQECAHCkoAAAALnRSTlMAP3H8dfgkj0oH5vTJwIUStHo5KRquqe2ZaTMcFw3SzKBaUS4Q15RuQyDe24Fi6I2bIgAAAWhJREFUOMuN0umOokAUhuFDH4qdYUdtd+11Zvq9/8trhbTBdKn1/qKSJ+Ergtxp9SxOrRPtli6wAFI/lknt4v+fsauXeRtg413OcWj4yci02E9BdysZywEzRinXLTuF2WJ49pVk0QRj8qvoH2h2npSQNreusw/zmQLoUhpDaFUv75nhUiAePFlYME8BTFqGCehB7LAIDaCZf5S4V9JI7DBKgDQ8T49LmHlih6GCvg1fb51D8ixWGJcKm3qckMHfRqwwzkF38Xjxk3v9FDssAV/GFrBdiR2Gil7ORV4WYofRyVUyzQ6LBDpxgHN4XTvAo6IfNnQMrmEHO5uL0OUUNor5tMEKPqYwhLnYegJvAuMZGrjAg5KLC3yDLyeYYNYusDXk4gIPUDnBCq2d4Es3Fyd46i6sFf8R9M+rWkP/CPaYViRD9/fdHrLhH4K+8m9W9YpGw1TlUe8yFG3NHatmG8lPbe3drG4H8g0P9DoghBQHrQAAAABJRU5ErkJggg==") no-repeat;
     width: 4.5vw;
     height: 4.5vw;
     display: inline-block;

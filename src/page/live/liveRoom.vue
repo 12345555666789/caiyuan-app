@@ -16,9 +16,9 @@
           <h4><b>活动简介</b></h4>
           <div class="farmName">{{activityInfo.activityName}}</div>
           <div class="farmDesc">{{activityInfo.activityDesc}}</div>
-          <div class="activityPic" style="position: "><img :src="activityInfo.activityPic[0]"></div>
+          <div class="activityPic"><img :src="activityInfo.activityPic[0]"></div>
         </van-cell>
-        <p style="font-size: 3vw; padding: 1vw 3vw">评论 ({{activityInfo.length}})</p>
+        <p style="font-size: 3vw; padding: 1vw 3vw">评论 ({{activityInfo.commentCount}})</p>
         <div class="comments">
           <div class="commentSend">
             <van-cell-group>
@@ -98,6 +98,9 @@
       ...mapState(['liveRoomData'])
     },
     activated () {
+      this.comments = [];
+      this.farmInfo = {};
+      this.activityInfo = {};
       if (this.liveRoomData.activityId) {
         this.getActivityInfo();
         this.getComments();
@@ -140,10 +143,10 @@
             objId: this.liveRoomData.activityId,
             objType: constant.infoType.activity
         }).then((res) => {
-          this.page += 1;
           this.loading = false;
           this.isLoading = false;
           if (res.data.data.comments.length) {
+            this.page += 1;
             this.comments.push(...res.data.data.comments);
           } else {
             this.finished = true;
@@ -187,7 +190,7 @@
         }
       },
       commentDate (date) {
-        return Function.dateFormat(date, 'YYYY-MM-DD')
+        return Function.dateFormat(date, 'YYYY-MM-DD H:M')
       },
       cancelDate () {
         this.$refs.video.pause();

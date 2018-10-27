@@ -3,7 +3,6 @@
     <van-nav-bar
       title="交易详情"
       fixed>
-      <span class="iconShare" slot="right"></span>
     </van-nav-bar>
     <p class="buyDone">
       <van-icon name="checked"/>
