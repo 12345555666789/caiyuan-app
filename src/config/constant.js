@@ -33,7 +33,8 @@ export default {
     forward: 2,//分享；
     like: 3,//点赞；
     favor: 4,//收藏；
-    view: 5 //浏览
+    view: 5, //浏览;
+    read: 6 //阅读信息;
   },
   infoType: {
     moment: 10, //圈子

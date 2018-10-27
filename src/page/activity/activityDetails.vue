@@ -20,9 +20,9 @@
               <img v-lazy="item">
             </div>
           </div>
-          <div class="activityVideos">
+          <div class="activityVideos" v-if="activityInfo.activityVideo">
             <div class="activityVideo">
-              <video v-lazy="activityInfo.activityVideo" controls autoplay height="100%" width="100%"></video>
+              <video :src="activityInfo.activityVideo" controls autoplay height="100%" width="100%"></video>
             </div>
           </div>
           <div class="likeCount" v-if="!$route.query.isShare">
@@ -187,7 +187,7 @@
         }
       },
       commentDate (date) {
-        return Function.dateFormat(date, 'YYYY-MM-DD')
+        return Function.dateFormat(date, 'YYYY-MM-DD H:M')
       },
       cancelDate () {
         this.$refs.video.pause();

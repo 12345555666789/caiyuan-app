@@ -73,13 +73,18 @@
             page: this.page + 1,
             count: this.count
           }).then((res) => {
-            this.page += 1;
+            this.loading = false;
             this.isLoading = false;
             if (res.data.data.length) {
+              this.page += 1;
               this.favorData.push(...res.data.data)
             } else {
               this.finished = true
             }
+          }).catch(() => {
+            this.isLoading = false;
+            this.finished = true;
+            this.loading = false;
           })
         }
       }

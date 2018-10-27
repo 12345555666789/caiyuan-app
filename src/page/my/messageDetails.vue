@@ -25,27 +25,26 @@
       data () {
         return {
           msgInfo: {},
-          msgId: this.$route.query.messageId,
-          msgStatus: this.$route.query.msgStatus
         }
       },
-      mounted () {
+      activated () {
         this.getMsgInfo();
-        if (this.msgStatus === 1) {
+        if (this.$route.query.msgStatus === 1) {
           this.readMsg()
         }
       },
       methods: {
         readMsg () {
           axios.post(api.common.userAction, {
-            objType: constant.actionType.view,
-            objId: this.msgId
+            actionType: constant.actionType.read,
+            objType: constant.infoType.msg,
+            objId: this.$route.query.messageId
           })
         },
         getMsgInfo () {
           axios.post(api.common.getInfo, {
             objType: constant.infoType.msg,
-            objId: this.msgId
+            objId: this.$route.query.messageId
           }).then(res => {
             this.msgInfo = res.data.data
           })

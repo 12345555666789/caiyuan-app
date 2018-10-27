@@ -102,7 +102,6 @@
         }
       },
       $route (to, from) {
-        console.log(to, from);
         if (from.path === '/makeFood') {
           this.foodData = [];
           this.key = '';
@@ -191,7 +190,7 @@
       },
       onRefresh() {
         this.page = 0;
-        this,foodData = [];
+        this.foodData = [];
         this.getFoodList();
       }
     }

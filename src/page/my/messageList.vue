@@ -12,7 +12,7 @@
         v-model="loading"
         @load="getMsgList"
         :finished="finished">
-        <van-cell class="msgItem" v-for="item in msgList" :key="item.messageId" @click="toMsgInfo(item.messageId, item.msgStatus)">
+        <van-cell class="msgItem" v-for="item in msgList" :key="item.messageId" @click="toMsgInfo(item.messageId, item.status)">
           <div :class="item.messageType === 2 ? 'activityIcon' : 'sysIcon'"><span v-if="item.status === 1" class="msgStatus"></span></div>
           <div class="msgContent">
             <div class="msgTitle"><span class="ellipse" style="display: inline-block; width: 65vw">{{item.title}}</span><span class="msgDate">{{dateFormat(item.createDate, 'YYYY-MM-DD')}}</span></div>
@@ -41,7 +41,9 @@
           count: 10,
         }
       },
-      mounted () {
+      activated () {
+        this.page = 0;
+        this.msgList = [];
         this.getMsgList();
       },
       methods: {
