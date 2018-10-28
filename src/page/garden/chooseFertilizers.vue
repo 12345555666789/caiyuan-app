@@ -125,7 +125,7 @@
       key (newVal, oldVal) {
         if (oldVal && !newVal) {
           this.page = 0;
-          this.seedData = [];
+          this.fertData = [];
           this.getFertilizerList();
         }
       }

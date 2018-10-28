@@ -62,21 +62,31 @@
       },
       favor () {
         if (window.app.getToken && window.app.getToken()) {
-          axios.post(api.common.userAction, {
-            "actionType": constant.actionType.favor,
-            "objId": this.$route.query.wikiId,
-            "objType": constant.infoType.wiki
-          }).then(() => {
-            this.getwikiInfo();
-          })
+          if (!this.wikiInfo.userFavor) {
+            axios.post(api.common.userAction, {
+              "actionType": constant.actionType.favor,
+              "objId": this.$route.query.wikiId,
+              "objType": constant.infoType.wiki
+            }).then(() => {
+              this.getwikiInfo();
+            })
+          }
+        } else {
+          this.toLogin()
         }
       },
       dateFormat (date, format) {
         return Function.dateFormat(date, format)
       },
       goApp () {
-        if (window.app.goBackApp()) {
-          window.app.goBackApp();
+        if (this.$route.query.from) {
+          window.history.back()
+        } else {
+          if (window.app.goBackApp()) {
+            window.app.goBackApp();
+          } else {
+            this.$toast('Native错误');
+          }
         }
       },
       getwikiInfo() {

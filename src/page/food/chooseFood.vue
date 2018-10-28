@@ -79,7 +79,6 @@
         finished: false,
         loading: false,
         isLoading: false,
-        searchValue: '',
         foodData: []
       }
     },
@@ -151,7 +150,7 @@
           page: this.page + 1,
           foodType: this.$route.query.foodType,
           count: this.count,
-          key: this.searchValue
+          keywords: this.key
         }).then((res) => {
           this.isLoading = false;
           this.loading = false;

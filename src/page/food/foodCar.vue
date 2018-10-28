@@ -51,10 +51,6 @@
       computed: {
         ...mapState(['foodCar', 'foodOrder']),
       },
-      mounted () {
-        this.foodCar ? this.carList = this.foodCar : null;
-        this.totalPrice()
-      },
       activated () {
         this.foodCar ? this.carList = this.foodCar : null;
         this.totalPrice()
@@ -63,6 +59,14 @@
         ...mapMutations([
           'addToFoodCar', 'reduceFoodToCar', 'setFoodTotalPrice'
         ]),
+        tofoodInfo (foodId) {
+          this.$router.push({
+            path: '/foodDetails',
+            query: {
+              foodId
+            }
+          })
+        },
         totalPrice () {
           this.price = 0;
           Object.values(this.foodCar).forEach(item => {

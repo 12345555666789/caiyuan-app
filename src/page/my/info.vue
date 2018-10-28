@@ -27,16 +27,6 @@
         </van-cell>
         <van-cell class="msgItem" is-link>
           <div class="msgContent">
-            <div class="msgTitle">使用帮助</div>
-          </div>
-        </van-cell>
-        <van-cell class="msgItem" is-link>
-          <div class="msgContent">
-            <div class="msgTitle">常见问题</div>
-          </div>
-        </van-cell>
-        <van-cell class="msgItem" is-link>
-          <div class="msgContent">
             <div class="msgTitle">隐私政策</div>
           </div>
         </van-cell>

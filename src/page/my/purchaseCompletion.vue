@@ -55,20 +55,20 @@
 <style scoped lang="less">
   .buyDone {
     padding-top: 25vw;
-    font-size: 30vw;
+    font-size: 25vw;
     text-align: center;
     color: #2ba33b;
   }
 
   .purchaseCompletion {
-    font-size: 8vw;
+    font-size: 7vw;
     text-align: center;
   }
 
   .totalPrice {
     text-align: center;
     margin-top: 3vw;
-    font-size: 14vw;
+    font-size: 12vw;
     font-weight: 400;
   }
 
@@ -78,8 +78,8 @@
     span {
       display: inline-block;
       width: 90vw;
-      height: 14vw;
-      line-height: 14vw;
+      height: 13vw;
+      line-height: 13vw;
       font-size: 5vw;
       border-radius: 4px;
       color: #fff;

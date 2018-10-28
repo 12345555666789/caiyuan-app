@@ -132,24 +132,20 @@
         }
       },
       like () {
-        if (window.app.getToken && window.app.getToken()) {
-          axios.post(api.common.userAction, {
+        axios.post(api.common.userAction, {
+          actionType: constant.actionType.like,
+          objId: this.momentInfo.momentId || this.momentId,
+          objType: constant.infoType.moment
+        }).then(() => {
+          this.isLike = true;
+          this.setUserAction({
             actionType: constant.actionType.like,
             objId: this.momentInfo.momentId || this.momentId,
-            objType: constant.infoType.moment
-          }).then(() => {
-            this.isLike = true;
-            this.setUserAction({
-              actionType: constant.actionType.like,
-              objId: this.momentInfo.momentId || this.momentId,
-              objType: constant.infoType.moment,
-              userId: this.userInfo.userId
-            });
-            this.getmomentInfo();
-          })
-        } else {
-         this.toLogin()
-        }
+            objType: constant.infoType.moment,
+            userId: this.userInfo.userId
+          });
+          this.getmomentInfo();
+        })
       },
       checkAction () {
         if (this.userAction[this.userInfo.userId]) {

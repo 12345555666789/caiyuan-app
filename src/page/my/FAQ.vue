@@ -110,5 +110,6 @@
     color: #616161;
     margin-top: 3vw;
     font-size: 3.8vw;
+    width: 90vw;
   }
 </style>

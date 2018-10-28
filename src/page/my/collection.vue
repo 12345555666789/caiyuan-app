@@ -48,6 +48,8 @@
         }
       },
       mounted () {
+        this.page = 0;
+        this.favorData = [];
         this.getCollectionList()
       },
       methods: {
@@ -55,12 +57,14 @@
           this.$router.push({
             path: '/wikiDetails',
             query: {
-              wikiId: id
+              wikiId: id,
+              from: 'h5'
             }
           })
         },
         onRefresh() {
           this.page = 0;
+          this.favorData = [];
           this.getCollectionList()
         },
         goApp () {
@@ -131,11 +135,12 @@
       vertical-align: top;
       width: 54vw;
       .wikiTxt {
-        height: 20vw;
+        height: 18vw;
         font-size: 3.5vw;
         overflow : hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
+        margin-bottom: 3vw;
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
       }
@@ -146,7 +151,7 @@
         .favorIcon {
           background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAD8AAAA7CAMAAAD7EKL7AAAAbFBMVEUAAAA4ODg/Pz8/Pz9BQUFAQEBAQEBAQEBAQEBAQEA+Pj5AQEA/Pz9AQEBBQUE/Pz9AQEBAQEBAQEBAQEA/Pz9AQEBAQEBAQEBAQEBBQUFAQEBAQEBAQEBAQEBBQUFAQEBAQEBAQEBAQEBAQEBN63XYAAAAI3RSTlMABA3nRybM97HUFDbu4B8ZbqeFPtuan42/X2ZRL5NXxbh1foPh0CEAAALgSURBVEjHnVbn2qowDCYdUCgbHOCW+7/H06SfHioglvxQ+qRvdpoEHwTMEEAwJbCs4Auxc1fvlaoOpSjABReiPFRK7etOsyV0p9p0IIp4WMsRSz5DHllW2qqezaG1GhziZfLHSvrMZR31xI2i5lZ8Focxt9fuDV6Dl2BuOFlqPw+5C092ZF5cCy2lbDplj8KwmpA8Un1jOFrU9lgVjvGVtfjtGOg7SkgFaP5hMes5GcdG8D2JlI7IEp1u+9j8Zg8nYpKM3SdvZR16dSg+8i1atADhAj68rVHfA17y8GI9rQzNbbCaCQeeKPb8d7iYgxppd+2KSpiyEvR4Zxk6HeuYhFUlc6xzZnzTpAVFXebrWvKBy1kOHAyqQlTeDvOXSE2PTi6ItjDByRNPoqilV/NfGkNOgT8JzDkEbGcyITfg89jElgXMdEdYbMCzoynr5PXnTS/FSUhmeBM1TZwT/r4Jv7P42zDcNtlfEZ7cyDfgkyMqpjrg5w14mZkCZgGU0TCUG/AdNb2t3/uG+lW2foMipE70pbPp+jYfdaIfwY66/t2JwhOvqX3/P2YV80v+YfRkyhhfei98w4338uXLI/KsQXaj5n+3cojH3z2AGofb6NG4mjO//owXOBg6cLLh0QXFEceXk/H8ZifaL5SQMul6RCbt2S+xuwxYuTAz0aInrKGx32anJcOhzDtYg5/Q0B2biUpFSYAVeIa7w2ykZYyOndbqjgb3LGkso1bAsnbahWK92FTEPsESXMTIF9+7cuCn5bJb6XQQGfp3giXtxPtGIsRLPUzhXUbRWctvg9fSyc4DV2s8rD8N8WiVdJfGGOGrpI9owaFwFr4Ue6b5cbLQilsl41GJ2n+eUjmtz0qCdV0qWqA9hmRxQQGhAIroDbXvvWYsqwdKNma0xc+L54iHktOOnFO78wd4z8driwLCiOppw4IC2E1EoYZgCxVV5ATeX0B5D48PhG8kSPLiu+3/AGPlUQRM2HhZAAAAAElFTkSuQmCC") no-repeat;
           width: 4.2vw;
-          height: 4vw;
+          height: 3.5vw;
           display: inline-block;
           background-size: 100% 100%;
           vertical-align: sub;
