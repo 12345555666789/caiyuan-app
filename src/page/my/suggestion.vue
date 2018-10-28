@@ -41,20 +41,31 @@
         }
       },
       methods: {
-        nextStep () {
-          if (this.message && this.value) {
-            axios.post(api.help.complainPublish, {
-              "content": this.message,
-              "msgType": 1,
-              "title": this.value
-            }).then(res => {
-              this.$toast('提交成功,我们会在收到您的反馈第一时间做出处理');
-              this.message = '';
-              this.value = '';
-              window.history.back()
-            })
+        toLogin () {
+          if (window.app.toLogin) {
+            window.app.toLogin()
           } else {
-            this.$toast('请输入标题以及您遇到的问题或想提出的建议')
+            this.$toast('Native错误');
+          }
+        },
+        nextStep () {
+          if (window.app.getToken && window.app.getToken()) {
+            if (this.message && this.value) {
+              axios.post(api.help.complainPublish, {
+                "content": this.message,
+                "msgType": 1,
+                "title": this.value
+              }).then(res => {
+                this.$toast('提交成功,我们会在收到您的反馈第一时间做出处理');
+                this.message = '';
+                this.value = '';
+                window.history.back()
+              })
+            } else {
+              this.$toast('请输入标题以及您遇到的问题或想提出的建议')
+            }
+          } else {
+            this.toLogin()
           }
         },
         onClickLeft () {
