@@ -195,7 +195,8 @@
             this.$router.push({
               path: '/orderList'
             });
-            this.$toast('未完成付款')
+            this.$toast('未完成付款');
+            window.location.reload();
           }
         },
         getPreAccounting (order, type) {
