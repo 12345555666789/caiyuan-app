@@ -17,7 +17,7 @@
               <van-cell>
                 <div class="liveContent">
                   <div class="liveVideo" v-if="!!item.liveUrl">
-                    <div class="videoShadow" style="overflow: hidden;height: 50vw;" @click="toLiveRoom(item.liveDesc, item.liveUrl, item.activityId)">
+                    <div class="videoShadow" style="overflow: hidden;height: 50vw;" @click="toLiveRoom({liveDesc: item.liveDesc, liveUrl: item.liveUrl, activityId: item.activityId, title: '直播间'})">
                       <div class="videoShadow" style="width: 100%;height: 100%;position: absolute;"></div>
                       <div class="videoTitle">{{item.liveName}}</div>
                       <van-icon name="play" style="position: absolute"/>
@@ -55,7 +55,7 @@
               <van-cell>
                 <div class="liveContent">
                   <div class="liveVideo">
-                    <div class="videoShadow" style="overflow: hidden;height: 50vw;" @click="toLiveRoom(item.liveDesc, item.liveUrl, null, item.farmId)">
+                    <div class="videoShadow" style="overflow: hidden;height: 50vw;" @click="toLiveRoom({liveDesc: item.liveDesc, liveUrl: item.liveUrl, farmId: item.farmId, title: '在线监控'})">
                       <div class="videoShadow" style="width: 100%;height: 100%;position: absolute;"></div>
                       <div class="farmTitle">{{item.farmName}}</div>
                       <van-icon name="play" style="position: absolute"/>
@@ -122,12 +122,9 @@
       },
       methods: {
         ...mapMutations(['setLiveRoomData']),
-        toLiveRoom (liveDesc, liveUrl, activityId, farmId) {
+        toLiveRoom (liveObj) {
           this.setLiveRoomData({
-            liveDesc,
-            liveUrl,
-            activityId,
-            farmId
+            ...liveObj
           });
           this.$router.push({
             path: '/liveRoom'
@@ -266,7 +263,7 @@
     padding: 0vw 2vw;
     font-size: 3.5vw;
     color: #333;
-    background: #ffffff87;
+    background: rgba(255, 255, 255, 0.53);
     border-radius: 4px;
   }
   .videoShadow {
