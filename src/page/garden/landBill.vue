@@ -139,6 +139,9 @@
         this.initPage()
       },
       methods: {
+        ...mapActions([
+          'clearLandOrder'
+        ]),
         ...mapMutations(['setUserAction', 'setUserInfo']),
         getUserInfo () {
           axios.post(api.my.userInfo).then(res => {
@@ -178,9 +181,6 @@
           this.getPreAccounting(this.orderData, 'total');
           this.orderData.landName = this.gardenOrder.landInfo.landName;
         },
-        ...mapActions([
-          'clearLandOrder'
-        ]),
         buyFinish (isDone) {
           if (Number(isDone) === 1) {
             this.clearLandOrder({});

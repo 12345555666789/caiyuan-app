@@ -149,6 +149,7 @@
         active: 0,
         foodOrderList: [],
         landOrderList: [],
+        totalCost: null,
         mod: this.$route.query.mod
       }
     },
@@ -186,7 +187,7 @@
       checkDate(data) {
         let orderDate = new Date(this.get7Days(new Date(data))).getTime();
         let today = new Date().getTime();
-        return orderDate < today;
+        return orderDate > today;
       },
       toEvaluation(orderId) {
         this.$router.push({
@@ -259,11 +260,10 @@
       },
       buyFinish (isDone) {
         if (Number(isDone) === 1) {
-          this.clearLandOrder({});
           this.$router.push({
             path: '/purchaseCompletion',
             query: {
-              totalPrice: this.total.totalCost
+              totalPrice: this.totalCost
             }
           });
         } else {
@@ -275,6 +275,7 @@
           orderId,
           totalCost
         };
+        this.totalCost = totalCost;
         try {
           window.app.buyNow(JSON.stringify(orderData))
         } catch (e) {

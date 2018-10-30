@@ -8,9 +8,9 @@ export const setLandData = (state, data) => {
   state.landData = data
 };
 export const clearLandOrder = (state, data) => {
-  state.gardenOrder = data;
-  state.gardenCar = data;
-  state.landData = data;
+  state.gardenOrder = {};
+  state.gardenCar = {};
+  state.landData = {};
 };
 export const clearFoodCar = (state) => {
   state.foodOrder = {};

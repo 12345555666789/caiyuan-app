@@ -26,7 +26,6 @@
         this.$router.push({
           path: '/gardenList'
         });
-        window.location.reload()
       },
       formatMoney(s, type) {
         if (/[^0-9\.]/.test(s))
