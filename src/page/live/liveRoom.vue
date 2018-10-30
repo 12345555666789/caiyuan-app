@@ -1,7 +1,7 @@
 <template>
   <div style="width: 100vw; height: 100vh;background-color: #fff">
     <van-nav-bar
-      title="直播间"
+      :title="liveRoomData.title"
       fixed
       left-arrow
       @click-left="onClickLeft"></van-nav-bar>
