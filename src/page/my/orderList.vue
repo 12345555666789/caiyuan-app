@@ -50,7 +50,7 @@
                   <div class="value" style="text-align: right">
                     <span class="orderBtn" v-if="[20, 30, 41].includes(item.orderStatus)"
                           @click="toChooseLand">再次购买</span>
-                    <span class="orderBtn" v-if="[20].includes(item.orderStatus) && checkDate(item.createDate)" @click="showRefund(item.orderId)">退款</span>
+                    <span class="orderBtn" v-if="[20].includes(item.orderStatus) && !checkDate(item.createDate)" @click="showRefund(item.orderId)">退款</span>
                     <span class="orderBtn" v-if="[10].includes(item.orderStatus)" @click="cancelOrder(item, 1)">取消</span>
                     <span class="orderBtn" v-if="item.orderStatus === 10" @click="toPay(item.orderId, item.totalAmount)">去付款</span>
                   </div>
@@ -183,10 +183,10 @@
             newDate.getSeconds()].join(':')
         ].join(' ');
       },
-      checkDate(data) {
-        let orderDate = new Date(this.get7Days(new Date(data))).getTime();
+      checkDate(date) {
+        let orderDate = new Date(this.get7Days(new Date(date))).getTime();
         let today = new Date().getTime();
-        return orderDate < today;
+        return orderDate > today;
       },
       toEvaluation(orderId) {
         this.$router.push({
