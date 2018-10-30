@@ -55,7 +55,12 @@
           momentDesc: '',
           momentPics: [],
           uploadState: false,
-          uploading: []
+          uploading: [],
+          config: {
+            // width: 800,
+            // height: 600,
+            quality: 0.2
+          },
         }
       },
       computed: {
@@ -85,28 +90,39 @@
           }
         },
         uploadImg (file) {
-            let formData = new FormData();
-            this.uploadState = true;
-            this.uploading.push(file.content);
-            formData.append('file', file.file);
-            axios.post(api.common.uploadFile,
-              formData,
-              {
-                headers: {
-                  'Content-Type': 'multipart/form-data'
+          let formData = new FormData();
+          this.uploadState = true;
+          lrz(file.content, this.config)
+            .then((rst) => {
+              this.uploading.push(rst.base64);
+              formData.append('file', new File([rst.file], file.file.name, {type: file.file.type}));
+            })
+            .catch(err => {
+              this.$toast('图片压缩失败, 将上传原图');
+              this.uploading.push(file.content);
+              formData.append('file', file.file);
+              console.log(err);
+            })
+            .always(() => {
+              axios.post(api.common.uploadFile,
+                formData,
+                {
+                  headers: {
+                    'Content-Type': 'multipart/form-data'
+                  }
                 }
-              }
-            ).then((res) => {
-              this.momentPics.push({
-                momentPicId: res.data.data.fileId,
-                momentPicUrl: res.data.data.fileUrl
+              ).then((res) => {
+                this.momentPics.push({
+                  momentPicId: res.data.data.fileId,
+                  momentPicUrl: res.data.data.fileUrl
+                });
+                this.uploadState = false;
+                this.uploading = [];
+              }).catch(err => {
+                this.$toast('上传失败');
+                this.uploading = [];
+                this.uploadState = false;
               });
-              this.uploadState = false;
-              this.uploading = [];
-            }).catch(err => {
-              this.$toast('上传失败');
-              this.uploading = [];
-              this.uploadState = false;
             });
         },
         onRead (file) {
