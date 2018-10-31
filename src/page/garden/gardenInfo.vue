@@ -9,7 +9,7 @@
       @click-left="onClickLeft"></van-nav-bar>
     <div style="height: 12vw"></div>
     <van-pull-refresh v-model="isLoading" @refresh="getgardenInfo">
-      <van-swipe style="height: 50vw; width: 100vw">
+      <van-swipe style="height: 50vw; width: 100vw" :autoplay="3000">
         <van-swipe-item v-for="(item, index) in gardenInfo.landVideos" :key="item">
           <div class="videoShadow" style="overflow: hidden;height: 50vw; width: 100vw" @click="videoPlay(item)">
             <van-icon name="play"/>

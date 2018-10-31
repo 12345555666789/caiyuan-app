@@ -7,7 +7,7 @@
       @click-left="onClickLeft"></van-nav-bar>
     <div style="height: 12vw"></div>
     <van-pull-refresh v-model="isLoading" @refresh="getfoodInfo">
-      <van-swipe style="height: 80vw">
+      <van-swipe style="height: 80vw" :autoplay="3000">
         <van-swipe-item v-for="(item, index) in foodInfo.foodPics" :key="item">
           <img :src="item" height="100%" width="100%">
         </van-swipe-item>
