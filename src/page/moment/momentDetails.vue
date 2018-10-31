@@ -228,8 +228,12 @@
         this.videoShow = true;
       },
       goApp () {
-        if (window.app.goBackApp) {
+        if (window.app.refreshMoment) {
+          window.app.refreshMoment()
+        } else if (window.app.goBackApp) {
           window.app.goBackApp();
+        } else {
+          this.$toast('Native错误');
         }
       },
       getmomentInfo() {
