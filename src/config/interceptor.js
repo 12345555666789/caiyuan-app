@@ -26,11 +26,18 @@ axios.interceptors.response.use((config) => {
   return config
 }, (error, res) => {
   store.dispatch('setLoadingState', false);
-  if (error.response && error.response.data.errMessage) {
-    Toast(error.response.data.errMessage)
-  } else {
-    Toast('服务器错误')
-  }
+  if (error.response.status === 401) {
+    Toast('Token已过期, 请重新登录');
+    if (window.app.toLogin) {
+      window.app.toLogin()
+    } else {
+      Toast('Native错误')
+    }
+  } else if (error.response && error.response.data.errMessage) {
+      Toast(error.response.data.errMessage)
+    } else {
+      Toast('服务器错误')
+    }
   return Promise.reject(error)
 });
 
