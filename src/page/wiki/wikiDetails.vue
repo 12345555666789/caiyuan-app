@@ -145,6 +145,8 @@
       margin-bottom: 6vw;
     }
     .wikiPics {
+      overflow: hidden;
+      border-radius: 3px;
       img {
         /*height: 100%;*/
         width: 100%;

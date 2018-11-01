@@ -18,7 +18,7 @@
               </div>
               <span class="rightArrow"><span></span></span>
             </div>
-            <div class="userPic"><img :src="userInfo && userInfo.iconurl"></div>
+            <div class="userPic"><img v-lazy="userInfo && userInfo.iconurl"></div>
           </div>
           <div class="systemContent" v-else>
             <div class="systemPic"></div>

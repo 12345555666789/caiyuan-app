@@ -16,7 +16,7 @@
           <h4><b>活动简介</b></h4>
           <div class="farmName">{{activityInfo.activityName}}</div>
           <div class="farmDesc">{{activityInfo.activityDesc}}</div>
-          <div class="activityPic"><img :src="activityInfo.activityPic && activityInfo.activityPic[0]"></div>
+          <div class="activityPic"><img v-lazy="activityInfo.activityPic && activityInfo.activityPic[0]"></div>
         </van-cell>
         <p style="font-size: 3vw; padding: 1vw 3vw">评论 ({{activityInfo.commentCount}})</p>
         <div class="comments">
@@ -59,7 +59,7 @@
           <div class="farmGradeName">{{farmInfo.farmGradeName}}<span class="geologicalTypeName">:{{farmInfo.geologicalTypeName}}</span></div>
           <div class="farmAddress"><van-icon class="dominantHueText" name="location" />{{farmInfo.address}}</div>
           <div class="farmDesc">{{farmInfo.farmDesc}}</div>
-          <div class="farmPic"><img :src="farmInfo.farmPics[0]"></div>
+          <div class="farmPic"><img v-lazy="farmInfo.farmPics[0]"></div>
         </van-cell>
       </div>
     </van-pull-refresh>

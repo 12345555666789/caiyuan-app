@@ -15,14 +15,14 @@
         <div class="momentContent">
           <p class="momentTitle">{{momentInfo.title}}</p>
           <div class="userInfo">
-            <span class="avatar"><img :src="momentInfo.iconurl"></span>
+            <span class="avatar"><img v-lazy="momentInfo.iconurl"></span>
             <span class="username">{{momentInfo.username}}</span>
             <span class="createDate">{{commentDate(momentInfo.createDate)}}</span>
           </div>
           <p class="momentDesc">{{momentInfo.momentDesc}}</p>
           <div class="momentPics">
             <div class="momentPic" v-for="item in momentInfo.momentPics">
-              <img :src="item">
+              <img v-lazy="item">
             </div>
           </div>
           <div class="likeCount" v-if="!$route.query.isShare">
@@ -40,7 +40,7 @@
             @load="getComments">
             <div class="comment" v-for="(item, index) in comments" :key="index">
               <div class="iconurl">
-                <img :src="item.iconurl" width="100%" height="100%">
+                <img v-lazy="item.iconurl" width="100%" height="100%">
               </div>
               <div class="commentContent">
                 <div class="nickName">{{item.nickName}}<span class="commentDate">{{commentDate(item.commentDate)}}</span></div>
@@ -322,6 +322,8 @@
       margin-bottom: 6vw;
     }
     .momentPics {
+      overflow: hidden;
+      border-radius: 3px;
       img {
         /*height: 100%;*/
         width: 100%;

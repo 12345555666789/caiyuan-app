@@ -19,7 +19,7 @@
             </div>
           </div>
           <div class="landPic">
-            <img :src="landData.farmPics && landData.farmPics[0]">
+            <img v-lazy="landData.farmPics && landData.farmPics[0]">
           </div>
         </div>
         <div ref="landDesc" v-if="landData.farmDesc" class="landDescOpen">{{landData.farmDesc}}</div>

@@ -9,7 +9,7 @@
     <van-pull-refresh v-model="isLoading" @refresh="getSeedInfo">
       <van-swipe style="height: 80vw; width: 100vw;" :autoplay="3000">
         <van-swipe-item v-for="(item, index) in seedInfo.seedPics" :key="item">
-          <img :src="item" height="100%" width="100%">
+          <img v-lazy="item" height="100%" width="100%">
         </van-swipe-item>
       </van-swipe>
       <div class="seedInfo">

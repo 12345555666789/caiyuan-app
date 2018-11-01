@@ -302,6 +302,8 @@
       width: 28vw;
       height: 28vw;
       margin-right: 4vw;
+      overflow: hidden;
+      border-radius: 3px;
       img {
         width: 100%;
         /*height: 100%;*/

@@ -17,7 +17,7 @@
           </div>
         </van-swipe-item>
         <van-swipe-item v-for="(item, index) in gardenInfo.landPics" :key="item">
-          <img :src="item" height="100%" width="100%">
+          <img v-lazy="item" height="100%" width="100%">
         </van-swipe-item>
       </van-swipe>
       <div class="gardenInfo">
@@ -52,7 +52,7 @@
           >
             <div class="comment" v-for="(item, index) in comments" :key="index">
               <div class="iconurl">
-                <img :src="item.iconurl" width="100%" height="100%">
+                <img v-lazy="item.iconurl" width="100%" height="100%">
               </div>
               <div class="commentContent">
                 <div class="nickName">{{item.nickName}}<span class="commentDate">{{commentDate(item.commentDate)}}</span></div>

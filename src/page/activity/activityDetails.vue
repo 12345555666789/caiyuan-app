@@ -43,7 +43,7 @@
           >
             <div class="comment" v-for="(item, index) in comments" :key="index">
               <div class="iconurl">
-                <img :src="item.iconurl" width="100%" height="100%">
+                <img v-lazy="item.iconurl" width="100%" height="100%">
               </div>
               <div class="commentContent">
                 <div class="nickName">{{item.nickName}}<span class="commentDate">{{commentDate(item.commentDate)}}</span></div>
@@ -308,6 +308,8 @@
       margin-bottom: 6vw;
     }
     .activityPics {
+      overflow: hidden;
+      border-radius: 3px;
       img {
         /*height: 100%;*/
         width: 100%;

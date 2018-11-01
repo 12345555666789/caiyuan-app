@@ -11,7 +11,7 @@
         <div class="foodContent">
           <van-cell-group>
             <van-cell>
-              <div class="foodPic"><img :src="item.foodPics[0]"></div>
+              <div class="foodPic"><img v-lazy="item.foodPics[0]"></div>
               <div class="foodInfo">
                 <p class="foodName">{{item.foodName}}</p>
                 <p class="foodSpec">{{item.foodSpec}}</p>
@@ -151,6 +151,7 @@
         overflow: hidden;
         line-height: 10vw;
         display: inline-block;
+        border-radius: 3px;
         img {
           width: 100%;
           height: 100%;
