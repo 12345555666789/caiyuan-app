@@ -120,11 +120,13 @@ export const reduceFoodToCar = (state, data) => {
 export const setUserAction = (state, data) => {
   let userAction = state.userAction;
   if (userAction[data.userId]) {
-
+    if (!userAction[data.userId][data.objId]) {
+      userAction[data.userId][data.objId] = data.objId
+    }
   } else {
     userAction[data.userId] = {
       actionType: data.actionType,
-      objId: data.objId,
+      [data.objId]: data.objId,
       objType: data.objType,
       userId: data.userId
     }

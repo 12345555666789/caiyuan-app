@@ -110,7 +110,7 @@
           message: '确认要删除吗'
         }).then(() => {
           // on confirm
-          axios.post(api.my.deleteMoment + this.momentId).then(() => {
+          axios.post(api.my.deleteMoment + this.$route.query.momentId).then(() => {
             this.$toast('已删除');
             this.goApp();
           })
@@ -134,13 +134,13 @@
       like () {
         axios.post(api.common.userAction, {
           actionType: constant.actionType.like,
-          objId: this.momentInfo.momentId || this.momentId,
+          objId: this.momentInfo.momentId || this.$route.query.momentId,
           objType: constant.infoType.moment
         }).then(() => {
           this.isLike = true;
           this.setUserAction({
             actionType: constant.actionType.like,
-            objId: this.momentInfo.momentId || this.momentId,
+            objId: this.momentInfo.momentId || this.$route.query.momentId,
             objType: constant.infoType.moment,
             userId: this.userInfo.userId
           });
@@ -149,7 +149,8 @@
       },
       checkAction () {
         if (this.userAction[this.userInfo.userId]) {
-          !this.userAction[this.userInfo.userId][this.momentInfo.momentId || this.momentId] ? this.isLike = false : true
+          console.log(this.userAction[this.userInfo.userId][this.$route.query.momentId] === this.$route.query.momentId);
+          this.userAction[this.userInfo.userId][this.$route.query.momentId] === this.$route.query.momentId ? this.isLike = true : this.isLike = false
         }
       },
       share () {
@@ -170,7 +171,7 @@
         axios.post(api.common.commentList, {
           page: this.page + 1,
           count: this.count,
-          objId: this.momentInfo.momentId || this.momentId,
+          objId: this.momentInfo.momentId || this.$route.query.momentId,
           objType: constant.infoType.moment
         }).then((res) => {
           this.loading = false;
@@ -238,7 +239,7 @@
       },
       getmomentInfo() {
         axios.post(api.common.getInfo, {
-          objId: this.momentId,
+          objId: this.$route.query.momentId,
           objType: constant.infoType.moment
         }).then((res) => {
           this.momentInfo = res.data.data;
