@@ -11,7 +11,7 @@
     </van-nav-bar>
     <div v-if="!$route.query.isShare" style="height: 15vw"></div>
     <van-pull-refresh v-model="isLoading" @refresh="getmomentInfo">
-      <div class="momentInfo">
+      <div class="momentInfo" v-show="momentInfo.createDate">
         <div class="momentContent">
           <p class="momentTitle">{{momentInfo.title}}</p>
           <div class="userInfo">

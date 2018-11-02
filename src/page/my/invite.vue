@@ -28,19 +28,23 @@
     name: "invite",
     mounted () {
       this.getUserInfo();
-      this.$refs.copyBtn.addEventListener('click', function() {
+      this.$refs.copyBtn.addEventListener('click', () => {
         if(!document.execCommand) {
           Toast('您的浏览器不支持此复制操作，请手动长按复制');
           return;
         }
+        let currentFocus = document.activeElement;
+        codeTxt.focus();
+        codeTxt.setSelectionRange(0, codeTxt.value.length);
         codeTxt.select();
-        let result = document.execCommand('copy');
+        let result = document.execCommand('copy', true);
         if(result) {
           Toast('复制成功')
         } else {
-          Toast('您的浏览器不支持此复制操作，请手动长按复制')
+          Toast('复制未成功，请手动长按复制')
         }
-      }).bind(this);
+        currentFocus.focus();
+      });
     },
     computed: {
       ...mapState(['userInfo'])
@@ -96,6 +100,7 @@
     font-size: 4vw;
     font-weight: 600;
     margin-bottom: 8vw;
+    -webkit-user-select: text;
   }
   .banner {
     background: url("../../assets/image/inviteBanner.png") no-repeat;

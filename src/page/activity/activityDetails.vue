@@ -11,7 +11,7 @@
     </van-nav-bar>
     <div v-if="!$route.query.isShare" style="height: 15vw"></div>
     <van-pull-refresh v-model="isLoading" @refresh="getactivityInfo">
-      <div class="activityInfo">
+      <div class="activityInfo" v-show="activityInfo.createDate">
         <div class="activityContent">
           <p class="activityTitle">{{activityInfo.activityName}}</p>
           <span class="createDate">{{commentDate(activityInfo.createDate)}}</span>
