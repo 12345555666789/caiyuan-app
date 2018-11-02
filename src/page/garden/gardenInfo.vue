@@ -201,7 +201,11 @@
       },
       onClickLeft() {
         if (this.$route.query.from) {
-          window.app.goBackApp();
+          if (this.$route.query.from === 'landTopList') {
+            window.history.back()
+          } else {
+            window.app.goBackApp();
+          }
         } else {
           window.history.back()
         }
