@@ -6,11 +6,12 @@ import store from '@/store'
 axios.interceptors.request.use((config) => {
   try {
     store.dispatch('setLoadingState', true);
-    if (window.app.getToken) {
-      config.headers['Authorization'] = window.app.getToken()
-    } else {
-      config.headers['Authorization'] = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJBUFAiLCJ1aWQiOiIxMDAwMDAwMDI1IiwiaXNzIjoiU2VydmljZSIsImV4cCI6MTU0MTc1NDM2NCwiaWF0IjoxNTQxMTQ5NTY0fQ.RWWwmric7LDCL816V74J6v5JHvdMtsJZu9f9c_BR2B0';
+    if (window.app.getToken && window.app.getToken()) {
+      config.headers['Authorization'] = window.app.getToken() || null
     }
+    // else {
+    //   config.headers['Authorization'] = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJBUFAiLCJ1aWQiOiIxMDAwMDAwMDI1IiwiaXNzIjoiU2VydmljZSIsImV4cCI6MTU0MTc1NDM2NCwiaWF0IjoxNTQxMTQ5NTY0fQ.RWWwmric7LDCL816V74J6v5JHvdMtsJZu9f9c_BR2B0';
+    // }
   } catch (e) {
     store.dispatch('setLoadingState', false);
     console.log(e);
