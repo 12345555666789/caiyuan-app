@@ -20,7 +20,7 @@
           <img v-lazy="item" height="100%" width="100%">
         </van-swipe-item>
       </van-swipe>
-      <div class="gardenInfo">
+      <div class="gardenInfo" v-show="gardenInfo.startDate">
         <van-cell-group>
           <van-cell title="菜园名称"><span class='valueColor'>{{gardenInfo.landName}}</span></van-cell>
           <van-cell title="菜园编号"><span class='useCopy valueColor'>{{gardenInfo.landId && gardenInfo.landId.split('-')[1]}}</span></van-cell>

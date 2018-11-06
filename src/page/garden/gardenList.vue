@@ -59,12 +59,7 @@
         gardenList: []
       }
     },
-    mounted () {
-      try {
-        this.token = window.app.getToken();
-      } catch (e) {
-        this.$toast('获取token失败');
-      }
+    activated () {
       this.getGardenList()
     },
     methods: {

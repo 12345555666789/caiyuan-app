@@ -101,7 +101,7 @@
         }
       },
       $route (to, from) {
-        if (from.path === '/makeFood') {
+        if (from.path === '/makeFood' && to.path === '/chooseFood') {
           this.foodData = [];
           this.key = '';
           this.page = 0;
