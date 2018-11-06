@@ -119,6 +119,7 @@
       this.gardenCar ? this.carList = this.gardenCar : null
     },
     activated () {
+      this.clearFert();
       this.gardenCar ? this.carList = this.gardenCar : null
     },
     watch: {
