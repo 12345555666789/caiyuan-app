@@ -149,7 +149,6 @@
       },
       checkAction () {
         if (this.userAction[this.userInfo.userId]) {
-          console.log(this.userAction[this.userInfo.userId][this.$route.query.momentId] === this.$route.query.momentId);
           this.userAction[this.userInfo.userId][this.$route.query.momentId] === this.$route.query.momentId ? this.isLike = true : this.isLike = false
         }
       },

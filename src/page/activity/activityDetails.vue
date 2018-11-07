@@ -112,7 +112,7 @@
       ...mapMutations(['setUserAction', 'setUserInfo']),
       checkAction () {
         if (this.userAction[this.userInfo.userId]) {
-          !this.userAction[this.userInfo.userId][this.activityInfo.activityId || this.activityId] ? this.isLike = false : true
+          this.userAction[this.userInfo.userId][this.$route.query.activityId] === this.$route.query.activityId ? this.isLike = true : this.isLike = false
         }
       },
       getUserInfo () {
@@ -124,13 +124,13 @@
       like () {
         axios.post(api.common.userAction, {
           actionType: constant.actionType.like,
-          objId: this.activityInfo.activityId || this.activityId,
+          objId: this.activityInfo.activityId || this.$route.query.activityId,
           objType: constant.infoType.activity
         }).then(() => {
           this.isLike = true;
           this.setUserAction({
             actionType: constant.actionType.like,
-            objId: this.activityInfo.activityId || this.activityId,
+            objId: this.activityInfo.activityId || this.$route.query.activityId,
             objType: constant.infoType.activity,
             userId: this.userInfo.userId
           });
@@ -155,7 +155,7 @@
         axios.post(api.common.commentList, {
           page: this.page + 1,
           count: this.count,
-          objId: this.activityId,
+          objId: this.$route.query.activityId,
           objType: constant.infoType.activity
         }).then((res) => {
           this.loading = false;
@@ -184,7 +184,7 @@
         this.message = this.message.replace(/\s/g, "");
         if (this.message) {
           axios.post(api.common.userAction, {
-            objId: this.activityId,
+            objId: this.$route.query.activityId,
             actionType: constant.actionType.comment,
             objType: constant.infoType.activity,
             content: this.message
@@ -219,7 +219,7 @@
       },
       getactivityInfo() {
         axios.post(api.common.getInfo, {
-          objId: this.activityId,
+          objId: this.$route.query.activityId,
           objType: constant.infoType.activity
         }).then((res) => {
           this.activityInfo = res.data.data;
