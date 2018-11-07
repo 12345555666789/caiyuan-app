@@ -114,11 +114,10 @@
         return this.$store.state.gardenOrder.landInfo.recMod
       }
     },
-    mounted () {
-      this.getFertilizerList();
-      this.gardenCar ? this.carList = this.gardenCar : null
-    },
     activated () {
+      this.page = 0;
+      this.fertData = [];
+      this.getFertilizerList();
       this.gardenCar ? this.carList = this.gardenCar : null
     },
     watch: {
