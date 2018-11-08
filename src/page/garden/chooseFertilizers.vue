@@ -65,9 +65,12 @@
             <div class="itemGoodsName">{{item['seedName'] || item['fertName']}}</div>
             <div class="addfert">
               <div class="iconReduce"
+                   v-if="item.fertName"
                    @click.stop="reduceCar(item)"></div>
               <span class="fertNum">{{carList && ((carList[item.fertId] && carList[item.fertId].num) || (carList[item.seedId] && carList[item.seedId].num))}}</span>
-              <van-icon name="add" @click.stop="addCar(item)"/>
+              <van-icon name="add"
+                        v-if="item.fertName"
+                        @click.stop="addCar(item)"/>
             </div>
           </div>
         </div>
@@ -218,9 +221,16 @@
       ...mapActions(['setSelectedLands']),
       nextStep () {
         if (this.carList && (Object.values(this.carList).find(item => item.fertId))) {
-          this.$router.push({
-            path: '/valueAddedService',
-          })
+          if (this.carList && (Object.values(this.carList).find(item => item.seedId))) {
+            this.$router.push({
+              path: '/valueAddedService',
+            })
+          } else {
+            Toast('请返回选择种子')
+            this.$router.push({
+              path: '/valueAddedService',
+            })
+          }
         } else {
           Toast('请选择肥料')
         }

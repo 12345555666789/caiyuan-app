@@ -58,7 +58,7 @@
     <div class="van-goods-action">
       <div class="footerBtn entrustBtn" @click="nextStep">下一步</div>
     </div>
-    <van-actionsheet v-model="modalShow" title="已选种子及肥料">
+    <van-actionsheet v-model="modalShow" title="已选种子">
       <div class="goodsCar" v-if="totalNum()">
         <div class="itemGoods" v-for="(item, index) in Object.values(carList)" :key="index">
           <div>

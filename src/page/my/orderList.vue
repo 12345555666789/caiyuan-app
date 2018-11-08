@@ -48,7 +48,7 @@
                 </van-cell>
                 <van-cell>
                   <div class="value" style="text-align: right">
-                    <span class="orderBtn" v-if="[20, 30, 41].includes(item.orderStatus)"
+                    <span class="orderBtn" v-if="[20, 30, 40, 41, 50].includes(item.orderStatus)"
                           @click="toChooseLand">再次购买</span>
                     <span class="orderBtn" v-if="[20].includes(item.orderStatus) && !checkDate(item.createDate)" @click="showRefund(item.orderId)">退款</span>
                     <span class="orderBtn" v-if="[10].includes(item.orderStatus)" @click="cancelOrder(item, 1)">取消</span>
@@ -77,7 +77,7 @@
                     </div>
                   </div>
                 </van-cell>
-                <van-cell title="菜品">
+                <van-cell title="食材">
                   <div class="value" v-for="food in item.foods">{{food.replace('x', ' × ')}}</div>
                 </van-cell>
                 <van-cell title="就餐时间">
