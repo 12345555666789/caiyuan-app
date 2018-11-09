@@ -46,7 +46,7 @@
                 <div class="commentText">{{item.content}}</div>
               </div>
             </div>
-            <div class="noDataList"><span>已经到底啦~</span></div>
+            <div class="noDataList" v-show="!loading"><span>已经到底啦~</span></div>
           </van-list>
           <div class="carNoData" v-else>暂无评论</div>
         </div>

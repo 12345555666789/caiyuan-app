@@ -32,7 +32,7 @@
                 </div>
               </div>
             </van-list>
-            <div class="noDataList"><span>已经到底啦~</span></div>
+            <div class="noDataList" v-show="!landLoading"><span>已经到底啦~</span></div>
           </van-pull-refresh>
         </van-tab>
         <van-tab title="地主">
@@ -55,7 +55,7 @@
                 <div class="lands">共有{{item.landCount}}块菜园</div>
               </div>
             </van-list>
-            <div class="noDataList"><span>已经到底啦~</span></div>
+            <div class="noDataList" v-show="!owerLoading"><span>已经到底啦~</span></div>
           </van-pull-refresh>
         </van-tab>
       </van-tabs>

@@ -32,7 +32,7 @@
               </div>
             </template>
           </van-cell>
-          <div class="noDataList"><span>已经到底啦~</span></div>
+          <div class="noDataList" v-show="!loading"><span>已经到底啦~</span></div>
         </van-list>
         <div v-else class="notGardenData"><span>您还没有菜园哦,<br/>快点击下方的"订购菜园"成为农场主人吧~</span></div>
       </van-pull-refresh>

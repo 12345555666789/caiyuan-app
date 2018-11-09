@@ -50,7 +50,7 @@
                 <div class="commentText">{{item.content}}</div>
               </div>
             </div>
-            <div class="noDataList" v-if="comments.length"><span>已经到底啦~</span></div>
+            <div class="noDataList" v-if="comments.length && !loading"><span>已经到底啦~</span></div>
           </van-list>
         </div>
       </div>
