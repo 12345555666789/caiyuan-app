@@ -39,8 +39,8 @@
                 </div>
               </van-cell>
             </van-cell-group>
+            <div class="noDataList" v-show="!interactionLoading"><span>已经到底啦~</span></div>
           </van-list>
-          <div class="noDataList"><span>已经到底啦~</span></div>
         </van-pull-refresh>
       </van-tab>
       <van-tab title="在线监控">
@@ -67,7 +67,7 @@
               </van-cell>
             </van-cell-group>
           </van-list>
-          <div class="noDataList"><span>已经到底啦~</span></div>
+          <div class="noDataList" v-show="!onlineLoading"><span>已经到底啦~</span></div>
         </van-pull-refresh>
       </van-tab>
     </van-tabs>

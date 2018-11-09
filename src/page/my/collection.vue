@@ -25,7 +25,7 @@
             </div>
           </div>
         </van-cell>
-        <div class="noDataList"><span>已经到底啦~</span></div>
+        <div class="noDataList" v-show="!loading"><span>已经到底啦~</span></div>
       </van-list>
       <div class="carNoData" v-else>暂无数据</div>
     </van-pull-refresh>
