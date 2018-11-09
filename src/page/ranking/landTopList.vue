@@ -120,21 +120,21 @@
         if (active === 0) {
           if (this.landSortType === constant.sortType.viewUp) {
             this.landSortType = constant.sortType.viewDown; // 浏览量
-            this.$refs.overallSort.$children[0].$el.style.transform = 'rotate(-90deg)';
+            this.$refs.overallSort.$children.find(item => item.$el.tagName === 'I').$el.style.transform = 'rotate(-90deg)';
           } else {
             this.landSortType = constant.sortType.viewUp; // 浏览量
-            this.$refs.overallSort.$children[0].$el.style.transform = 'rotate(90deg)';
+            this.$refs.overallSort.$children.find(item => item.$el.tagName === 'I').$el.style.transform = 'rotate(90deg)';
           }
-          this.$refs.stockSort.$children[0].$el.style.transform = 'rotate(-90deg)';
+          this.$refs.stockSort.$children.find(item => item.$el.tagName === 'I').$el.style.transform = 'rotate(-90deg)';
         } else if (active === 1) {
           if (this.landSortType === constant.sortType.commentsUp) {
             this.landSortType = constant.sortType.commentsDown; // 价格
-            this.$refs.stockSort.$children[0].$el.style.transform = 'rotate(-90deg)';
+            this.$refs.stockSort.$children.find(item => item.$el.tagName === 'I').$el.style.transform = 'rotate(-90deg)';
           } else {
             this.landSortType = constant.sortType.commentsUp; // 价格
-            this.$refs.stockSort.$children[0].$el.style.transform = 'rotate(90deg)';
+            this.$refs.stockSort.$children.find(item => item.$el.tagName === 'I').$el.style.transform = 'rotate(90deg)';
           }
-          this.$refs.overallSort.$children[0].$el.style.transform = 'rotate(-90deg)';
+          this.$refs.overallSort.$children.find(item => item.$el.tagName === 'I').$el.style.transform = 'rotate(-90deg)';
         }
         this.landPage = 0;
         this.landData = [];
@@ -144,21 +144,21 @@
         if (active === 0) {
           if (this.owerSortType === constant.sortType.scaleUp) {
             this.owerSortType = constant.sortType.scaleDown; // 规模
-            this.$refs.landCountSort.$children[0].$el.style.transform = 'rotate(-90deg)';
+            this.$refs.landCountSort.$children.find(item => item.$el.tagName === 'I').$el.style.transform = 'rotate(-90deg)';
           } else {
             this.owerSortType = constant.sortType.scaleUp; // 规模
-            this.$refs.landCountSort.$children[0].$el.style.transform = 'rotate(90deg)';
+            this.$refs.landCountSort.$children.find(item => item.$el.tagName === 'I').$el.style.transform = 'rotate(90deg)';
           }
-          this.$refs.priceSort.$children[0].$el.style.transform = 'rotate(-90deg)';
+          this.$refs.priceSort.$children.find(item => item.$el.tagName === 'I').$el.style.transform = 'rotate(-90deg)';
         } else if (active === 1) {
           if (this.owerSortType === constant.sortType.consumeUp) {
             this.owerSortType = constant.sortType.consumeDown; // 费用
-            this.$refs.priceSort.$children[0].$el.style.transform = 'rotate(-90deg)';
+            this.$refs.priceSort.$children.find(item => item.$el.tagName === 'I').$el.style.transform = 'rotate(-90deg)';
           } else {
             this.owerSortType = constant.sortType.consumeUp; // 费用
-            this.$refs.priceSort.$children[0].$el.style.transform = 'rotate(90deg)';
+            this.$refs.priceSort.$children.find(item => item.$el.tagName === 'I').$el.style.transform = 'rotate(90deg)';
           }
-          this.$refs.landCountSort.$children[0].$el.style.transform = 'rotate(-90deg)';
+          this.$refs.landCountSort.$children.find(item => item.$el.tagName === 'I').$el.style.transform = 'rotate(-90deg)';
         }
         this.owerPage = 0;
         this.owerData = [];
