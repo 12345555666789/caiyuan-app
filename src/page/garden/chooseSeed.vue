@@ -165,25 +165,25 @@
         if (active === 1) {
           if (this.sortType === constant.sortType.stockUp) {
             this.sortType = constant.sortType.stockDown; // 库存
-            this.$refs.stockSort.$children[1].$el.style.transform = 'rotate(-90deg)';
+            this.$refs.stockSort.$children.find(item => item.$el.tagName === 'I').$el.style.transform = 'rotate(-90deg)';
           } else {
             this.sortType = constant.sortType.stockUp; // 库存
-            this.$refs.stockSort.$children[1].$el.style.transform = 'rotate(90deg)';
+            this.$refs.stockSort.$children.find(item => item.$el.tagName === 'I').$el.style.transform = 'rotate(90deg)';
           }
-          this.$refs.priceSort.$children[1].$el.style.transform = 'rotate(-90deg)';
+          this.$refs.priceSort.$children.find(item => item.$el.tagName === 'I').$el.style.transform = 'rotate(-90deg)';
         } else if (active === 2) {
           if (this.sortType === constant.sortType.priceUp) {
             this.sortType = constant.sortType.priceDown; // 价格
-            this.$refs.priceSort.$children[1].$el.style.transform = 'rotate(-90deg)';
+            this.$refs.priceSort.$children.find(item => item.$el.tagName === 'I').$el.style.transform = 'rotate(-90deg)';
           } else {
             this.sortType = constant.sortType.priceUp; // 价格
-            this.$refs.priceSort.$children[1].$el.style.transform = 'rotate(90deg)';
+            this.$refs.priceSort.$children.find(item => item.$el.tagName === 'I').$el.style.transform = 'rotate(90deg)';
           }
-          this.$refs.stockSort.$children[1].$el.style.transform = 'rotate(-90deg)';
+          this.$refs.stockSort.$children.find(item => item.$el.tagName === 'I').$el.style.transform = 'rotate(-90deg)';
         } else {
           this.sortType = constant.sortType.overall; // 综合
-          this.$refs.stockSort.$children[1].$el.style.transform = 'rotate(-90deg)';
-          this.$refs.priceSort.$children[1].$el.style.transform = 'rotate(-90deg)';
+          this.$refs.stockSort.$children.find(item => item.$el.tagName === 'I').$el.style.transform = 'rotate(-90deg)';
+          this.$refs.priceSort.$children.find(item => item.$el.tagName === 'I').$el.style.transform = 'rotate(-90deg)';
         }
         this.page = 0;
         this.seedData = [];
