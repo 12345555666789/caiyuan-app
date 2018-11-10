@@ -6,7 +6,7 @@
       left-arrow
       @click-left="goBack"></van-nav-bar>
     <div style="height: 12vw"></div>
-    <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+    <van-pull-refresh v-model="isLoading" style="height: auto" @refresh="onRefresh">
       <div class="landInfo">
         <div style="display: flex">
           <div class="landText">
