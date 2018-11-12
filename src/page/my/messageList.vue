@@ -81,9 +81,7 @@
           })
         },
         goApp () {
-          if (window.app.refreshMsg) {
-            window.app.refreshMsg()
-          } else if (window.app.goBackApp) {
+          if (window.app.goBackApp) {
             window.app.goBackApp();
           } else {
             this.$toast('Native错误');

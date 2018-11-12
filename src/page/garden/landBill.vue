@@ -196,7 +196,9 @@
               path: '/orderList'
             });
             this.$toast('未完成付款');
-            window.location.reload();
+            setTimeout(() => {
+              window.location.reload();
+            }, 300)
           }
         },
         getPreAccounting (order, type) {
