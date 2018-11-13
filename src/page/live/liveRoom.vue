@@ -99,7 +99,7 @@
     computed: {
       ...mapState(['liveRoomData'])
     },
-    activated () {
+    mounted () {
       this.page = 0;
       this.comments = [];
       this.farmInfo = {};
@@ -218,6 +218,9 @@
           window.history.back()
         }
       }
+    },
+    beforeDestroy () {
+      this.tcPlayer ? this.tcPlayer.destroy() : null;
     }
   }
 </script>
