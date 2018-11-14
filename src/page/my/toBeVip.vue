@@ -15,19 +15,23 @@
     padding: 0 3vw;
     font-size: 4vw;
     line-height: 6vw;
-    margin-bottom: 15vw;">支付50元注册费成为VIP会员，VIP会员发展3个新的VIP会员可以获得60元推荐奖励，并成为三星VIP会员；发展6个新的VIP会员可获得120元推荐奖励，并成为四星VIP会员；发展9个新的VIP会员，可获得180元推荐奖励，并成为五星VIP会员；发展N个(N>5)以上VIP会员，可获得25N元推荐奖励,当发展的VIP会员人数超过20人时将成为钻石会员。 VIP会员享受购地及其他消费服务9.5折优惠。三星VIP会员享受9折优惠，四星VIP会员享受8.5折优惠，五星VIP会员享受8折优惠，钻石会员享受7折优惠。</p>
+    margin-bottom: 15vw;">支付{{Number(config['dim_common_config'].find(item => item.code === "vip_register_fee").name)}}元注册费成为VIP会员，VIP会员发展3个新的VIP会员可以获得60元推荐奖励，并成为三星VIP会员；发展6个新的VIP会员可获得120元推荐奖励，并成为四星VIP会员；发展9个新的VIP会员，可获得180元推荐奖励，并成为五星VIP会员；发展N个(N>5)以上VIP会员，可获得25N元推荐奖励,当发展的VIP会员人数超过20人时将成为钻石会员。 VIP会员享受购地及其他消费服务9.5折优惠。三星VIP会员享受9折优惠，四星VIP会员享受8.5折优惠，五星VIP会员享受8折优惠，钻石会员享受7折优惠。</p>
     <div class="vipBtn" @click="toBeVip">成为会员</div>
   </div>
   </template>
 
 <script>
-  import constant from '@/config/constant'
+  import {mapState } from 'vuex';
+
   export default {
     name: "toBeVip",
+    computed: {
+      ...mapState(['config']),
+    },
     methods: {
       toBeVip () {
         if (window.app.toBeVip) {
-          window.app.toBeVip(JSON.stringify({totalCost: constant.toVIPPrice}))
+          window.app.toBeVip(JSON.stringify({totalCost: Number(config['dim_common_config'].find(item => item.code === "vip_register_fee").name)}))
         } else {
           this.$toast('Native错误')
         }
