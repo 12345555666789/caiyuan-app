@@ -28,10 +28,29 @@
     computed: {
       ...mapState(['config']),
     },
+    mounted () {
+      window['buyFinish'] = (isDone) => {
+        this.buyFinish(isDone)
+      }
+    },
     methods: {
+      buyFinish (isDone) {
+        if (Number(isDone) === 1) {
+          this.$router.push({
+            path: '/purchaseCompletion',
+            query: {
+              totalPrice: this.config['dim_common_config'].find(item => item.code === "vip_register_fee").name,
+              form: 'VIP'
+            }
+          });
+        } else {
+          this.$toast('未完成付款');
+        }
+      },
       toBeVip () {
         if (window.app.toBeVip) {
-          window.app.toBeVip(JSON.stringify({totalCost: Number(config['dim_common_config'].find(item => item.code === "vip_register_fee").name)}))
+          let totalCost = this.config['dim_common_config'].find(item => item.code === "vip_register_fee").name;
+          window.app.toBeVip(JSON.stringify({totalCost}))
         } else {
           this.$toast('Native错误')
         }
