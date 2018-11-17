@@ -12,6 +12,8 @@ const suggestion = r => require.ensure([], () => r(require('../page/my/suggestio
 const FAQ = r => require.ensure([], () => r(require('../page/my/FAQ')), 'FAQ');
 const purchaseCompletion = r => require.ensure([], () => r(require('../page/my/purchaseCompletion')), 'purchaseCompletion');
 const info = r => require.ensure([], () => r(require('../page/my/info')), 'info');
+const termsService = r => require.ensure([], () => r(require('../page/my/termsService')), 'termsService');
+const privacyPolicy = r => require.ensure([], () => r(require('../page/my/privacyPolicy')), 'privacyPolicy');
 
 const myRoutes = [
   {
@@ -113,6 +115,22 @@ const myRoutes = [
   {
     path: '/info', // 关于软件
     component: info,
+    meta: {
+      keepAlive: true,
+      index: 0
+    },
+  },
+  {
+    path: '/termsService', // 软件许可及服务协议
+    component: termsService,
+    meta: {
+      keepAlive: true,
+      index: 0
+    },
+  },
+  {
+    path: '/privacyPolicy', // 隐私政策
+    component: privacyPolicy,
     meta: {
       keepAlive: true,
       index: 0
