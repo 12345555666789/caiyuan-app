@@ -14,6 +14,7 @@
 </template>
 
 <script>
+  import {mapActions} from 'vuex';
   export default {
     name: "purchaseCompletion",
     data() {
@@ -22,18 +23,19 @@
       }
     },
     methods: {
+      ...mapActions([
+        'clearLandOrder'
+      ]),
       backOrderList() {
         if (this.$route.query.from && this.$route.query.from === 'VIP') {
           if (window.app.goBackApp) {
             window.app.goBackApp();
           }
         } else {
+          this.clearLandOrder({});
           this.$router.push({
             path: '/gardenList'
           });
-          setTimeout(() => {
-            window.location.reload();
-          }, 300)
         }
       },
       formatMoney(s, type) {

@@ -94,7 +94,7 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  // TODO 路由拦截逻辑
+  // 路由拦截逻辑
   if (!Object.values(store.state.config).length) {
     axios.post(api.common.dimList).then(res => {
       store.commit('setConfig', res.data.data);

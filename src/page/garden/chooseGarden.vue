@@ -162,7 +162,7 @@
     },
     methods: {
       setLandData () {
-        // TODO 从Vuex中读取以选择菜园信息
+        // 从Vuex中读取以选择菜园信息
         // this.gardenForm.startDate = this.gardenOrder.landInfo.startDate || '';
         // this.gardenForm.endDate = this.gardenOrder.landInfo.endDate || '';
         this.gardenForm.landName = this.gardenOrder.landInfo.landName || '';

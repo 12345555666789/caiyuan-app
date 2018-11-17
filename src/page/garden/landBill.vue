@@ -182,8 +182,8 @@
           this.orderData.landName = this.gardenOrder.landInfo.landName;
         },
         buyFinish (isDone) {
+          this.clearLandOrder({});
           if (Number(isDone) === 1) {
-            this.clearLandOrder({});
             this.$router.push({
               path: '/purchaseCompletion',
               query: {
@@ -191,14 +191,10 @@
               }
             });
           } else {
-            this.clearLandOrder({});
             this.$router.push({
               path: '/orderList'
             });
             this.$toast('未完成付款');
-            setTimeout(() => {
-              window.location.reload();
-            }, 300)
           }
         },
         getPreAccounting (order, type) {

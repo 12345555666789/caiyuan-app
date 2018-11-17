@@ -5,7 +5,7 @@
         fixed
         left-arrow
         @click-left="onClickLeft"></van-nav-bar>
-      <div style="height: 14vw"></div>
+      <div style="height: 14vw" v-if="gardenList.length"></div>
       <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
         <van-list
           v-if="gardenList.length"
@@ -36,7 +36,7 @@
         </van-list>
         <div v-else class="notGardenData"><span>您还没有菜园哦,<br/>快点击下方的"订购菜园"成为农场主人吧~</span></div>
       </van-pull-refresh>
-      <div style="height: 14vw"></div>
+      <div style="height: 14vw" v-if="gardenList.length"></div>
       <van-goods-action>
         <van-goods-action-big-btn @click="landRegion"><span class="icon-plus">＋</span><span class="footerBtnText">订购菜园</span></van-goods-action-big-btn>
       </van-goods-action>
@@ -97,7 +97,7 @@
         })
       },
       goGardenInfo (gardenInfo) {
-        // TODO 跳转详情页
+        // 跳转详情页
         this.$router.push({
           path: '/gardenInfo',
           query: {gardenId: gardenInfo.landId}
@@ -125,7 +125,7 @@
     background-color: #53B2AC;
   }
   .notGardenData {
-    height: 160vw;
+    height: 100vh;
     text-align: center;
     color: #505050;
     display: flex;
