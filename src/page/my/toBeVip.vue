@@ -40,7 +40,7 @@
             path: '/purchaseCompletion',
             query: {
               totalPrice: this.config['dim_common_config'].find(item => item.code === "vip_register_fee").name,
-              form: 'VIP'
+              from: 'VIP'
             }
           });
         } else {
