@@ -19,18 +19,18 @@
           </p>
         </div>
       </div>
-      <van-cell-group>
-        <van-cell class="msgItem" is-link>
-          <div class="msgContent">
-            <div class="msgTitle">特别声明</div>
-          </div>
-        </van-cell>
-        <van-cell class="msgItem" is-link>
-          <div class="msgContent">
-            <div class="msgTitle">隐私政策</div>
-          </div>
-        </van-cell>
-      </van-cell-group>
+      <!--<van-cell-group>-->
+        <!--<van-cell class="msgItem" is-link @click="$router.push({path: 'termsService'})">-->
+          <!--<div class="msgContent">-->
+            <!--<div class="msgTitle">软件许可及服务协议</div>-->
+          <!--</div>-->
+        <!--</van-cell>-->
+        <!--<van-cell class="msgItem" is-link @click="$router.push({path: 'privacyPolicy'})">-->
+          <!--<div class="msgContent">-->
+            <!--<div class="msgTitle">隐私政策</div>-->
+          <!--</div>-->
+        <!--</van-cell>-->
+      <!--</van-cell-group>-->
       <div class="copyright">Copyright &copy; 2018.Company 鹏汉科技jinfengguo.com  备案号: 黑ICP备16005961号-1</div>
     </div>
 </template>
