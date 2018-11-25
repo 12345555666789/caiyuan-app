@@ -22,6 +22,11 @@
         totalPrice: this.$route.query.totalPrice
       }
     },
+    mounted () {
+      if (window.app.lastPage) {
+        window.app.lastPage()
+      }
+    },
     methods: {
       ...mapActions([
         'clearLandOrder'

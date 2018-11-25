@@ -154,6 +154,9 @@
       }
     },
     mounted() {
+      if (window.app.lastPage) {
+        window.app.lastPage()
+      }
       this.getOrderList();
       if (this.mod) {
         if (this.mod === 'food') {
