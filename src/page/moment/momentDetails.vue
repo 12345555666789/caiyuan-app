@@ -112,6 +112,9 @@
           // on confirm
           axios.post(api.my.deleteMoment + this.$route.query.momentId).then(() => {
             this.$toast('已删除');
+            if (window.app.refreshMoment) {
+              window.app.refreshMoment()
+            }
             this.goApp();
           })
         }).catch(() => {
@@ -391,7 +394,6 @@
         height: 10vw;
         overflow: hidden;
         border-radius: 50%;
-        border: 1px solid;
         margin-right: 2vw;
         flex: 1;
       }

@@ -32,11 +32,8 @@
                 <van-cell title="开垦模式">
                   <div class="value">{{item.recMode === 1 ? '托管' : '自理'}}</div>
                 </van-cell>
-                <van-cell title="肥料套餐" v-if="item.fertilizers.length">
+                <van-cell title="肥料" v-if="item.fertilizers.length">
                   <div class="value" v-for="fertilizer in item.fertilizers">{{fertilizer.replace('x', ' × ')}}</div>
-                </van-cell>
-                <van-cell title="肥料套餐" v-else>
-                  <div class="value">托管</div>
                 </van-cell>
                 <van-cell title="作物种子">
                   <div class="value" v-for="seed in item.seeds">{{seed.replace('x', ' × ')}}</div>
@@ -50,7 +47,7 @@
                   <div class="value" style="text-align: right">
                     <span class="orderBtn" v-if="[20, 30, 40, 41, 50].includes(item.orderStatus)"
                           @click="toChooseLand">再次购买</span>
-                    <span class="orderBtn" v-if="[20].includes(item.orderStatus) && !checkDate(item.createDate)" @click="showRefund(item.orderId)">退款</span>
+                    <span class="orderBtn" v-if="[20].includes(item.orderStatus) && checkDate(item.createDate)" @click="showRefund(item.orderId)">退款</span>
                     <span class="orderBtn" v-if="[10].includes(item.orderStatus)" @click="cancelOrder(item, 1)">取消</span>
                     <span class="orderBtn" v-if="item.orderStatus === 10" @click="toPay(item.orderId, item.totalAmount)">去付款</span>
                   </div>

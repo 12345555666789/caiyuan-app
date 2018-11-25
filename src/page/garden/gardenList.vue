@@ -60,6 +60,8 @@
       }
     },
     activated () {
+      this.page = 0;
+      this.gardenList = [];
       this.getGardenList()
     },
     methods: {

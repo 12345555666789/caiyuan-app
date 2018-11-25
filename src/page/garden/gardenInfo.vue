@@ -59,8 +59,8 @@
                 <div class="commentText">{{item.content}}</div>
               </div>
             </div>
-            <div class="noDataList" v-show="!loading"><span>已经到底啦~</span></div>
           </van-list>
+          <div class="noDataList" v-show="!loading"><span>已经到底啦~</span></div>
         </div>
       </div>
       <div v-if="!$route.query.from" style="height: 14vw"></div>
@@ -272,7 +272,6 @@
         height: 10vw;
         overflow: hidden;
         border-radius: 50%;
-        border: 1px solid;
         margin-right: 2vw;
         flex: 1;
       }

@@ -146,6 +146,9 @@
               momentTitle: this.momentTitle
             }).then(() => {
               this.$toast('发送成功');
+              if (window.app.refreshMoment) {
+                window.app.refreshMoment()
+              }
               this.goApp()
             }).catch(err => {
               this.$toast('发送失败');

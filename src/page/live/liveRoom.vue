@@ -282,7 +282,6 @@
         height: 10vw;
         overflow: hidden;
         border-radius: 50%;
-        border: 1px solid;
         margin-right: 2vw;
         flex: 1;
       }
