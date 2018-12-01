@@ -98,10 +98,20 @@ router.beforeEach((to, from, next) => {
   if (!Object.values(store.state.config).length) {
     axios.post(api.common.dimList).then(res => {
       store.commit('setConfig', res.data.data);
+      store.commit('updateConfig');
       next()
     })
   } else {
-    next()
+    let toDay = new Date().getTime()
+    if (store.state.localCreateDate + 24*3600*1000 < toDay) {
+      axios.post(api.common.dimList).then(res => {
+        store.commit('setConfig', res.data.data);
+        store.commit('updateConfig');
+        next()
+      })
+    } else {
+      next()
+    }
   }
 });
 

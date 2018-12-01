@@ -114,8 +114,10 @@
             this.$toast('已删除');
             if (window.app.refreshMoment) {
               window.app.refreshMoment()
+              this.goApp();
+            } else {
+              this.$toast('未调到window.app.refreshMoment');
             }
-            this.goApp();
           })
         }).catch(() => {
           // on cancel

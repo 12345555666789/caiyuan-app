@@ -3,7 +3,9 @@ import Function from '@/util/function'
 export const setConfig = (state, data) => {
   state.config = data
 };
-
+export const updateConfig = (state) => {
+  state.config.localCreateDate = new Date().getTime()
+};
 export const setLandData = (state, data) => {
   state.landData = data
 };
