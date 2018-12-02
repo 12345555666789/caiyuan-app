@@ -218,7 +218,7 @@
               try {
                 window.app.buyNow(JSON.stringify(orderData))
               } catch (e) {
-                this.$toast('提交失败')
+                console.log(e);
               }
             });
           } else {

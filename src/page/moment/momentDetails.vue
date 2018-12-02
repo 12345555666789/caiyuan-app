@@ -113,11 +113,13 @@
           axios.post(api.my.deleteMoment + this.$route.query.momentId).then(() => {
             this.$toast('已删除');
             if (window.app.refreshMoment) {
-              window.app.refreshMoment()
-              this.goApp();
-            } else {
-              this.$toast('未调到window.app.refreshMoment');
+              try {
+                window.app.refreshMoment()
+              } catch (e) {
+                console.log(e);
+              }
             }
+            this.goApp();
           })
         }).catch(() => {
           // on cancel
