@@ -236,7 +236,12 @@
       },
       goApp () {
         if (window.app.refreshMoment) {
-          window.app.refreshMoment()
+          window.app.refreshMoment();
+          if (window.app.goBackApp) {
+            window.app.goBackApp();
+          } else {
+            this.$toast('Native错误');
+          }
         } else if (window.app.goBackApp) {
           window.app.goBackApp();
         } else {
