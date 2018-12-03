@@ -14,7 +14,7 @@
       </div>
       <div class="copyBtn" ref="copyBtn"><span style="color: #fff">复制邀请码给好友</span></div>
       <p class="readName"><span class="dot"></span><span>邀请码说明</span></p>
-      <p class="ruleContent">支付50元注册费成为VIP会员，VIP会员发展3个新的VIP会员可以获得60元推荐奖励，并成为三星VIP会员；发展6个新的VIP会员可获得120元推荐奖励，并成为四星VIP会员；发展9个新的VIP会员，可获得180元推荐奖励，并成为五星VIP会员；发展N个(N>5)以上VIP会员，可获得25N元推荐奖励,当发展的VIP会员人数超过20人时将成为钻石会员。 VIP会员享受购地及其他消费服务9.5折优惠。三星VIP会员享受9折优惠，四星VIP会员享受8.5折优惠，五星VIP会员享受8折优惠，钻石会员享受7折优惠。</p>
+      <p class="ruleContent">支付{{Number(config['dim_common_config'].find(item => item.code === "vip_register_fee").name)}}元注册费成为VIP会员，VIP会员发展3个新的VIP会员可以获得60元推荐奖励，并成为三星VIP会员；发展6个新的VIP会员可获得120元推荐奖励，并成为四星VIP会员；发展9个新的VIP会员，可获得180元推荐奖励，并成为五星VIP会员；发展N个(N>5)以上VIP会员，可获得25N元推荐奖励,当发展的VIP会员人数超过20人时将成为钻石会员。 VIP会员享受购地及其他消费服务9.5折优惠。三星VIP会员享受9折优惠，四星VIP会员享受8.5折优惠，五星VIP会员享受8折优惠，钻石会员享受7折优惠。</p>
     </div>
   </div>
 </template>
@@ -47,7 +47,7 @@
       });
     },
     computed: {
-      ...mapState(['userInfo'])
+      ...mapState(['userInfo', 'config'])
     },
       methods: {
         ...mapMutations(['setUserInfo']),
