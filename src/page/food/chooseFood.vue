@@ -185,6 +185,10 @@
         console.log(val);
       },
       goBack () {
+        this.foodData = [];
+        this.key = '';
+        this.page = 0;
+        this.foodCar ? this.carList = this.foodCar : null
         window.history.back()
       },
       onRefresh() {
