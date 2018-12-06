@@ -81,6 +81,13 @@
           })
         },
         goApp () {
+          if (window.app.refreshMoment) {
+            try {
+              window.app.refreshMoment()
+            } catch (e) {
+              console.log(e);
+            }
+          }
           if (window.app.goBackApp) {
             window.app.goBackApp();
           } else {
